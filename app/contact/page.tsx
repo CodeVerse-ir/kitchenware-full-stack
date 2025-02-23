@@ -99,7 +99,7 @@ const Contact = () => {
               <iframe
                 className="w-80 h-80 mt-5 lg:mt-0"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3362.0689316168755!2d51.45642605988455!3d32.57768567385678!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3fbc2da79ebe622b%3A0xf80e67ca564e8e09!2z2LjYsdmI2YEg2KLYtNm-2LLYrtin2YbZhyDaqdio24zYsduM!5e0!3m2!1sfa!2s!4v1720784295638!5m2!1sfa!2s"
-                allowFullScreen=""
+                allowFullScreen={false}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
               ></iframe>
