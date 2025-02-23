@@ -1,31 +1,18 @@
-"use client";
-
 import axios from "axios";
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { useEffect } from "react";
 
 // const baseURL = "http://localhost:5000/";
 const baseURL = "https://fake-json-server-in.vercel.app/api/";
 
-interface Product {
-  code: string;
-  image: string[];
-  discountPercent: number;
-  productName: string;
-  price: string;
-  discount: number;
-  star: number;
-  clock: string;
-}
-
 interface GetDataProps {
-  setData: Dispatch<SetStateAction<Product[] | null>>;
+  fetch_type: "get" | "post";
   path: string;
+  setData: React.Dispatch<React.SetStateAction<[] | null>>;
 }
 
-const GetData: React.FC<GetDataProps> = ({ setData, path }) => {
+const GetData: React.FC<GetDataProps> = ({ fetch_type, path, setData }) => {
   useEffect(() => {
-    axios
-      .get(`${baseURL}${path}`)
+    axios[fetch_type](`${baseURL}${path}`)
       .then((response) => {
         setData(response.data);
         console.log(`${baseURL}${path}`);
@@ -33,7 +20,7 @@ const GetData: React.FC<GetDataProps> = ({ setData, path }) => {
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, [setData, path]);
+  }, [fetch_type, path, setData]);
 
   return null;
 };

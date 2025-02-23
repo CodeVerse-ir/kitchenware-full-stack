@@ -2,10 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 // components
+import NextNprogress from "@/libraries/NextNprogress";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import StairTransition from "@/components/layout/StairTransition";
-import PageTransition from "@/components/layout/PageTransition";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -20,10 +19,11 @@ export default function RootLayout({
   return (
     <html lang="fa" dir="rtl">
       <body className="font-Dana bg-gray-100 dark:bg-zinc-800">
-        <Header />
-        <StairTransition />
-        <PageTransition>{children}</PageTransition>
-        <Footer />
+        <NextNprogress>
+          <Header />
+          {children}
+          <Footer />
+        </NextNprogress>
       </body>
     </html>
   );
