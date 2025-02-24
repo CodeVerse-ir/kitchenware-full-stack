@@ -12,10 +12,10 @@ import AlertPictures from "./AlertPictures";
 import AlertComment from "./AlertComment";
 import AlertSave from "./AlertSave";
 
-const baseURL = "https://fake-json-server-in.vercel.app/api/";
+const baseURL = process.env.BASE_URL;
 
 interface CartProductProps {
-  productName: string;
+  product_code: string;
 }
 
 interface Product {
@@ -34,7 +34,7 @@ interface Product {
   bootmark: number;
 }
 
-const CartProduct: React.FC<CartProductProps> = ({ productName }) => {
+const CartProduct: React.FC<CartProductProps> = ({ product_code }) => {
   // const [star, setStar] = useState(product.star);
   const [like, setLike] = useState(false);
   const [bootmark, setBootmark] = useState(false);
@@ -65,18 +65,24 @@ const CartProduct: React.FC<CartProductProps> = ({ productName }) => {
     setShowAlert(true);
   };
 
-  const [product, setProduct] = useState<Product[] | null>(null);
+  const [product, setProduct] = useState<Product | null>(null);
+
+  const finalPrice =
+    product &&
+    (product.discount === 0
+      ? product.price
+      : product.price - product.price * (product.discount / 100));
 
   useEffect(() => {
     axios
-      .get(`${baseURL}products?code=${productName}`)
+      .get(`${baseURL}products/${product_code}`)
       .then((response) => {
         setProduct(response.data);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, [productName]);
+  }, [product_code]);
 
   return (
     <>
@@ -195,7 +201,7 @@ const CartProduct: React.FC<CartProductProps> = ({ productName }) => {
             {/* <!-- Right Image Save  --> */}
             <div className="flex flex-col gap-y-10 mb-10 md:mb-0">
               {/* <!-- Proposal --> */}
-              {product[0].discount !== 0 && (
+              {product.discount !== 0 && (
                 <div className="flex items-center justify-between px-5 py-3 text-sm md:text-base lg:text-lg text-orange-400 dark:text-orange-600 bg-orange-200/60 dark:bg-orange-300 rounded-xl">
                   <div className="flex items-center justify-between gap-x-1.5">
                     <svg className="w-5 h-5">
@@ -204,7 +210,7 @@ const CartProduct: React.FC<CartProductProps> = ({ productName }) => {
                     <span>پیشنهاد ویژه</span>
                   </div>
 
-                  <Clock clock={product[0].clock} showClock={false} />
+                  <Clock clock={product.clock} showClock={false} />
                 </div>
               )}
 
@@ -245,7 +251,7 @@ const CartProduct: React.FC<CartProductProps> = ({ productName }) => {
                 </div>
                 <Image
                   className="md:w-72 md:h-72 rounded-xl object-cover"
-                  src={product[0].image[0].replaceAll("/utils", "")}
+                  src={product.image[0].replaceAll("/utils", "")}
                   alt="product"
                   width={240}
                   height={240}
@@ -256,34 +262,42 @@ const CartProduct: React.FC<CartProductProps> = ({ productName }) => {
               {/* <!-- Pictures --> */}
               <div className="flex items-center justify-center gap-x-2">
                 <div className="flex items-center justify-center gap-x-2 text-gray-300 dark:text-gray-400">
-                  {Array.from({ length: 4 }, (_, index) => (
-                    <div
-                      key={index}
-                      className="group relative flex items-center justify-center w-16 h-16 md:w-20 md:h-20 p-1 rounded-xl border border-gray-300 cursor-pointer"
-                      onClick={handleShowPicture}
-                    >
-                      <Image
-                        className={`w-12 h-12 md:w-16 md:h-16 object-cover ${
-                          index === 3 && "blur-sm"
-                        }`}
-                        src={product[0].image[index + 1].replaceAll(
-                          "/utils",
-                          ""
+                  {Array.from(
+                    {
+                      length:
+                        product.image.length <= 4
+                          ? product.image.length - 1
+                          : 4,
+                    },
+                    (_, index) => (
+                      <div
+                        key={index}
+                        className="group relative flex items-center justify-center w-16 h-16 md:w-20 md:h-20 p-1 rounded-xl border border-gray-300 cursor-pointer"
+                        onClick={handleShowPicture}
+                      >
+                        <Image
+                          className={`w-12 h-12 md:w-16 md:h-16 object-cover ${
+                            index === 3 && "blur-sm"
+                          }`}
+                          src={product.image[index + 1].replaceAll(
+                            "/utils",
+                            ""
+                          )}
+                          alt="product"
+                          width={64}
+                          height={64}
+                          loading="lazy"
+                        />
+                        {index === 3 && (
+                          <div className="absolute child:inset-0 mx-auto flex gap-x-1 child:w-2 child:h-2 child:rounded-full child:border-2 child:border-gray-700 group-hover:gap-x-2 group-hover:child:bg-gray-700 child:transition-all transition-all">
+                            <div className=""></div>
+                            <div className=""></div>
+                            <div className=""></div>
+                          </div>
                         )}
-                        alt="product"
-                        width={64}
-                        height={64}
-                        loading="lazy"
-                      />
-                      {index === 3 && (
-                        <div className="absolute child:inset-0 mx-auto flex gap-x-1 child:w-2 child:h-2 child:rounded-full child:border-2 child:border-gray-700 group-hover:gap-x-2 group-hover:child:bg-gray-700 child:transition-all transition-all">
-                          <div className=""></div>
-                          <div className=""></div>
-                          <div className=""></div>
-                        </div>
-                      )}
-                    </div>
-                  ))}
+                      </div>
+                    )
+                  )}
                 </div>
               </div>
             </div>
@@ -300,9 +314,9 @@ const CartProduct: React.FC<CartProductProps> = ({ productName }) => {
                       </span>
                       <Link
                         className="text-orange-300"
-                        href={`/products/brand/${product[0].brand}`}
+                        href={`/products/brand/${product.brand}`}
                       >
-                        {product[0].brand}
+                        {product.brand}
                       </Link>
                     </div>
                     <div className="flex gap-x-2">
@@ -311,21 +325,21 @@ const CartProduct: React.FC<CartProductProps> = ({ productName }) => {
                       </span>
                       <Link
                         className="text-orange-300 line-clamp-1"
-                        href={`/products/category/${product[0].category}`}
+                        href={`/products/category/${product.category}`}
                       >
-                        {product[0].category}
+                        {product.category}
                       </Link>
                     </div>
                   </div>
 
                   <h4 className="font-MorabbaMedium text-lg md:text-xl lg:text-2xl text-black dark:text-white line-clamp-2">
-                    {product[0].productName}
+                    {product.productName}
                   </h4>
                 </div>
 
                 <div className="flex gap-x-2 text-gray-700 dark:text-gray-300 order-first xl:order-none text-sm md:text-base lg:text-lg">
                   <span>شناسه کالا:</span>
-                  <span>{product[0].code}</span>
+                  <span>{product.code}</span>
                 </div>
               </div>
 
@@ -341,14 +355,14 @@ const CartProduct: React.FC<CartProductProps> = ({ productName }) => {
                   </h4>
 
                   <div className="flex flex-col gap-y-2.5 gap-x-2.5 text-sm md:text-base lg:text-lg">
-                    {product[0].attributes.map((property, index) => {
+                    {product.attributes.map((property, index) => {
                       return <span key={index}>{property}</span>;
                     })}
-                    {product[0].colors && (
+                    {product.colors && (
                       <div className="flex flex-col">
                         <span className="mb-1">رنگ :</span>
                         <div className="flex items-center justify-center gap-x-1 gap-y-1 text-xs md:text-sm lg:text-base flex-wrap">
-                          {product[0].colors.map((color, index) => {
+                          {product.colors.map((color, index) => {
                             return (
                               <div
                                 key={index}
@@ -378,15 +392,18 @@ const CartProduct: React.FC<CartProductProps> = ({ productName }) => {
                     <div className="space-y-2.5 text-sm md:text-base lg:text-lg">
                       <div className="flex items-center justify-start gap-x-2 py-1 px-2.5 rounded-xl border border-gray-300">
                         <span>تخفیف :</span>
+
                         <div className="text-gray-500 dark:text-gray-300 line-through decoration-red-400 decoration-[1.5px]">
-                          {Number(product[0].discount).toLocaleString()}
+                          {product.discount === 0
+                            ? 0
+                            : Number(product.price).toLocaleString()}
                           <span className="pr-1">تومان</span>
                         </div>
                       </div>
                       <div className="flex items-center justify-start gap-x-2 py-1 px-2.5 rounded-xl border border-gray-300">
                         <span>قیمت :</span>
                         <div className="font-DanaBold">
-                          {Number(product[0].price).toLocaleString()}
+                          {Number(finalPrice).toLocaleString()}
                           <span className="font-Dana pr-1">تومان</span>
                         </div>
                       </div>
@@ -408,7 +425,7 @@ const CartProduct: React.FC<CartProductProps> = ({ productName }) => {
                         </div>
 
                         <span className="pt-1 text-gray-700 dark:text-white">
-                          {product[0].star}
+                          {product.star}
                         </span>
                       </div>
 
@@ -424,11 +441,11 @@ const CartProduct: React.FC<CartProductProps> = ({ productName }) => {
                           className="flex pt-1 gap-x-1.5 text-gray-700 dark:text-white"
                           style={{ direction: "ltr" }}
                         >
-                          {product[0].like > 1000
-                            ? `${(product[0].like / 1000)
+                          {product.like > 1000
+                            ? `${(product.like / 1000)
                                 .toFixed(1)
                                 .replace(/\.0$/, "")} k`
-                            : product[0].like}
+                            : product.like}
                         </div>
                       </div>
 
@@ -444,11 +461,11 @@ const CartProduct: React.FC<CartProductProps> = ({ productName }) => {
                           className="flex pt-1 gap-x-1.5 text-gray-700 dark:text-white"
                           style={{ direction: "ltr" }}
                         >
-                          {product[0].bootmark > 1000
-                            ? `${(product[0].bootmark / 1000)
+                          {product.bootmark > 1000
+                            ? `${(product.bootmark / 1000)
                                 .toFixed(1)
                                 .replace(/\.0$/, "")} k`
-                            : product[0].bootmark}
+                            : product.bootmark}
                         </div>
                       </div>
                     </div>
@@ -461,7 +478,7 @@ const CartProduct: React.FC<CartProductProps> = ({ productName }) => {
           <AlertPictures
             showPicture={showPicture}
             handleShowPicture={handleShowPicture}
-            productName={productName}
+            product_code={product_code}
           />
           <NoScroll noScroll={showPicture} />
 

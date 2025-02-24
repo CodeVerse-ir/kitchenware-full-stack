@@ -7,7 +7,7 @@ const baseURL = "https://fake-json-server-in.vercel.app/api/";
 
 interface DescriptionProps {
   showComment: boolean;
-  productName: string;
+  product_code: string;
 }
 
 interface Product {
@@ -16,20 +16,20 @@ interface Product {
 
 const Description: React.FC<DescriptionProps> = ({
   showComment,
-  productName,
+  product_code,
 }) => {
   const [product, setProduct] = useState<Product[] | null>(null);
 
   useEffect(() => {
     axios
-      .get(`${baseURL}products?code=${productName}`)
+      .get(`${baseURL}products?code=${product_code}`)
       .then((response) => {
         setProduct(response.data);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, [productName]);
+  }, [product_code]);
 
   return (
     <>

@@ -7,11 +7,11 @@ import Description from "./Description";
 import Comments from "./Comments";
 
 interface ChangeInformationProps {
-  productName: string;
+  product_code: string;
 }
 
 const ChangeInformation: React.FC<ChangeInformationProps> = ({
-  productName,
+  product_code,
 }) => {
   const [showComment, setShowComment] = useState(false);
 
@@ -74,8 +74,8 @@ const ChangeInformation: React.FC<ChangeInformationProps> = ({
         </div>
       </div>
 
-      <Description showComment={showComment} productName={productName} />
-      <Comments showComment={showComment} productName={productName} />
+      <Description showComment={showComment} product_code={product_code} />
+      <Comments showComment={showComment} product_code={product_code} />
     </>
   );
 };

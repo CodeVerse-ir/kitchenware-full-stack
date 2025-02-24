@@ -7,9 +7,9 @@ import ChangeInformation from "@/components/productPage/ChangeInformation";
 const Product = async ({
   params,
 }: {
-  params: Promise<{ productName: string }>;
+  params: Promise<{ product_code: string }>;
 }) => {
-  const { productName } = await params;
+  const { product_code } = await params;
 
   return (
     <>
@@ -21,8 +21,8 @@ const Product = async ({
               <h2 className="section-title">محصول</h2>
             </div>
 
-            <CartProduct productName={productName} />
-            <ChangeInformation productName={productName} />
+            <CartProduct product_code={product_code} />
+            <ChangeInformation product_code={product_code} />
           </div>
         </section>
       </main>

@@ -13,7 +13,7 @@ import "swiper/swiper-bundle.css";
 interface AlertPicturesProps {
   showPicture: boolean;
   handleShowPicture: () => void;
-  productName: string;
+  product_code: string;
 }
 
 interface Picture {
@@ -25,20 +25,20 @@ const baseURL = "https://fake-json-server-in.vercel.app/api/";
 const AlertPictures: React.FC<AlertPicturesProps> = ({
   showPicture,
   handleShowPicture,
-  productName,
+  product_code,
 }) => {
   const [pictures, setPictures] = useState<Picture[] | null>(null);
 
   useEffect(() => {
     axios
-      .get(`${baseURL}products?code=${productName}`)
+      .get(`${baseURL}products?code=${product_code}`)
       .then((response) => {
         setPictures(response.data);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, [productName]);
+  }, [product_code]);
 
   return (
     <>

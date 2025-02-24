@@ -8,7 +8,7 @@ const baseURL = "https://fake-json-server-in.vercel.app/api/";
 
 interface CommentsProps {
   showComment: boolean;
-  productName: string;
+  product_code: string;
 }
 
 interface Comment {
@@ -28,19 +28,19 @@ interface Comment {
   ];
 }
 
-const Comments: React.FC<CommentsProps> = ({ showComment, productName }) => {
+const Comments: React.FC<CommentsProps> = ({ showComment, product_code }) => {
   const [comments, setComments] = useState<Comment[] | null>(null);
 
   useEffect(() => {
     axios
-      .get(`${baseURL}products?code=${productName}`)
+      .get(`${baseURL}products?code=${product_code}`)
       .then((response) => {
         setComments(response.data);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, [productName]);
+  }, [product_code]);
 
   // این مقادیر باید با تابع update مقادیر json را تغییر دهد
   const toggleLike = (index: number) => {
