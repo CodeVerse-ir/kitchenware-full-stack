@@ -22,7 +22,20 @@ export async function GET(request: NextRequest) {
     } else if (type === "latest") {
       const products = await db
         .collection("products")
-        .find({})
+        .find(
+          {},
+          {
+            projection: {
+              code: 1,
+              image: 1,
+              product_name: 1,
+              price: 1,
+              discount: 1,
+              star: 1,
+              clock: 1,
+            },
+          }
+        )
         .sort({ created_at: -1 })
         .limit(Number(number))
         .toArray();
