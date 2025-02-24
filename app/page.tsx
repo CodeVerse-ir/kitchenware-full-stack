@@ -16,9 +16,9 @@ const HomePage = () => {
 
        <SectionProducts />
 
-      {/* <CategoryBanner /> */}
+      <CategoryBanner />
 
-      {/* <ProductsCategory /> */}
+      <ProductsCategory />
 
       <BestSelling />
 

@@ -1,23 +1,32 @@
 import Link from "next/link";
 import Image from "next/image";
-import { axiosFetch } from "@/utils/axios_fetch";
 
-interface Category {
-  text: string;
-  image: string;
-}
+const category = [
+  {
+    image: "/image/categories/category1.png",
+    text: "کالای سرامیکی و چینی",
+  },
+  {
+    image: "/image/categories/category2.png",
+    text: "کالای چوبی",
+  },
+  {
+    image: "/image/categories/category3.png",
+    text: "مکمل خانه و آشپزخانه",
+  },
+  {
+    image: "/image/categories/category4.png",
+    text: "سرو و نوشیدنی",
+  },
+  {
+    image: "/image/categories/category5.png",
+    text: "ابزار آشپزخانه",
+  },
+];
 
 const ProductsCategory = async () => {
-  const category = await axiosFetch<Category[]>({  
-    fetchType: "get",  
-    url: "items",  
-  }); 
-
   return (
     <>
-      {/* Loader */}
-      {!category && <div>در حال بارگذاری داده‌ها...</div>}
-
       {category && (
         <>
           <section className="products-category mb-10 md:mb-20">
@@ -36,7 +45,7 @@ const ProductsCategory = async () => {
                     >
                       <Image
                         className="lg:w-48 lg:h-56"
-                        src={item.image.replaceAll("/utils", "")}
+                        src={item.image}
                         alt={`item ${index + 1}`}
                         width={100}
                         height={128}
