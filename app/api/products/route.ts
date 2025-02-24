@@ -27,6 +27,8 @@ export async function GET(request: NextRequest) {
         .limit(Number(number))
         .toArray();
 
+      await client.close();
+
       return Response.json(products);
     } else if (type === "discount") {
       const products = await db
@@ -35,6 +37,8 @@ export async function GET(request: NextRequest) {
         .sort({ discount: -1 })
         .limit(Number(number))
         .toArray();
+
+      await client.close();
 
       return Response.json(products);
     }
