@@ -16,19 +16,19 @@ const HomePage = () => {
 
        <SectionProducts />
 
-     {/* <CategoryBanner />
+      {/* <CategoryBanner /> */}
 
-      <ProductsCategory />
+      {/* <ProductsCategory /> */}
 
       <BestSelling />
 
-      <SectionBrands />
+      {/* <SectionBrands /> */}
 
-      <SectionBlog />
+      {/* <SectionBlog /> */}
 
       <SectionContactUs />
 
-      <SectionServices /> */}
+      <SectionServices /> 
     </main>
   );
 };

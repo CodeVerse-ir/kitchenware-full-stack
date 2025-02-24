@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
     } else if (type === "discount") {
       const products = await db
         .collection("products")
-        .find({})
+        .find({ discount: { $ne: 0 } })
         .sort({ discount: -1 })
         .limit(Number(number))
         .toArray();
