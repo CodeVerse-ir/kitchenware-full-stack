@@ -22,7 +22,7 @@ interface Product {
   clock: string;
 }
 
-const baseURL = "http://localhost:3000/api/";
+const baseURL = process.env.BASE_URL;  
 
 const BestSelling = () => {
   const [products, setProducts] = useState<Product[] | null>(null);
