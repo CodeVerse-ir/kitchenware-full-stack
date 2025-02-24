@@ -24,7 +24,7 @@ const HomePage = () => {
 
       <SectionBrands />
 
-      {/* <SectionBlog /> */}
+      <SectionBlog />
 
       <SectionContactUs />
 
