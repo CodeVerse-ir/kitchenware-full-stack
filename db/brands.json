@@ -1,0 +1,97 @@
+[
+  {
+    "name": "فورته",
+    "image": "/image/brands/b1.png",
+    "flag": 10
+  },
+  {
+    "name": "لاوان",
+    "image": "/image/brands/b2.png",
+    "flag": 20
+  },
+  {
+    "name": "لیمون",
+    "image": "/image/brands/b3.png",
+    "flag": 10
+  },
+  {
+    "name": "ام جی اس",
+    "image": "/image/brands/b4.png",
+    "flag": 10
+  },
+  {
+    "name": "براون",
+    "image": "/image/brands/b5.png",
+    "flag": 5
+  },
+  {
+    "name": "چینی نور",
+    "image": "/image/brands/b6.png",
+    "flag": 1
+  },
+  {
+    "name": "چینی زرین",
+    "image": "/image/brands/b7.png",
+    "flag": 2
+  },
+  {
+    "name": "چینی تقدیس",
+    "image": "/image/brands/b8.png",
+    "flag": 3
+  },
+  {
+    "name": "زی",
+    "image": "/image/brands/b9.png",
+    "flag": 2
+  },
+  {
+    "name": "آبرون",
+    "image": "/image/brands/b10.png",
+    "flag": 5
+  },
+  {
+    "name": "لورین",
+    "image": "/image/brands/b11.png",
+    "flag": 6
+  },
+  {
+    "name": "ال جی",
+    "image": "/image/brands/b12.png",
+    "flag": 3
+  },
+  {
+    "name": "اورال بی",
+    "image": "/image/brands/b13.png",
+    "flag": 1
+  },
+  {
+    "name": "دالتون",
+    "image": "/image/brands/b14.png",
+    "flag": 1
+  },
+  {
+    "name": "سب",
+    "image": "/image/brands/b15.png",
+    "flag": 4
+  },
+  {
+    "name": "بلک اند دکر",
+    "image": "/image/brands/b16.png",
+    "flag": 3
+  },
+  {
+    "name": "نام برند",
+    "image": "/image/brands/default.png",
+    "flag": 8
+  },
+  {
+    "name": "نام برند",
+    "image": "/image/brands/default.png",
+    "flag": 6
+  },
+  {
+    "name": "نام برند",
+    "image": "/image/brands/default.png",
+    "flag": 1
+  }
+]

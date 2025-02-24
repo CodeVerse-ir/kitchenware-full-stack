@@ -22,7 +22,7 @@ const HomePage = () => {
 
       <BestSelling />
 
-      {/* <SectionBrands /> */}
+      <SectionBrands />
 
       {/* <SectionBlog /> */}
 

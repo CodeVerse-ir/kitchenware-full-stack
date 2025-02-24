@@ -16,14 +16,14 @@ interface Brand {
   image: string;
 }
 
-const baseURL = "https://fake-json-server-in.vercel.app/api/";
+const baseURL = process.env.BASE_URL;
 
 const SectionBrands = () => {
   const [brands, setBrands] = useState<Brand[] | null>(null);
 
   useEffect(() => {
     axios
-      .get(`${baseURL}brands`)
+      .get(`${baseURL}brands?number=15`)
       .then((response) => {
         setBrands(response.data);
       })
@@ -105,7 +105,7 @@ const SectionBrands = () => {
                         >
                           <Image
                             className="w-14 h-14 lg:w-25 lg:h-25"
-                            src={brand.image.replaceAll("/utils", "")}
+                            src={brand.image}
                             alt={`product ${index + 1}`}
                             width={56}
                             height={56}
