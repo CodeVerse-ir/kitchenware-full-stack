@@ -103,7 +103,7 @@ const NavDesktop: React.FC<NavDesktopPrpos> = ({
           <span className="block w-px h-14 bg-white/20"></span>
 
           {/* <!-- Login Link --> */}
-          <a href="" className="flex items-center gap-x-2.5 tracking-tightest">
+          <Link href="/signup" className="flex items-center gap-x-2.5 tracking-tightest">
             <svg
               id="arrow-left-on-rectangle"
               xmlns="http://www.w3.org/2000/svg"
@@ -120,7 +120,7 @@ const NavDesktop: React.FC<NavDesktopPrpos> = ({
               />
             </svg>
             <span className="hidden xl:inline-block">ورود | ثبت نام</span>
-          </a>
+          </Link>
         </div>
       </div>
     </header>

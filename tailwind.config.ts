@@ -46,9 +46,9 @@ export default {
         },
       },
       backgroundImage: {
-        "home-mobile": "url(../public/image/background/background-kitchen.jpg)",
+        "home-mobile": "url(/image/background/background-kitchen.jpg)",
         "home-desktop":
-          "url(../public/image/background/background-kitchen.jpg)",
+          "url(/image/background/background-kitchen.jpg)",
       },
     },
     screens: {

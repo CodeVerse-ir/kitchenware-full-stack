@@ -14,7 +14,7 @@ const HomePage = () => {
     <main>
       <SectionHome />
 
-       <SectionProducts />
+      <SectionProducts />
 
       <CategoryBanner />
 
@@ -28,7 +28,7 @@ const HomePage = () => {
 
       <SectionContactUs />
 
-      <SectionServices /> 
+      <SectionServices />
     </main>
   );
 };
