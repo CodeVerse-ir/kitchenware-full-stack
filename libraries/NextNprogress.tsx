@@ -12,8 +12,8 @@ const NextNprogress = ({
       {children}
       <ProgressBar
         height="4px"
-        color="#f97316"
-        options={{ showSpinner: true }}
+        color="#fdba74"
+        options={{ showSpinner: false }}
         shallowRouting
       />
     </>
