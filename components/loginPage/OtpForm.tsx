@@ -141,11 +141,11 @@ const OtpForm: React.FC<OtpFormProps> = ({ setStep }) => {
   return (
     <div className="flex flex-col items-center justify-start w-80 sm:w-96 py-5 px-7 bg-white dark:bg-zinc-700 shadow-normal rounded-xl">
       <div className="font-DanaMedium text-lg text-black dark:text-white text-center mb-4">
-        کد تایید
+        کد ورود
       </div>
       <form action="" className="w-full">
         <div className="flex items-center justify-center mb-4 text-sm text-center text-zinc-700 dark:text-gray-300">
-          کد تایید پنج‌ رقمی به شماره 09111111111111 ارسال شد.
+          کد ورود پنج‌ رقمی به شماره تلفن همراه شما ارسال شد.
         </div>
 
         {/* otp_code */}
@@ -157,7 +157,7 @@ const OtpForm: React.FC<OtpFormProps> = ({ setStep }) => {
             <input
               key={index}
               type="text"
-              className="text-center size-11 sm:size-14 rounded-lg text-black dark:text-whiteّ bg-transparent border-2 border-dark focus:outline-none focus:border-accent"
+              className="text-center size-11 sm:size-14 rounded-lg text-black dark:text-white bg-transparent border-2 border-dark focus:outline-none focus:border-accent"
               value={value}
               maxLength={1}
               name={`otp${index}`}
@@ -178,12 +178,7 @@ const OtpForm: React.FC<OtpFormProps> = ({ setStep }) => {
           isPending={false}
         />
       </form>
-      <button
-        onClick={() => setStep(2)}
-        className="flex items-center justify-center text-center text-zinc-700 dark:text-gray-300"
-      >
-        برگشت
-      </button>
+      <ResendOtp />
     </div>
   );
 };

@@ -1,12 +1,12 @@
-import Link from "next/link"
+// components
+import ChooseLogin from "@/components/loginPage/ChooseLogin";
 
 const Login = () => {
   return (
-    <div className="h-calc-page">
-      Login
-      <Link href="/auth/signup">sign up</Link>
-    </div>
-  )
-}
+    <main className="background flex items-center justify-center pt-10 md:pt-44 pb-10">
+      <ChooseLogin />
+    </main>
+  );
+};
 
-export default Login
+export default Login;
