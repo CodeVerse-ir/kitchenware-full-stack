@@ -262,15 +262,15 @@ const NavMobile: React.FC<NavMobileProps> = ({ handleDarkMode }) => {
 
           {/* <!-- Nav Footer --> */}
           <div className="flex flex-col items-start gap-y-2 py-8 mt-8 text-orange-300 border-t border-t-gray-100 dark:border-t-white/10">
-            <a
-              href=""
+            <Link
+              href="/auth/login"
               className="inline-flex items-center  w-full p-2 gap-x-2.5"
             >
               <svg className="w-5 h-5 rotate-180 text-orange-300">
                 <use href="#arrow-left-on-rectangle"></use>
               </svg>
               ورود | ثبت نام
-            </a>
+            </Link>
 
             <Link
               href="/products"

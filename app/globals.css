@@ -80,6 +80,10 @@
     background-repeat: no-repeat;
   }
 
+  .h-calc-page {
+    min-height: calc(100vh - 320px);
+  }
+
   .filled {
     outline-color: #22c55e !important;
   }

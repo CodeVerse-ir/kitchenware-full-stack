@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import logo from "/public/image/logo/logo.png";
-// import SvgFooter from "../svg/SvgFooter";
 import Link from "next/link";
 
 const list = [
@@ -84,7 +83,7 @@ const Footer = () => {
             loading="lazy"
           />
 
-          <p className="text-base lg:text-lg xl:pl-20">
+          <p className="text-base lg:text-lg xl:pl-20 text-justify">
             در اینجا، ما در خدمت شما هستیم تا تجربه‌ی آشپزی و پخت و پز شما را به
             یک سطح جدید برسانیم. با محصولات متنوع و با کیفیت ما، اطمینان حاصل
             کنید که همیشه برای شما بهترین و مناسب‌ترین لوازم آشپزخانه را داریم.

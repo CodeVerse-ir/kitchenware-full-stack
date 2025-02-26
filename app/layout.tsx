@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fa" dir="rtl">
-      <body className="font-Dana bg-gray-100 dark:bg-zinc-800">
+      <body className="font-Dana text-base bg-gray-100 dark:bg-zinc-800">
         <NextNprogress>
           <Header />
           {children}
