@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 // components
+import SessionProvider from "@/context/SessionProvider";
 import NextNprogress from "@/libraries/NextNprogress";
-import ToastifyComponent from "@/libraries/ToastifyComponent";
+import ToastContainerComponent from "@/libraries/ToastContainerComponent";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import SessionProvider from "@/context/SessionProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -26,7 +26,7 @@ export default function RootLayout({
             <Header />
             {children}
             <Footer />
-            <ToastifyComponent />
+            <ToastContainerComponent />
           </NextNprogress>
         </SessionProvider>
       </body>

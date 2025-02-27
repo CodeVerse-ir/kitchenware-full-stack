@@ -5,7 +5,7 @@ import { ToastContainer } from "react-toastify";
 import { Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const ToastifyComponent = () => {
+const ToastContainerComponent = () => {
   const { darkMode } = useSession();
 
   return (
@@ -25,4 +25,4 @@ const ToastifyComponent = () => {
   );
 };
 
-export default ToastifyComponent;
+export default ToastContainerComponent;
