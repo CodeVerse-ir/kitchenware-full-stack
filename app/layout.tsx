@@ -3,8 +3,10 @@ import "./globals.css";
 
 // components
 import NextNprogress from "@/libraries/NextNprogress";
+import ToastifyComponent from "@/libraries/ToastifyComponent";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import SessionProvider from "@/context/SessionProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,11 +21,14 @@ export default function RootLayout({
   return (
     <html lang="fa" dir="rtl">
       <body className="font-Dana text-base bg-gray-100 dark:bg-zinc-800">
-        <NextNprogress>
-          <Header />
-          {children}
-          <Footer />
-        </NextNprogress>
+        <SessionProvider>
+          <NextNprogress>
+            <Header />
+            {children}
+            <Footer />
+            <ToastifyComponent />
+          </NextNprogress>
+        </SessionProvider>
       </body>
     </html>
   );

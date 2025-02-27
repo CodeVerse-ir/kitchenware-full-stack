@@ -1,3 +1,5 @@
+@import "react-toastify/dist/ReactToastify.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -49,6 +51,12 @@
     src: local(Morabba-Bold),
       url(../public/fonts/Morabba/Morabba-Bold.woff2) format(woff2);
     font-display: swap;
+  }
+
+  .Toastify__toast-body {
+    font-family: "Dana", Courier, monospace;
+    direction: rtl;
+    color: #fdba74;
   }
 }
 
@@ -225,7 +233,7 @@
         rgba(243, 244, 246, 0.85)
       ),
       url("/image/background/body-bg.png");
-      
+
     background-size: 100%;
     width: 100%;
   }

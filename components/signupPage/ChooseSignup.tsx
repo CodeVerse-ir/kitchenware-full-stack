@@ -9,9 +9,24 @@ import OtpForm from "./OtpForm";
 
 const ChooseSignup = () => {
   const [step, setStep] = useState(1);
+  const [dataSignup, setDataSignup] = useState({
+    first_name: "",
+    last_name: "",
+    mobile_number: "",
+    username: "",
+    password: "",
+    repeat_password: "",
+    otp_code: "",
+  });
   return (
     <div>
-      {step === 1 && <NameAndMobileForm setStep={setStep} />}
+      {step === 1 && (
+        <NameAndMobileForm
+          setStep={setStep}
+          dataSignup={dataSignup}
+          setDataSignup={setDataSignup}
+        />
+      )}
       {step === 2 && <UsernameAndPassword setStep={setStep} />}
       {step === 3 && <OtpForm setStep={setStep} />}
     </div>
