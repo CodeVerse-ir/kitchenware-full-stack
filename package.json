@@ -9,7 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@types/crypto-js": "^4.2.2",
+    "@types/jsonwebtoken": "^9.0.9",
     "axios": "^1.7.9",
+    "crypto-js": "^4.2.0",
+    "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.13.1",
     "next": "15.1.7",
     "next-nprogress-bar": "^2.3.13",

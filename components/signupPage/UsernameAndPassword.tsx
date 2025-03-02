@@ -1,15 +1,154 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useActionState,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { toast } from "react-toastify";
+import { usernameAndPassword } from "@/actions/auth/signup";
 
 // components
 import SubmitBtn from "../common/SubmitBtn";
 
-interface MobileNumberFormProps {
-  setStep: Dispatch<SetStateAction<number>>;
+interface UserInformation {
+  first_name: string;
+  last_name: string;
+  mobile_number: string;
+  username: string;
+  password: string;
+  repeat_password: string;
+  otp_code: string;
 }
 
-const UsernameAndPassword: React.FC<MobileNumberFormProps> = ({ setStep }) => {
+interface UsernameAndPasswordProps {
+  setStep: Dispatch<SetStateAction<number>>;
+  dataSignup: UserInformation;
+  setDataSignup: Dispatch<SetStateAction<UserInformation>>;
+}
+
+const INITIAL_STATE_USERNAME_AND_PASSWORD = {
+  status: null,
+  message: null,
+  field: null,
+  error_code: 0,
+  user_information: {
+    first_name: "",
+    last_name: "",
+    mobile_number: "",
+    username: "",
+    password: "",
+    repeat_password: "",
+    otp_code: "",
+  },
+};
+
+type ToastType = "success" | "error" | "info" | "warning";
+
+function getToastType(status: string | null): ToastType {
+  if (status === null) {
+    return "info";
+  }
+  switch (status) {
+    case "success":
+      return "success";
+    case "error":
+      return "error";
+    case "info":
+      return "info";
+    case "warning":
+      return "warning";
+    default:
+      return "info";
+  }
+}
+
+const UsernameAndPassword: React.FC<UsernameAndPasswordProps> = ({
+  setStep,
+  dataSignup,
+  setDataSignup,
+}) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showRepeat_password, setShowRepeat_password] = useState(false);
+
+  const [dataUsernameAndPassword, setdataUsernameAndPassword] = useState<{
+    username: string;
+    password: string;
+    repeat_password: string;
+  }>({
+    username: dataSignup.username || "",
+    password: dataSignup.password || "",
+    repeat_password: dataSignup.repeat_password || "",
+  });
+
+  const [stateUsernameAndPassword, formActionUsernameAndPassword, isPending] =
+    useActionState(usernameAndPassword, INITIAL_STATE_USERNAME_AND_PASSWORD);
+
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
+
+  useEffect(() => {
+    toast(stateUsernameAndPassword?.message, {
+      type: `${getToastType(stateUsernameAndPassword?.status)}`,
+    });
+
+    console.log(
+      "sign up stateUsernameAndPassword : ",
+      stateUsernameAndPassword
+    );
+
+    if (stateUsernameAndPassword?.status === "success") {
+      setStep(4);
+      setDataSignup((prevUser) => ({
+        ...prevUser,
+        ...stateUsernameAndPassword.user_information,
+      }));
+    } else if (stateUsernameAndPassword?.status === "error") {
+      // mobile_number
+      if (stateUsernameAndPassword?.error_code === 1) {
+        setStep(1);
+      }
+    }
+  }, [stateUsernameAndPassword, setStep, setDataSignup]);
+
+  const handleUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newdataSignUp = { ...dataUsernameAndPassword };
+    const usernameValue = e.target.value;
+    const pattern = /^[0-9a-z_]*$/;
+    if (pattern.test(usernameValue) && usernameValue.length <= 20) {
+      newdataSignUp.username = usernameValue;
+      setdataUsernameAndPassword(newdataSignUp);
+    }
+  };
+
+  const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newdataSignUp = { ...dataUsernameAndPassword };
+    const passwordValue = e.target.value;
+    const pattern = /^[0-9a-zA-Z\-_*@#\$%]*$/;
+    if (pattern.test(passwordValue) && passwordValue.length <= 20) {
+      newdataSignUp.password = passwordValue;
+      setdataUsernameAndPassword(newdataSignUp);
+    }
+  };
+
+  const handleRepeat_password = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newdataSignUp = { ...dataUsernameAndPassword };
+    const repeat_passwordValue = e.target.value;
+    const pattern = /^[0-9a-zA-Z\-_*@#\$%]*$/;
+    if (
+      pattern.test(repeat_passwordValue) &&
+      repeat_passwordValue.length <= 20
+    ) {
+      newdataSignUp.repeat_password = repeat_passwordValue;
+      setdataUsernameAndPassword(newdataSignUp);
+    }
+  };
 
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
@@ -24,11 +163,7 @@ const UsernameAndPassword: React.FC<MobileNumberFormProps> = ({ setStep }) => {
       <div className="font-DanaMedium text-lg text-black dark:text-white text-center mb-6">
         ثبت نام‌کاربری و رمز عبور
       </div>
-      <form action="" className="w-full">
-        {/* <div className="mb-4 text-sm text-center text-zinc-700 dark:text-gray-300">
-          با وارد کردن شماره موبایل کد تاییدی برای شما ارسال خواهد شد.
-        </div> */}
-
+      <form action={formActionUsernameAndPassword} className="w-full">
         {/* username */}
         <div className="relative flex flex-col items-start justify-center w-full h-10 mb-8">
           <label
@@ -44,9 +179,9 @@ const UsernameAndPassword: React.FC<MobileNumberFormProps> = ({ setStep }) => {
             name="username"
             autoComplete="off"
             dir="ltr"
-            // value={dataFullName.first_name}
-            // onChange={handleFirst_name}
-            // ref={inputRef}
+            value={dataUsernameAndPassword.username}
+            onChange={handleUsername}
+            ref={inputRef}
           />
         </div>
 
@@ -65,9 +200,8 @@ const UsernameAndPassword: React.FC<MobileNumberFormProps> = ({ setStep }) => {
             name="password"
             autoComplete="off"
             dir="ltr"
-            // value={dataFullName.first_name}
-            // onChange={handleFirst_name}
-            // ref={inputRef}
+            value={dataUsernameAndPassword.password}
+            onChange={handlePassword}
           />
           <div
             onClick={handleShowPassword}
@@ -127,9 +261,8 @@ const UsernameAndPassword: React.FC<MobileNumberFormProps> = ({ setStep }) => {
             name="repeat_password"
             autoComplete="off"
             dir="ltr"
-            // value={dataFullName.first_name}
-            // onChange={handleFirst_name}
-            // ref={inputRef}
+            value={dataUsernameAndPassword.repeat_password}
+            onChange={handleRepeat_password}
           />
           <div
             onClick={handleShowRepeat_password}
@@ -174,11 +307,32 @@ const UsernameAndPassword: React.FC<MobileNumberFormProps> = ({ setStep }) => {
           </div>
         </div>
 
+        {/* first_name */}
+        <input
+          id="first_name"
+          name="first_name"
+          type="hidden"
+          value={dataSignup.first_name}
+        />
+        {/* last_name */}
+        <input
+          id="last_name"
+          name="last_name"
+          type="hidden"
+          value={dataSignup.last_name}
+        />
+        {/* mobile_number */}
+        <input
+          id="mobile_number"
+          name="mobile_number"
+          type="hidden"
+          value={dataSignup.mobile_number}
+        />
+
         <SubmitBtn
           title="ثبت"
           style="w-full h-10 mb-3 text-center rounded-lg text-light text-white bg-orange-400 hover:bg-orange-500 transition-colors duration-150"
-          //   isPending={isPending}
-          isPending={false}
+          isPending={isPending}
         />
       </form>
       <button

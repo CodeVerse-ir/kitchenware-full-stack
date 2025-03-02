@@ -27,7 +27,13 @@ const ChooseSignup = () => {
           setDataSignup={setDataSignup}
         />
       )}
-      {step === 2 && <UsernameAndPassword setStep={setStep} />}
+      {step === 2 && (
+        <UsernameAndPassword
+          setStep={setStep}
+          dataSignup={dataSignup}
+          setDataSignup={setDataSignup}
+        />
+      )}
       {step === 3 && <OtpForm setStep={setStep} />}
     </div>
   );
