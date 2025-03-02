@@ -212,11 +212,20 @@ async function usernameAndPassword(
         error_code = 2;
       }
 
+      // All items except mobile number are empty
       return {
         ...prevState,
         status: "error",
         message,
         error_code,
+        user_information: {
+          mobile_number,
+          first_name: "",
+          last_name: "",
+          username: "",
+          password: "",
+          repeat_password: "",
+        },
       };
     } else {
       const hashedPassword = createHash(password);
