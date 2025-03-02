@@ -1,15 +1,100 @@
 import Link from "next/link";
-import { Dispatch, SetStateAction, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useActionState,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { toast } from "react-toastify";
 
 // components
 import SubmitBtn from "../common/SubmitBtn";
+import { login } from "@/actions/auth/login";
 
-interface MobileNumberFormProps {
+interface UsernameAndPasswordProps {
   setStep: Dispatch<SetStateAction<number>>;
 }
 
-const UsernameAndPassword: React.FC<MobileNumberFormProps> = ({ setStep }) => {
+const INITIAL_STATE_USERNAME_AND_PASSWORD = {
+  status: null,
+  message: null,
+  field: null,
+};
+
+type ToastType = "success" | "error" | "info" | "warning";
+
+function getToastType(status: string | null): ToastType {
+  if (status === null) {
+    return "info";
+  }
+  switch (status) {
+    case "success":
+      return "success";
+    case "error":
+      return "error";
+    case "info":
+      return "info";
+    case "warning":
+      return "warning";
+    default:
+      return "info";
+  }
+}
+
+const UsernameAndPassword: React.FC<UsernameAndPasswordProps> = ({
+  setStep,
+}) => {
+  const [dataLogin, setDataLogin] = useState({
+    username: "",
+    password: "",
+  });
   const [showPassword, setShowPassword] = useState(false);
+
+  const [stateLogin, formActionLogin, isPending] = useActionState(
+    login,
+    INITIAL_STATE_USERNAME_AND_PASSWORD
+  );
+
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
+
+  useEffect(() => {
+    toast(stateLogin?.message, { type: `${getToastType(stateLogin?.status)}` });
+
+    console.log("LoginForm stateLogin : ", stateLogin);
+
+    // check first_time
+    if (stateLogin?.status === "success") {
+      setStep(2);
+    }
+  }, [stateLogin, setStep]);
+
+  const handleUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newDataLogin = { ...dataLogin };
+    const usernameValue = e.target.value;
+    const pattern = /^[0-9a-z_]*$/;
+    if (pattern.test(usernameValue)) {
+      newDataLogin.username = usernameValue;
+      setDataLogin(newDataLogin);
+    }
+  };
+
+  const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newDataLogin = { ...dataLogin };
+    const passwordValue = e.target.value;
+    const pattern = /^[0-9a-zA-Z\-_*@#\$%]*$/;
+    if (pattern.test(passwordValue)) {
+      newDataLogin.password = passwordValue;
+      setDataLogin(newDataLogin);
+    }
+  };
 
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
@@ -20,11 +105,7 @@ const UsernameAndPassword: React.FC<MobileNumberFormProps> = ({ setStep }) => {
       <div className="font-DanaMedium text-lg text-black dark:text-white text-center mb-6">
         ورود
       </div>
-      <form action="" className="w-full">
-        {/* <div className="mb-4 text-sm text-center text-zinc-700 dark:text-gray-300">
-          با وارد کردن شماره موبایل کد تاییدی برای شما ارسال خواهد شد.
-        </div> */}
-
+      <form action={formActionLogin} className="w-full">
         {/* username */}
         <div className="relative flex flex-col items-start justify-center w-full h-10 mb-8">
           <label
@@ -34,15 +115,19 @@ const UsernameAndPassword: React.FC<MobileNumberFormProps> = ({ setStep }) => {
             نام کاربری
           </label>
           <input
-            className={`flex items-center justify-start w-full h-full px-3 pt-1 font-sans text-black dark:text-white bg-transparent rounded border border-gray-400 focus:border-orange-300 transition-colors duration-150 outline-none`}
+            className={`flex items-center justify-start w-full h-full px-3 pt-1 font-sans text-black dark:text-white bg-transparent rounded border ${
+              stateLogin.field?.includes("username")
+                ? "border-red-500"
+                : "border-gray-400"
+            } focus:border-orange-300 transition-colors duration-150 outline-none`}
             type="text"
             id="username"
             name="username"
             autoComplete="off"
             dir="ltr"
-            // value={dataFullName.first_name}
-            // onChange={handleFirst_name}
-            // ref={inputRef}
+            value={dataLogin.username}
+            onChange={handleUsername}
+            ref={inputRef}
           />
         </div>
 
@@ -55,15 +140,18 @@ const UsernameAndPassword: React.FC<MobileNumberFormProps> = ({ setStep }) => {
             رمز عبور
           </label>
           <input
-            className={`flex items-center justify-start w-full h-full pl-3 pr-10 pt-1 font-sans text-black dark:text-white bg-transparent rounded border border-gray-400 focus:border-orange-300 transition-colors duration-150 outline-none`}
+            className={`flex items-center justify-start w-full h-full pl-3 pr-10 pt-1 font-sans text-black dark:text-white bg-transparent rounded border ${
+              stateLogin.field?.includes("password")
+                ? "border-red-500"
+                : "border-gray-400"
+            } focus:border-orange-300 transition-colors duration-150 outline-none`}
             type={showPassword ? "text" : "password"}
             id="password"
             name="password"
             autoComplete="off"
             dir="ltr"
-            // value={dataFullName.first_name}
-            // onChange={handleFirst_name}
-            // ref={inputRef}
+            value={dataLogin.password}
+            onChange={handlePassword}
           />
           <div
             onClick={handleShowPassword}
@@ -111,8 +199,7 @@ const UsernameAndPassword: React.FC<MobileNumberFormProps> = ({ setStep }) => {
         <SubmitBtn
           title="ورود"
           style="w-full h-10 mb-3 text-center rounded-lg text-light text-white bg-orange-400 hover:bg-orange-500 transition-colors duration-150"
-          //   isPending={isPending}
-          isPending={false}
+          isPending={isPending}
         />
       </form>
       <div className="flex items-center justify-center gap-x-1.5 text-center text-zinc-700 dark:text-gray-300">
