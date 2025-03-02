@@ -97,14 +97,14 @@ const NameAndMobileForm: React.FC<FullNameFormProps> = ({
       type: `${getToastType(stateFullNameAndMobile.status)}`,
     });
 
-    console.log("sign up stateFullName : ", stateFullNameAndMobile);
+    console.log("sign up stateFullNameAndMobile : ", stateFullNameAndMobile);
 
     if (stateFullNameAndMobile?.status === "success") {
-      setStep(2);
       setDataSignup((prevUser) => ({
         ...prevUser,
         ...stateFullNameAndMobile.user_information,
       }));
+      setStep(2);
     }
   }, [stateFullNameAndMobile, setStep, setDataSignup]);
 
