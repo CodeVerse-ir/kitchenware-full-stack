@@ -2,7 +2,12 @@
 
 import { cookies } from "next/headers";
 import { MongoClient } from "mongodb";
-import { createHash, createJWT } from "@/utils/helper";
+import {
+  createHash,
+  createJWT,
+  decodeJWT,
+  generateRandomOTP,
+} from "@/utils/helper";
 
 const url = process.env.MONGODB_URI;
 
@@ -23,6 +28,9 @@ interface usernameAndPasswordProps {
   error_code: number | undefined | null;
   field: string[] | null;
   user_information?: {
+    first_name: string;
+    last_name: string;
+    mobile_number: string;
     username: string;
     password: string;
     repeat_password: string;
@@ -34,13 +42,6 @@ interface otpProps {
   message: string | undefined | null;
   error_code: number | undefined | null;
   field: string[] | null;
-  user_information?: {
-    first_name: string;
-    last_name: string;
-    mobile_number: string;
-    username: string;
-    password: string;
-  };
 }
 
 const getStringValue = (value: FormDataEntryValue | null): string => {
@@ -131,10 +132,16 @@ async function usernameAndPassword(
   prevState: usernameAndPasswordProps,
   formData: FormData
 ): Promise<usernameAndPasswordProps> {
+  const first_name = getStringValue(formData.get("first_name"));
+  const last_name = getStringValue(formData.get("last_name"));
+  const mobile_number = getStringValue(formData.get("mobile_number"));
   const not_trim_username = getStringValue(formData.get("username"));
   const password = getStringValue(formData.get("password"));
   const repeat_password = getStringValue(formData.get("repeat_password"));
 
+  console.log("sign up first_name : ", first_name);
+  console.log("sign up last_name : ", last_name);
+  console.log("sign up mobile_number : ", mobile_number);
   console.log("sign up not_trim_username : ", not_trim_username);
   console.log("sign up password : ", password);
   console.log("sign up repeat_password : ", repeat_password);
@@ -194,74 +201,6 @@ async function usernameAndPassword(
   const username = not_trim_username.trim();
   console.log("sign up username : ", username);
 
-  try {
-    return {
-      ...prevState,
-      status: "success",
-      message: "کد احراز هویت برای شما ارسال شد.",
-      field: [],
-      user_information: {
-        username,
-        password,
-        repeat_password: "",
-      },
-    };
-  } catch (error) {
-    console.error("خطا در هنگام ورود:", error);
-
-    return {
-      ...prevState,
-      status: "error",
-      message: "مشکلی در ارتباط با سرور رخ داده است. لطفا دوباره تلاش کنید.",
-    };
-  }
-}
-
-async function checkOtp(
-  prevState: otpProps,
-  formData: FormData
-): Promise<otpProps> {
-  const first_name = getStringValue(formData.get("first_name"));
-  const last_name = getStringValue(formData.get("last_name"));
-  const mobile_number = getStringValue(formData.get("mobile_number"));
-  const username = getStringValue(formData.get("username"));
-  const password = getStringValue(formData.get("password"));
-
-  const otp0 = getStringValue(formData.get("otp0"));
-  const otp1 = getStringValue(formData.get("otp1"));
-  const otp2 = getStringValue(formData.get("otp2"));
-  const otp3 = getStringValue(formData.get("otp3"));
-  const otp4 = getStringValue(formData.get("otp4"));
-
-  console.log("sign up first_name : ", first_name);
-  console.log("sign up last_name : ", last_name);
-  console.log("sign up mobile_number : ", mobile_number);
-  console.log("sign up usename : ", username);
-  console.log("sign up password : ", password);
-
-  if (otp0 === "" || otp1 === "" || otp2 === "" || otp3 === "" || otp4 === "") {
-    return {
-      ...prevState,
-      status: "error",
-      message: "کد احراز هویت الزامی است.",
-      field: ["otp"],
-    };
-  }
-
-  const verification_code = otp0 + otp1 + otp2 + otp3 + otp4;
-
-  console.log("sign up verification_code : ", verification_code);
-
-  if (verification_code !== "11111") {
-    return {
-      ...prevState,
-      status: "error",
-      message: "کد احراز هویت نادرست است.",
-      field: ["otp"],
-      error_code: null,
-    };
-  }
-
   const client = new MongoClient(`${url}`);
 
   try {
@@ -271,6 +210,7 @@ async function checkOtp(
 
     const existingUser = await db.collection("users").findOne({
       $or: [{ mobile_number }, { username }],
+      active: true,
     });
 
     if (existingUser) {
@@ -285,7 +225,6 @@ async function checkOtp(
         error_code = 2;
       }
 
-      // All items except mobile number are empty
       return {
         ...prevState,
         status: "error",
@@ -303,31 +242,133 @@ async function checkOtp(
         password: hashedPassword,
         image: "/image/comment/avatar.png",
         created_at: new Date(),
+        active: false,
+        otp_code: generateRandomOTP(),
       });
 
       // JWT
       const payload = {
         username,
-        createdAt: new Date(),
+        created_at: new Date(),
       };
       const token = createJWT(payload);
 
-      const cookieStore = await cookies();
-      cookieStore.set({
-        name: "signup_token",
-        value: token,
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        path: "/",
-      });
+      if (token) {
+        const cookieStore = await cookies();
+        cookieStore.set({
+          name: "signup_token",
+          value: token,
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          path: "/",
+        });
 
-      return {
-        ...prevState,
-        status: "success",
-        message: "اطلاعات با موفقیت ثبت شد ، وارد شوید.",
-        field: [],
-      };
+        // All items except mobile number are empty
+        return {
+          ...prevState,
+          status: "success",
+          message: "کد احراز هویت برای شما ارسال شد.",
+          field: [],
+          user_information: {
+            first_name,
+            last_name,
+            mobile_number,
+            username,
+            password,
+            repeat_password,
+          },
+        };
+      }
     }
+  } catch (error) {
+    console.error("خطا در هنگام ورود:", error);
+
+    return {
+      ...prevState,
+      status: "error",
+      message: "مشکلی در ارتباط با سرور رخ داده است. لطفا دوباره تلاش کنید.",
+      field: null,
+    };
+  }
+  return {
+    ...prevState,
+    status: "error",
+    message: "عملیات نامشخصی انجام شد.",
+    field: null,
+  };
+}
+
+async function checkOtp(
+  prevState: otpProps,
+  formData: FormData
+): Promise<otpProps> {
+  const otp0 = getStringValue(formData.get("otp0"));
+  const otp1 = getStringValue(formData.get("otp1"));
+  const otp2 = getStringValue(formData.get("otp2"));
+  const otp3 = getStringValue(formData.get("otp3"));
+  const otp4 = getStringValue(formData.get("otp4"));
+
+  if (otp0 === "" || otp1 === "" || otp2 === "" || otp3 === "" || otp4 === "") {
+    return {
+      ...prevState,
+      status: "error",
+      message: "کد احراز هویت الزامی است.",
+      field: ["otp"],
+    };
+  }
+
+  const verification_code = otp0 + otp1 + otp2 + otp3 + otp4;
+
+  console.log("sign up verification_code : ", verification_code);
+
+  const client = new MongoClient(`${url}`);
+
+  try {
+    await client.connect();
+
+    const db = client.db();
+
+    const cookieStore = await cookies();
+    const signup_token = cookieStore.get("signup_token");
+
+    if (signup_token) {
+      const tokenValue = signup_token.value;
+
+      const decodedToken = decodeJWT(tokenValue);
+
+      if (decodedToken) {
+        const user = await db.collection("users").findOne({
+          username: decodedToken.username,
+        });
+
+        console.log("sign up decodedToken otp_code : ", user?.otp_code);        
+
+        if (user) {
+          if (Number(verification_code) === user.otp_code) {
+            await db
+              .collection("users")
+              .updateOne(
+                { username: decodedToken.username },
+                { $set: { active: true } }
+              );
+            cookieStore.delete("signup_token");
+            return {
+              ...prevState,
+              status: "success",
+              message: "اطلاعات با موفقیت ثبت شد ، وارد شوید.",
+              field: [],
+            };
+          }
+        }
+      }
+    }
+    return {
+      ...prevState,
+      status: "error",
+      message: "کد احراز هویت نادرست است.",
+      field: ["otp"],
+      error_code: null,
+    };
   } catch (error) {
     console.error("خطا در هنگام ورود:", error);
 

@@ -77,7 +77,7 @@ const NameAndMobileForm: React.FC<FullNameFormProps> = ({
     first_name: dataSignup.first_name || "",
     last_name: dataSignup.last_name || "",
     mobile_number: dataSignup.mobile_number || "",
-  });
+  });  
 
   const [stateFullNameAndMobile, formActionFullNameAndMobile, isPending] =
     useActionState(fullNameAndMobile, INITIAL_STATE_FULL_NAME_AND_MOBILE);

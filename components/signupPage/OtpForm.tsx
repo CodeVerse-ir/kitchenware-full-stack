@@ -20,9 +20,6 @@ interface UserInformation {
   first_name: string;
   last_name: string;
   mobile_number: string;
-  username: string;
-  password: string;
-  repeat_password: string;
 }
 
 interface OtpFormProps {
@@ -39,8 +36,6 @@ const INITIAL_STATE_OTP_FORM = {
     first_name: "",
     last_name: "",
     mobile_number: "",
-    username: "",
-    password: "",
   },
 };
 
@@ -100,12 +95,7 @@ const OtpForm: React.FC<OtpFormProps> = ({ setStep, dataSignup }) => {
       stateOtp?.status === "error" &&
       stateOtp?.message !== "کد احراز هویت الزامی است."
     ) {
-      // mobile_number
-      if (stateOtp?.error_code === 1) {
-        setStep(1);
-      } else if (stateOtp?.error_code === 2) {
-        setStep(2);
-      } else if (counterRef.current === 0) {
+      if (counterRef.current === 0) {
         setStep(1);
       } else {
         setCounter(counterRef.current - 1);
@@ -190,42 +180,6 @@ const OtpForm: React.FC<OtpFormProps> = ({ setStep, dataSignup }) => {
             />
           ))}
         </div>
-
-        {/* first_name */}
-        <input
-          id="first_name"
-          name="first_name"
-          type="hidden"
-          value={dataSignup.first_name}
-        />
-        {/* last_name */}
-        <input
-          id="last_name"
-          name="last_name"
-          type="hidden"
-          value={dataSignup.last_name}
-        />
-        {/* mobile_number */}
-        <input
-          id="mobile_number"
-          name="mobile_number"
-          type="hidden"
-          value={dataSignup.mobile_number}
-        />
-        {/* username */}
-        <input
-          id="username"
-          name="username"
-          type="hidden"
-          value={dataSignup.username}
-        />
-        {/* password */}
-        <input
-          id="password"
-          name="password"
-          type="hidden"
-          value={dataSignup.password}
-        />
 
         <SubmitBtn
           title="تایید"

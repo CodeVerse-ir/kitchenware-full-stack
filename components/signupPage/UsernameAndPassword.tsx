@@ -33,6 +33,9 @@ const INITIAL_STATE_USERNAME_AND_PASSWORD = {
   field: null,
   error_code: 0,
   user_information: {
+    first_name: "",
+    last_name: "",
+    mobile_number: "",
     username: "",
     password: "",
     repeat_password: "",
@@ -104,6 +107,11 @@ const UsernameAndPassword: React.FC<UsernameAndPasswordProps> = ({
         ...stateUsernameAndPassword.user_information,
       }));
       setStep(3);
+    } else if (stateUsernameAndPassword?.status === "error") {
+      // mobile_number
+      if (stateUsernameAndPassword?.error_code === 1) {
+        setStep(1);
+      }
     }
   }, [stateUsernameAndPassword, setStep, setDataSignup]);
 
@@ -308,6 +316,28 @@ const UsernameAndPassword: React.FC<UsernameAndPasswordProps> = ({
             )}
           </div>
         </div>
+
+        {/* first_name */}
+        <input
+          id="first_name"
+          name="first_name"
+          type="hidden"
+          value={dataSignup.first_name}
+        />
+        {/* last_name */}
+        <input
+          id="last_name"
+          name="last_name"
+          type="hidden"
+          value={dataSignup.last_name}
+        />
+        {/* mobile_number */}
+        <input
+          id="mobile_number"
+          name="mobile_number"
+          type="hidden"
+          value={dataSignup.mobile_number}
+        />
 
         <SubmitBtn
           title="ثبت"
