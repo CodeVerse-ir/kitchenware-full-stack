@@ -23,12 +23,23 @@ interface usernameAndPasswordProps {
   error_code: number | undefined | null;
   field: string[] | null;
   user_information?: {
+    username: string;
+    password: string;
+    repeat_password: string;
+  };
+}
+
+interface otpProps {
+  status: string | null;
+  message: string | undefined | null;
+  error_code: number | undefined | null;
+  field: string[] | null;
+  user_information?: {
     first_name: string;
     last_name: string;
     mobile_number: string;
     username: string;
     password: string;
-    repeat_password: string;
   };
 }
 
@@ -120,16 +131,10 @@ async function usernameAndPassword(
   prevState: usernameAndPasswordProps,
   formData: FormData
 ): Promise<usernameAndPasswordProps> {
-  const first_name = getStringValue(formData.get("first_name"));
-  const last_name = getStringValue(formData.get("last_name"));
-  const mobile_number = getStringValue(formData.get("mobile_number"));
   const not_trim_username = getStringValue(formData.get("username"));
   const password = getStringValue(formData.get("password"));
   const repeat_password = getStringValue(formData.get("repeat_password"));
 
-  console.log("sign up first_name : ", first_name);
-  console.log("sign up last_name : ", last_name);
-  console.log("sign up mobile_number : ", mobile_number);
   console.log("sign up not_trim_username : ", not_trim_username);
   console.log("sign up password : ", password);
   console.log("sign up repeat_password : ", repeat_password);
@@ -189,6 +194,74 @@ async function usernameAndPassword(
   const username = not_trim_username.trim();
   console.log("sign up username : ", username);
 
+  try {
+    return {
+      ...prevState,
+      status: "success",
+      message: "کد احراز هویت برای شما ارسال شد.",
+      field: [],
+      user_information: {
+        username,
+        password,
+        repeat_password: "",
+      },
+    };
+  } catch (error) {
+    console.error("خطا در هنگام ورود:", error);
+
+    return {
+      ...prevState,
+      status: "error",
+      message: "مشکلی در ارتباط با سرور رخ داده است. لطفا دوباره تلاش کنید.",
+    };
+  }
+}
+
+async function checkOtp(
+  prevState: otpProps,
+  formData: FormData
+): Promise<otpProps> {
+  const first_name = getStringValue(formData.get("first_name"));
+  const last_name = getStringValue(formData.get("last_name"));
+  const mobile_number = getStringValue(formData.get("mobile_number"));
+  const username = getStringValue(formData.get("username"));
+  const password = getStringValue(formData.get("password"));
+
+  const otp0 = getStringValue(formData.get("otp0"));
+  const otp1 = getStringValue(formData.get("otp1"));
+  const otp2 = getStringValue(formData.get("otp2"));
+  const otp3 = getStringValue(formData.get("otp3"));
+  const otp4 = getStringValue(formData.get("otp4"));
+
+  console.log("sign up first_name : ", first_name);
+  console.log("sign up last_name : ", last_name);
+  console.log("sign up mobile_number : ", mobile_number);
+  console.log("sign up usename : ", username);
+  console.log("sign up password : ", password);
+
+  if (otp0 === "" || otp1 === "" || otp2 === "" || otp3 === "" || otp4 === "") {
+    return {
+      ...prevState,
+      status: "error",
+      message: "کد احراز هویت الزامی است.",
+      field: ["otp"],
+    };
+  }
+
+  const verification_code = otp0 + otp1 + otp2 + otp3 + otp4;
+
+  console.log("sign up verification_code : ", verification_code);
+
+  if (verification_code !== "11111") {
+    return {
+      ...prevState,
+      status: "error",
+      message: "کد احراز هویت نادرست است.",
+      field: ["otp"],
+      error_code: null,
+    };
+  }
+
   const client = new MongoClient(`${url}`);
 
   try {
@@ -218,14 +291,6 @@ async function usernameAndPassword(
         status: "error",
         message,
         error_code,
-        user_information: {
-          mobile_number,
-          first_name: "",
-          last_name: "",
-          username: "",
-          password: "",
-          repeat_password: "",
-        },
       };
     } else {
       const hashedPassword = createHash(password);
@@ -259,7 +324,7 @@ async function usernameAndPassword(
       return {
         ...prevState,
         status: "success",
-        message: "کد احراز هویت برای شما ارسال شد.",
+        message: "اطلاعات با موفقیت ثبت شد ، وارد شوید.",
         field: [],
       };
     }
@@ -276,4 +341,4 @@ async function usernameAndPassword(
   }
 }
 
-export { fullNameAndMobile, usernameAndPassword };
+export { fullNameAndMobile, usernameAndPassword, checkOtp };

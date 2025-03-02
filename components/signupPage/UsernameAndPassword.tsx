@@ -33,9 +33,6 @@ const INITIAL_STATE_USERNAME_AND_PASSWORD = {
   field: null,
   error_code: 0,
   user_information: {
-    first_name: "",
-    last_name: "",
-    mobile_number: "",
     username: "",
     password: "",
     repeat_password: "",
@@ -107,11 +104,6 @@ const UsernameAndPassword: React.FC<UsernameAndPasswordProps> = ({
         ...stateUsernameAndPassword.user_information,
       }));
       setStep(3);
-    } else if (stateUsernameAndPassword?.status === "error") {
-      // mobile_number
-      if (stateUsernameAndPassword?.error_code === 1) {
-        setStep(1);
-      }
     }
   }, [stateUsernameAndPassword, setStep, setDataSignup]);
 
@@ -171,7 +163,11 @@ const UsernameAndPassword: React.FC<UsernameAndPasswordProps> = ({
             نام کاربری
           </label>
           <input
-            className={`flex items-center justify-start w-full h-full px-3 pt-1 font-sans text-black dark:text-white bg-transparent rounded border border-gray-400 focus:border-orange-300 transition-colors duration-150 outline-none`}
+            className={`flex items-center justify-start w-full h-full px-3 pt-1 font-sans text-black dark:text-white bg-transparent rounded border ${
+              stateUsernameAndPassword.field?.includes("username")
+                ? "border-red-500"
+                : "border-gray-400"
+            } focus:border-orange-300 transition-colors duration-150 outline-none`}
             type="text"
             id="username"
             name="username"
@@ -192,7 +188,11 @@ const UsernameAndPassword: React.FC<UsernameAndPasswordProps> = ({
             رمز عبور
           </label>
           <input
-            className={`flex items-center justify-start w-full h-full pl-3 pr-10 pt-1 font-sans text-black dark:text-white bg-transparent rounded border border-gray-400 focus:border-orange-300 transition-colors duration-150 outline-none`}
+            className={`flex items-center justify-start w-full h-full pl-3 pr-10 pt-1 font-sans text-black dark:text-white bg-transparent rounded border ${
+              stateUsernameAndPassword.field?.includes("password")
+                ? "border-red-500"
+                : "border-gray-400"
+            } focus:border-orange-300 transition-colors duration-150 outline-none`}
             type={showPassword ? "text" : "password"}
             id="password"
             name="password"
@@ -253,7 +253,11 @@ const UsernameAndPassword: React.FC<UsernameAndPasswordProps> = ({
             تکرار رمز عبور
           </label>
           <input
-            className={`flex items-center justify-start w-full h-full pl-3 pr-10 pt-1 font-sans text-black dark:text-white bg-transparent rounded border border-gray-400 focus:border-orange-300 transition-colors duration-150 outline-none`}
+            className={`flex items-center justify-start w-full h-full pl-3 pr-10 pt-1 font-sans text-black dark:text-white bg-transparent rounded border ${
+              stateUsernameAndPassword.field?.includes("repeat_password")
+                ? "border-red-500"
+                : "border-gray-400"
+            } focus:border-orange-300 transition-colors duration-150 outline-none`}
             type={showRepeat_password ? "text" : "password"}
             id="repeat_password"
             name="repeat_password"
@@ -304,28 +308,6 @@ const UsernameAndPassword: React.FC<UsernameAndPasswordProps> = ({
             )}
           </div>
         </div>
-
-        {/* first_name */}
-        <input
-          id="first_name"
-          name="first_name"
-          type="hidden"
-          value={dataSignup.first_name}
-        />
-        {/* last_name */}
-        <input
-          id="last_name"
-          name="last_name"
-          type="hidden"
-          value={dataSignup.last_name}
-        />
-        {/* mobile_number */}
-        <input
-          id="mobile_number"
-          name="mobile_number"
-          type="hidden"
-          value={dataSignup.mobile_number}
-        />
 
         <SubmitBtn
           title="ثبت"
