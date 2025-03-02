@@ -22,7 +22,6 @@ interface UserInformation {
   username: string;
   password: string;
   repeat_password: string;
-  otp_code: string;
 }
 
 interface FullNameFormProps {
@@ -42,7 +41,6 @@ const INITIAL_STATE_FULL_NAME_AND_MOBILE = {
     username: "",
     password: "",
     repeat_password: "",
-    otp_code: "",
   },
 };
 

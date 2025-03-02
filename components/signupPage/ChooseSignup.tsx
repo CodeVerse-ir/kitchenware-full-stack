@@ -16,7 +16,6 @@ const ChooseSignup = () => {
     username: "",
     password: "",
     repeat_password: "",
-    otp_code: "",
   });
   return (
     <div>
