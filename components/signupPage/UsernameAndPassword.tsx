@@ -104,11 +104,11 @@ const UsernameAndPassword: React.FC<UsernameAndPasswordProps> = ({
     );
 
     if (stateUsernameAndPassword?.status === "success") {
-      setStep(4);
       setDataSignup((prevUser) => ({
         ...prevUser,
         ...stateUsernameAndPassword.user_information,
       }));
+      setStep(3);
     } else if (stateUsernameAndPassword?.status === "error") {
       // mobile_number
       if (stateUsernameAndPassword?.error_code === 1) {
