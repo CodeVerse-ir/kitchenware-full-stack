@@ -16,6 +16,7 @@ import { getToastType } from "@/utils/helper";
 // components
 import SubmitBtn from "../common/SubmitBtn";
 import ResendOtp from "./ResendOtp";
+import { useSession } from "@/utils/useSession";
 
 interface OtpFormProps {
   setStep: Dispatch<SetStateAction<number>>;
@@ -29,6 +30,7 @@ const INITIAL_STATE_OTP_FORM = {
 };
 
 const OtpForm: React.FC<OtpFormProps> = ({ setStep }) => {
+  const { loginContext } = useSession();
   // 6 otp input
   const [otp, setOtp] = useState<string[]>(Array(5).fill(""));
   const inputRefs = useRef<(HTMLInputElement | null)[]>(Array(5).fill(null));
@@ -59,6 +61,7 @@ const OtpForm: React.FC<OtpFormProps> = ({ setStep }) => {
     console.log("CheckOtpForm stateOtp : ", stateOtp);
 
     if (stateOtp?.status === "success") {
+      loginContext(stateOtp.user);
       router.push("/");
     } else if (
       stateOtp?.status === "error" &&
@@ -70,7 +73,7 @@ const OtpForm: React.FC<OtpFormProps> = ({ setStep }) => {
         setCounter(counterRef.current - 1);
       }
     }
-  }, [stateOtp, router, setStep]);
+  }, [stateOtp, router, setStep, loginContext]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -132,7 +135,11 @@ const OtpForm: React.FC<OtpFormProps> = ({ setStep }) => {
             <input
               key={index}
               type="text"
-              className="text-center size-11 sm:size-14 rounded-lg text-black dark:text-white bg-transparent border-2 border-dark focus:outline-none focus:border-accent"
+              className={`text-center size-11 sm:size-14 rounded-lg text-black dark:text-whiteّ bg-transparent border-2 ${
+                stateOtp.field?.includes("otp")
+                  ? "border-red-500"
+                  : "border-gray-400"
+              } focus:border-orange-300 transition-colors duration-150 outline-none`}
               value={value}
               maxLength={1}
               name={`otp${index}`}

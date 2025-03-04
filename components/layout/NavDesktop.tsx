@@ -8,6 +8,7 @@ import logoImg from "/public//image/logo/logo-img.png";
 
 // components
 import BtnSwich from "./BtnSwich";
+import { useSession } from "@/utils/useSession";
 
 const links = [
   {
@@ -42,7 +43,8 @@ const NavDesktop: React.FC<NavDesktopPrpos> = ({
   handleDarkMode,
 }) => {
   const pathname = usePathname();
-  console.log(pathname);
+
+  const { user } = useSession();
 
   return (
     <header className="absolute top-9 right-0 left-0 z-10 hidden md:flex items-center w-[98%] lg:w-[90%] h-24 px-5 lg:px-10 py-5 mx-auto bg-black/50 rounded-3xl backdrop-blur-[6px]">
@@ -103,24 +105,31 @@ const NavDesktop: React.FC<NavDesktopPrpos> = ({
           <span className="block w-px h-14 bg-white/20"></span>
 
           {/* <!-- Login Link --> */}
-          <Link href="/auth/login" className="flex items-center gap-x-2.5 tracking-tightest">
-            <svg
-              id="arrow-left-on-rectangle"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className="w-8 h-8 rotate-180"
+          {user ? (
+            <div>پروفایل</div>
+          ) : (
+            <Link
+              href="/auth/login"
+              className="flex items-center gap-x-2.5 tracking-tightest"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75"
-              />
-            </svg>
-            <span className="hidden xl:inline-block">ورود | ثبت نام</span>
-          </Link>
+              <svg
+                id="arrow-left-on-rectangle"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="w-8 h-8 rotate-180"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75"
+                />
+              </svg>
+              <span className="hidden xl:inline-block">ورود | ثبت نام</span>
+            </Link>
+          )}
         </div>
       </div>
     </header>

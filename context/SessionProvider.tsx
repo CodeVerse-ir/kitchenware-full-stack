@@ -1,6 +1,7 @@
 "use client";
 
-import { createContext, useState } from "react";
+import { me } from "@/actions/auth/login";
+import { createContext, useEffect, useState } from "react";
 
 interface User {
   first_name: string;
@@ -27,6 +28,15 @@ export const SessionProvider = ({
 }>) => {
   const [darkMode, setDarkMode] = useState(true);
   const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const checkUserLoggedIn = async () => {
+      const data = await me();
+      setUser(data.user);
+    };
+
+    checkUserLoggedIn();
+  }, []);
 
   const toggleDarkMode = () => setDarkMode(!darkMode);
 

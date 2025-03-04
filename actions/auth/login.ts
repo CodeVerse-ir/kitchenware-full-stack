@@ -29,6 +29,15 @@ interface checkOtpProps {
   };
 }
 
+interface meProps {
+  user: {
+    first_name: string;
+    last_name: string;
+    mobile_number: string;
+    username: string;
+  } | null;
+}
+
 const getStringValue = (value: FormDataEntryValue | null): string => {
   return value === null ? "" : String(value);
 };
@@ -160,7 +169,7 @@ async function checkOtp(
     return {
       ...prevState,
       status: "error",
-      message: "کد احراز هویت الزامی است.",
+      message: "کد ورود الزامی است.",
       field: ["otp"],
     };
   }
@@ -237,7 +246,7 @@ async function checkOtp(
     return {
       ...prevState,
       status: "error",
-      message: "کد احراز هویت نادرست است.",
+      message: "کد ورود نادرست است.",
       field: ["otp"],
     };
   } catch (error) {
@@ -253,4 +262,53 @@ async function checkOtp(
   }
 }
 
-export { login, checkOtp };
+async function me(): Promise<meProps> {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("token");
+
+  if (token) {
+    const client = new MongoClient(`${url}`);
+
+    try {
+      await client.connect();
+
+      const db = client.db();
+      const tokenValue = token.value;
+      const decodedToken = decodeJWT(tokenValue);
+
+      if (decodedToken) {
+        const user = await db.collection("users").findOne({
+          username: decodedToken.username,
+        });
+
+        if (user) {
+          return {
+            user: {
+              first_name: user.first_name,
+              last_name: user.last_name,
+              mobile_number: user.mobile_number,
+              username: user.username,
+            },
+          };
+        }
+      }
+
+      return {
+        user: null,
+      };
+    } catch (error) {
+      console.error("خطا در هنگام ورود:", error);
+      return {
+        user: null,
+      };
+    } finally {
+      await client.close();
+    }
+  } else {
+    return {
+      user: null,
+    };
+  }
+}
+
+export { login, checkOtp, me };
