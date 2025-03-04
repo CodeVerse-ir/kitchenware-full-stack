@@ -208,10 +208,19 @@ const UsernameAndPassword: React.FC<UsernameAndPasswordProps> = ({
             dir="ltr"
             value={dataUsernameAndPassword.password}
             onChange={handlePassword}
+            onCopy={(e) => e.preventDefault()}
+            onPaste={(e) => e.preventDefault()}
+            onKeyDown={(e) => {
+              if (e.ctrlKey && e.key === "v") {
+                e.preventDefault(); // Ctrl + V
+              }
+            }}
           />
-          <div
+          <button
+            type="button"
             onClick={handleShowPassword}
             className="absolute top-2 right-3 cursor-pointer"
+            tabIndex={-1} // not select by TAB
           >
             {showPassword ? (
               <svg
@@ -249,7 +258,7 @@ const UsernameAndPassword: React.FC<UsernameAndPasswordProps> = ({
                 />
               </svg>
             )}
-          </div>
+          </button>
         </div>
 
         {/* repeat_password */}
@@ -273,10 +282,19 @@ const UsernameAndPassword: React.FC<UsernameAndPasswordProps> = ({
             dir="ltr"
             value={dataUsernameAndPassword.repeat_password}
             onChange={handleRepeat_password}
+            onCopy={(e) => e.preventDefault()}
+            onPaste={(e) => e.preventDefault()}
+            onKeyDown={(e) => {
+              if (e.ctrlKey && e.key === "v") {
+                e.preventDefault(); // Ctrl + V
+              }
+            }}
           />
-          <div
+          <button
+            type="button"
             onClick={handleShowRepeat_password}
             className="absolute top-2 right-3 cursor-pointer"
+            tabIndex={-1} // not select by TAB
           >
             {showRepeat_password ? (
               <svg
@@ -314,7 +332,7 @@ const UsernameAndPassword: React.FC<UsernameAndPasswordProps> = ({
                 />
               </svg>
             )}
-          </div>
+          </button>
         </div>
 
         {/* first_name */}
