@@ -197,7 +197,7 @@ const NavDesktop: React.FC<NavDesktopPrpos> = ({
           ) : (
             <Link
               href="/auth/login"
-              className="flex items-center gap-x-2.5 tracking-tightest"
+              className="flex items-center gap-x-2.5 tracking-tightest hover:text-orange-300 transition-colors"
             >
               <svg
                 id="arrow-left-on-rectangle"

@@ -12,7 +12,10 @@ const BtnSwich: React.FC<BtnSwichPrpos> = ({ darkMode, handleDarkMode }) => {
       <DarkMode darkMode={darkMode} />
 
       {/* <!-- Theme Switch Btn --> */}
-      <div className="cursor-pointer" onClick={handleDarkMode}>
+      <div
+        className="hover:text-orange-300 transition-colors"
+        onClick={handleDarkMode}
+      >
         <div className="flex items-center justify-center gap-x-2.5 dark:hidden">
           <svg
             xmlns="http://www.w3.org/2000/svg"
