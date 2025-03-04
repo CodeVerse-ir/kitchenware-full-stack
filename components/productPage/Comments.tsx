@@ -42,46 +42,44 @@ const Comments: React.FC<CommentsProps> = ({ showComment, product_code }) => {
       });
   }, [product_code]);
 
-  // این مقادیر باید با تابع update مقادیر json را تغییر دهد
-  const toggleLike = (index: number) => {
-    setComments((prevComments) => {
-      const newComments = [...prevComments]; // کپی از نظرات فعلی
+  // const toggleLike = (index: number) => {
+  //   setComments((prevComments) => {
+  //     const newComments = [...prevComments];
 
-      const comment = { ...newComments[index] }; // کپی از نظر فعلی
+  //     const comment = { ...newComments[index] };
 
-      if (comment.isLiked) {
-        comment.like -= 1;
-        comment.isLiked = false; // اینجا باید false باشد
-      } else {
-        comment.like += 1;
-        comment.isLiked = true; // اینجا باید true باشد
-      }
+  //     if (comment.isLiked) {
+  //       comment.like -= 1;
+  //       comment.isLiked = false; 
+  //     } else {
+  //       comment.like += 1;
+  //       comment.isLiked = true; 
+  //     }
 
-      newComments[index] = comment; // بروزرسانی نظر خاص در لیست جدید
+  //     newComments[index] = comment; 
+  //     return newComments;
+  //   });
+  // };
 
-      return newComments; // برگرداندن لیست جدید
-    });
-  };
+  // const toggleDislike = (index: number) => {
+  //   setComments((prevComments) => {
+  //     const newComments = [...prevComments]; // کپی از نظرات فعلی
 
-  const toggleDislike = (index: number) => {
-    setComments((prevComments) => {
-      const newComments = [...prevComments]; // کپی از نظرات فعلی
+  //     const comment = { ...newComments[index] }; // کپی از نظر فعلی
 
-      const comment = { ...newComments[index] }; // کپی از نظر فعلی
+  //     if (comment.isDisliked) {
+  //       comment.dislike -= 1;
+  //       comment.isDisliked = false; // اینجا باید false باشد
+  //     } else {
+  //       comment.dislike += 1;
+  //       comment.isDisliked = true; // اینجا باید true باشد
+  //     }
 
-      if (comment.isDisliked) {
-        comment.dislike -= 1;
-        comment.isDisliked = false; // اینجا باید false باشد
-      } else {
-        comment.dislike += 1;
-        comment.isDisliked = true; // اینجا باید true باشد
-      }
+  //     newComments[index] = comment; // بروزرسانی نظر خاص در لیست جدید
 
-      newComments[index] = comment; // بروزرسانی نظر خاص در لیست جدید
-
-      return newComments; // برگرداندن لیست جدید
-    });
-  };
+  //     return newComments; // برگرداندن لیست جدید
+  //   });
+  // };
 
   return (
     <>
@@ -234,7 +232,7 @@ const Comments: React.FC<CommentsProps> = ({ showComment, product_code }) => {
                       <div className="flex gap-x-2">
                         <div
                           className="group flex items-center justify-center w-16 h-8 lg:w-20 lg:h-10 gap-x-2 rounded-xl border border-gray-300 child:transition-all select-none"
-                          onClick={() => toggleLike(index)}
+                          // onClick={() => toggleLike(index)}
                         >
                           <svg className="w-4 h-4 lg:w-5 lg:h-5 text-green-500 group-hover:scale-125">
                             <use
@@ -247,7 +245,7 @@ const Comments: React.FC<CommentsProps> = ({ showComment, product_code }) => {
                         </div>
                         <div
                           className="group flex items-center justify-center w-16 h-8 lg:w-20 lg:h-10 gap-x-2 rounded-xl border border-gray-300 child:transition-all select-none"
-                          onClick={() => toggleDislike(index)}
+                          // onClick={() => toggleDislike(index)}
                         >
                           <svg className="w-4 h-4 lg:w-5 lg:h-5 text-red-500 group-hover:scale-125">
                             <use
