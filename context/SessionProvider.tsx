@@ -1,6 +1,6 @@
 "use client";
 
-import { me } from "@/actions/auth/login";
+import { me } from "@/actions/auth/auth";
 import { createContext, useEffect, useState } from "react";
 
 interface User {
@@ -14,7 +14,7 @@ interface SessionContextType {
   darkMode: boolean;
   toggleDarkMode: () => void;
   user: User | null;
-  loginContext: (user: User) => void;
+  loginContext: (user: User | null) => void;
 }
 
 export const SessionContext = createContext<SessionContextType | undefined>(
@@ -40,10 +40,8 @@ export const SessionProvider = ({
 
   const toggleDarkMode = () => setDarkMode(!darkMode);
 
-  const loginContext = (user: User) => {
-    if (user) {
-      setUser(user);
-    }
+  const loginContext = (user: User | null) => {
+    setUser(user);
   };
 
   return (

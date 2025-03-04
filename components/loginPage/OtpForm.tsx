@@ -9,7 +9,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { checkOtp } from "@/actions/auth/login";
+import { checkOtp } from "@/actions/auth/auth";
 import { toast } from "react-toastify";
 import { getToastType } from "@/utils/helper";
 

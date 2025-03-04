@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 
 // components
 import SubmitBtn from "../common/SubmitBtn";
-import { login } from "@/actions/auth/login";
+import { login } from "@/actions/auth/auth";
 
 interface UsernameAndPasswordProps {
   setStep: Dispatch<SetStateAction<number>>;

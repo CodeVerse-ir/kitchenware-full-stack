@@ -311,4 +311,13 @@ async function me(): Promise<meProps> {
   }
 }
 
-export { login, checkOtp, me };
+async function logout() {
+  const cookieStore = await cookies();
+  const hasCookie = cookieStore.has("token");
+
+  if (hasCookie) {
+    cookieStore.delete("token");
+  }
+}
+
+export { login, checkOtp, me, logout };

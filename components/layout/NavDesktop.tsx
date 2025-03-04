@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { useSession } from "@/utils/useSession";
+import { logout } from "@/actions/auth/auth";
 import { usePathname } from "next/navigation";
 
 import logoImg from "/public//image/logo/logo-img.png";
 
 // components
 import BtnSwich from "./BtnSwich";
-import { useSession } from "@/utils/useSession";
 
 const links = [
   {
@@ -44,7 +45,12 @@ const NavDesktop: React.FC<NavDesktopPrpos> = ({
 }) => {
   const pathname = usePathname();
 
-  const { user } = useSession();
+  const { user, loginContext } = useSession();
+
+  const handleLogout = async () => {
+    await logout();
+    loginContext(null);
+  };
 
   return (
     <header className="absolute top-9 right-0 left-0 z-10 hidden md:flex items-center w-[98%] lg:w-[90%] h-24 px-5 lg:px-10 py-5 mx-auto bg-black/50 rounded-3xl backdrop-blur-[6px]">
@@ -141,48 +147,50 @@ const NavDesktop: React.FC<NavDesktopPrpos> = ({
                 </svg>
 
                 <div className="absolute left-0 top-full w-[120px] h-[100px] px-2 py-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible space-y-2 font-Dana text-xl tracking-tighter text-zinc-700 dark:text-gray-300 bg-white dark:bg-zinc-700 border-t-[3px] border-t-orange-300 shadow-normal rounded-2xl delay-75 transition-all">
-                    <Link
-                      href=""
-                      className="flex items-center justify-evenly hover:text-orange-300 transition-colors duration-150"
+                  <Link
+                    href=""
+                    className="flex items-center justify-evenly hover:text-orange-300 transition-colors duration-150"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="size-6"
                     >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="size-6"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
-                        />
-                      </svg>
-                      <div>پروفایل</div>
-                    </Link>
-                    <div className="w-full h-px bg-gray-400"></div>
-                    <Link
-                      href=""
-                      className="flex items-center justify-evenly hover:text-orange-300 transition-colors duration-150"
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+                      />
+                    </svg>
+                    <div>پروفایل</div>
+                  </Link>
+                  <div className="w-full h-px bg-gray-400"></div>
+                  {/* logout */}
+                  <button
+                    type="button"
+                    onClick={handleLogout}
+                    className="flex items-center justify-evenly w-full hover:text-orange-300 transition-colors duration-150"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="size-6"
                     >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="size-6"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15"
-                        />
-                      </svg>
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15"
+                      />
+                    </svg>
 
-                      <div>خروج</div>
-                    </Link>
+                    <div>خروج</div>
+                  </button>
                 </div>
               </div>
             </>
