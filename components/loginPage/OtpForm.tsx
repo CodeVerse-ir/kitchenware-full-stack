@@ -56,11 +56,13 @@ const OtpForm: React.FC<OtpFormProps> = ({ setStep }) => {
   }, [counter]);
 
   useEffect(() => {
-    toast(stateOtp?.message, { type: `${getToastType(stateOtp?.status)}` });
-
+    if (stateOtp?.status !== "info") {
+      toast(stateOtp?.message, { type: `${getToastType(stateOtp?.status)}` });
+    }
     console.log("CheckOtpForm stateOtp : ", stateOtp);
 
     if (stateOtp?.status === "success") {
+      stateOtp.status = "info";
       loginContext(stateOtp.user);
       router.push("/");
     } else if (
