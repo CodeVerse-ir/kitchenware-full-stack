@@ -234,21 +234,28 @@ async function usernameAndPassword(
     } else {
       const hashedPassword = createHash(password);
 
-      await db.collection("users").insertOne({
-        first_name,
-        last_name,
-        mobile_number,
-        username,
-        password: hashedPassword,
-        image: "/image/comment/avatar.png",
-        created_at: new Date(),
-        active: false,
-        otp_code: generateRandomOTP(),
-      });
+      await db.collection("users").updateOne(
+        { username: username, mobile_number: mobile_number, active: false },
+        {
+          $set: {
+            first_name,
+            last_name,
+            mobile_number,
+            username,
+            password: hashedPassword,
+            image: "/image/comment/avatar.png",
+            created_at: new Date(),
+            active: false,
+            otp_code: generateRandomOTP(),
+          },
+        },
+        { upsert: true }
+      );
 
       // JWT
       const payload = {
         username,
+        mobile_number,
         created_at: new Date(),
       };
       const token = createJWT(payload);
@@ -339,9 +346,10 @@ async function checkOtp(
       if (decodedToken) {
         const user = await db.collection("users").findOne({
           username: decodedToken.username,
+          mobile_number: decodedToken.mobile_number,
         });
 
-        console.log("sign up decodedToken otp_code : ", user?.otp_code);        
+        console.log("sign up decodedToken otp_code : ", user?.otp_code);
 
         if (user) {
           if (Number(verification_code) === user.otp_code) {
@@ -349,7 +357,7 @@ async function checkOtp(
               .collection("users")
               .updateOne(
                 { username: decodedToken.username },
-                { $set: { active: true } }
+                { $set: { active: true, otp_code: 0 } }
               );
             cookieStore.delete("signup_token");
             return {
