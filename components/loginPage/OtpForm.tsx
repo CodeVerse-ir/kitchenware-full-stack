@@ -5,10 +5,13 @@ import {
   Dispatch,
   SetStateAction,
   useActionState,
-  useLayoutEffect,
+  useEffect,
   useRef,
   useState,
 } from "react";
+import { checkOtp } from "@/actions/auth/login";
+import { toast } from "react-toastify";
+import { getToastType } from "@/utils/helper";
 
 // components
 import SubmitBtn from "../common/SubmitBtn";
@@ -18,6 +21,13 @@ interface OtpFormProps {
   setStep: Dispatch<SetStateAction<number>>;
 }
 
+const INITIAL_STATE_OTP_FORM = {
+  status: null,
+  message: null,
+  field: null,
+  user: { first_name: "", last_name: "", mobile_number: "", username: "" },
+};
+
 const OtpForm: React.FC<OtpFormProps> = ({ setStep }) => {
   // 6 otp input
   const [otp, setOtp] = useState<string[]>(Array(5).fill(""));
@@ -25,77 +35,42 @@ const OtpForm: React.FC<OtpFormProps> = ({ setStep }) => {
 
   const router = useRouter();
 
-  const [counter, setCounter] = useState(2);
+  const [counter, setCounter] = useState<number>(2);
+  const counterRef = useRef(counter);
 
-  // const [stateOtp, formActionOtp, isPending] = useActionState(
-  //   checkOtp,
-  //   INITIAL_STATE
-  // );
+  const [stateOtp, formActionOtp, isPending] = useActionState(
+    checkOtp,
+    INITIAL_STATE_OTP_FORM
+  );
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (inputRefs.current[0]) {
       inputRefs.current[0].focus();
     }
   }, []);
 
-  // get OTPCredential
-  // useEffect(() => {
-  //   const readOTP = async () => {
-  //     if ("OTPCredential" in window) {
-  //       try {
-  //         const otpCredential = await navigator.credentials.get({
-  //           otp: { transport: ["sms"] },
-  //         });
-  //         if (otpCredential && otpCredential.code) {
-  //           const otpArray = otpCredential.code.split("");
-  //           console.log("otpArray in CheckOtpForm : ", otpArray);
-  //           setOtp(otpArray);
-  //           otpArray.forEach((_, index) => {
-  //             if (inputRefs.current[index]) {
-  //               inputRefs.current[index].value = otpArray[index];
-  //             }
-  //           });
-  //         }
-  //       } catch (error) {
-  //         console.error("Error getting OTP:", error);
-  //       }
-  //     }
-  //   };
+  useEffect(() => {
+    counterRef.current = counter;
+  }, [counter]);
 
-  //   readOTP();
-  // }, []);
+  useEffect(() => {
+    toast(stateOtp?.message, { type: `${getToastType(stateOtp?.status)}` });
 
-  // useEffect(() => {
-  //   toast(stateOtp?.message, { type: `${stateOtp?.status}` });
+    console.log("CheckOtpForm stateOtp : ", stateOtp);
 
-  //   console.log("CheckOtpForm stateOtp : ", stateOtp);
-
-  //   if (stateOtp?.status === "success") {
-  //     if (stateOtp?.user === "nexus") {
-  //       router.push("/gold-price-excel");
-  //     } else {
-  //       const isMobile =
-  //         /Mobi|Android|iPhone|iPad|iPod|BlackBerry|Opera Mini|IEMobile|WPDesktop/i.test(
-  //           navigator.userAgent
-  //         );
-
-  //       if (isMobile) {
-  //         router.push("/dashboard/inquiry");
-  //       } else {
-  //         router.push("/dashboard");
-  //       }
-  //     }
-  //   } else if (
-  //     stateOtp?.status === "error" &&
-  //     stateOtp?.message !== "کد ورود الزامی است."
-  //   ) {
-  //     if (counter === 0) {
-  //       setStep(1);
-  //     } else {
-  //       setCounter(counter - 1);
-  //     }
-  //   }
-  // }, [stateOtp]);
+    if (stateOtp?.status === "success") {
+      router.push("/");
+    } else if (
+      stateOtp?.status === "error" &&
+      stateOtp?.message !== "کد ورود الزامی است."
+    ) {
+      if (counterRef.current === 0) {
+        setStep(1);
+      } else {
+        setCounter(counterRef.current - 1);
+      }
+    }
+  }, [stateOtp, router, setStep]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -143,7 +118,7 @@ const OtpForm: React.FC<OtpFormProps> = ({ setStep }) => {
       <div className="font-DanaMedium text-lg text-black dark:text-white text-center mb-4">
         کد ورود
       </div>
-      <form action="" className="w-full">
+      <form action={formActionOtp} className="w-full">
         <div className="flex items-center justify-center mb-4 text-sm text-center text-zinc-700 dark:text-gray-300">
           کد ورود پنج‌ رقمی به شماره تلفن همراه شما ارسال شد.
         </div>
@@ -174,8 +149,7 @@ const OtpForm: React.FC<OtpFormProps> = ({ setStep }) => {
         <SubmitBtn
           title="تایید"
           style="w-full h-10 mb-3 text-center rounded-lg text-light text-white bg-orange-400 hover:bg-orange-500 transition-colors duration-150"
-          //   isPending={isPending}
-          isPending={false}
+          isPending={isPending}
         />
       </form>
       <ResendOtp />
