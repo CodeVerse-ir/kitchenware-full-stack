@@ -107,6 +107,7 @@ const NavDesktop: React.FC<NavDesktopPrpos> = ({
           {/* <!-- Login Link --> */}
           {user ? (
             <>
+              {/* shoping */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -122,13 +123,14 @@ const NavDesktop: React.FC<NavDesktopPrpos> = ({
                 />
               </svg>
 
+              {/* profile */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="currentColor"
-                className="size-7 lg:size-8"
+                className="size-8 lg:size-9"
               >
                 <path
                   strokeLinecap="round"
