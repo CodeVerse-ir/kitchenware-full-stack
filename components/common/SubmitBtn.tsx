@@ -18,7 +18,11 @@ const SubmitBtn: React.FC<SubmitBtnProps> = ({ title, style, isPending }) => {
       ) : (
         <div className="flex items-center justify-center gap-x-2">
           <div>منتظر بمانید</div>
-          <span className="loading loading-dots loading-md"></span>
+          <div className="loading-container">
+            <div className="dot"></div>
+            <div className="dot"></div>
+            <div className="dot"></div>
+          </div>
         </div>
       )}
     </button>
