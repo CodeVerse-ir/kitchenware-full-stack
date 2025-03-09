@@ -98,11 +98,16 @@ async function login(
 
     const db = client.db();
 
+    // time
+    const now = new Date();
+    const twoMinutesLater = new Date(now.getTime() + 2 * 60000);
+
     const user = await db.collection("users").updateOne(
       { username: username, password: createHash(password), active: true },
       {
         $set: {
           otp_code: generateRandomOTP(),
+          otp_validity_time: twoMinutesLater,
         },
       }
     );
@@ -202,6 +207,18 @@ async function checkOtp(
 
         if (user) {
           if (Number(verification_code) === user.otp_code) {
+            // time
+            const now = new Date();
+            if (user.otp_validity_time < now) {
+              return {
+                ...prevState,
+                status: "error",
+                message:
+                  "زمان اعتبار کد گذشته است ، روی دکمه دریافت مجدد کد کلیک کنید.",
+                field: ["otp"],
+              };
+            }
+
             await db
               .collection("users")
               .updateOne(
