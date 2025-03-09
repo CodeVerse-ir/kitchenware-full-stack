@@ -11,7 +11,7 @@ const SubmitBtn: React.FC<SubmitBtnProps> = ({ title, style, isPending }) => {
     <button
       type="submit"
       disabled={isPending}
-      className={`${style} flex items-center justify-center`}
+      className={`${style} flex items-center justify-center outline focus-visible:outline-rose-600`}
     >
       {!isPending ? (
         title
