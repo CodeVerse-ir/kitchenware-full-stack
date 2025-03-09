@@ -234,6 +234,10 @@ async function usernameAndPassword(
     } else {
       const hashedPassword = createHash(password);
 
+      // time
+      const now = new Date();
+      const twoMinutesLater = new Date(now.getTime() + 2 * 60000);
+
       await db.collection("users").updateOne(
         { username: username, mobile_number: mobile_number, active: false },
         {
@@ -244,9 +248,10 @@ async function usernameAndPassword(
             username,
             password: hashedPassword,
             image: "/image/comment/avatar.png",
-            created_at: new Date(),
+            created_at: now,
             active: false,
             otp_code: generateRandomOTP(),
+            otp_validity_time: twoMinutesLater,
           },
         },
         { upsert: true }
@@ -344,6 +349,8 @@ async function checkOtp(
       const decodedToken = decodeJWT(tokenValue);
 
       if (decodedToken) {
+        if (decodedToken.created_at) {
+        }
         const user = await db.collection("users").findOne({
           username: decodedToken.username,
           mobile_number: decodedToken.mobile_number,
@@ -353,6 +360,19 @@ async function checkOtp(
 
         if (user) {
           if (Number(verification_code) === user.otp_code) {
+            // time
+            const now = new Date();
+            if (user.otp_validity_time < now) {
+              return {
+                ...prevState,
+                status: "error",
+                message:
+                  "زمان اعتبار کد گذشته است ، روی دکمه دریافت مجدد کد کلیک کنید.",
+                field: ["otp"],
+                error_code: null,
+              };
+            }
+            
             await db
               .collection("users")
               .updateOne(
