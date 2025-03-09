@@ -29,6 +29,10 @@ interface checkOtpProps {
   };
 }
 
+interface resendOtpProps {
+  status: string | null;
+}
+
 interface meProps {
   user: {
     first_name: string;
@@ -279,6 +283,60 @@ async function checkOtp(
   }
 }
 
+async function resendOtp(): Promise<resendOtpProps> {
+  const client = new MongoClient(`${url}`);
+
+  try {
+    await client.connect();
+
+    const db = client.db();
+
+    const cookieStore = await cookies();
+    const login_token = cookieStore.get("login_token");
+
+    if (login_token) {
+      const tokenValue = login_token.value;
+
+      const decodedToken = decodeJWT(tokenValue);
+
+      if (decodedToken) {
+        // time
+        const now = new Date();
+        const twoMinutesLater = new Date(now.getTime() + 2 * 60000);
+
+        const user = await db.collection("users").updateOne(
+          {
+            username: decodedToken.username,
+          },
+          {
+            $set: {
+              otp_code: generateRandomOTP(),
+              otp_validity_time: twoMinutesLater,
+            },
+          }
+        );
+
+        if (user.matchedCount === 1 && user.modifiedCount === 1) {
+          return {
+            status: "success",
+          };
+        }
+      }
+    }
+    return {
+      status: "error",
+    };
+  } catch (error) {
+    console.error("خطا در هنگام ورود:", error);
+
+    return {
+      status: "error",
+    };
+  } finally {
+    await client.close();
+  }
+}
+
 async function me(): Promise<meProps> {
   const cookieStore = await cookies();
   const token = cookieStore.get("token");
@@ -337,4 +395,4 @@ async function logout() {
   }
 }
 
-export { login, checkOtp, me, logout };
+export { login, checkOtp, resendOtp, me, logout };

@@ -1,8 +1,13 @@
-import React, { useEffect, useState } from "react";
+"use clinet";
+
+import { resendOtp } from "@/actions/auth/auth";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const ResendOtp = () => {
-  const [seconds, setSeconds] = useState(120); // 2 دقیقه به ثانیه
+  const [seconds, setSeconds] = useState(120);
   const [isTimerActive, setIsTimerActive] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (seconds > 0 && isTimerActive) {
@@ -16,11 +21,21 @@ const ResendOtp = () => {
     }
   }, [seconds, isTimerActive]);
 
-  const handleResendCode = () => {
-    // منطق ارسال کد جدید
-    console.log("کد جدید ارسال شد!");
-    setSeconds(120); // بازنشانی تایمر
-    setIsTimerActive(true); // فعال کردن دوباره تایمر
+  const handleResendCode = async () => {
+    setLoading(true);
+    const res = await resendOtp();
+    if (res.status === "success") {
+      toast("کد جدید ارسال شد.", {
+        type: "success",
+      });
+      setSeconds(120);
+      setIsTimerActive(true);
+    } else {
+      toast("ارسال کد امکان پذیر نبود ، مجددا اقدام کنید.", {
+        type: "error",
+      });
+    }
+    setLoading(false);
   };
 
   return (
@@ -28,9 +43,25 @@ const ResendOtp = () => {
       <div className="flex items-center justify-center gap-x-0.5"></div>
 
       {!isTimerActive ? (
-        <button onClick={handleResendCode} className="text-green-500">
-          ارسال مجدد کد
-        </button>
+        <>
+          {loading ? (
+            <div className="flex items-center justify-center gap-x-2">
+              <div className="text-sm text-orange-500">منتظر بمانید</div>
+              <div className="flex items-center justify-center w-7 h-1 gap-x-1 child:size-1.5 child:rounded-full child:bg-orange-500">
+                <div className="dot"></div>
+                <div className="dot"></div>
+                <div className="dot"></div>
+              </div>
+            </div>
+          ) : (
+            <button
+              onClick={handleResendCode}
+              className="text-sm text-green-500 hover:text-green-600 transition-colors duration-150"
+            >
+              ارسال مجدد کد
+            </button>
+          )}
+        </>
       ) : (
         <div className="flex items-center justify-center gap-x-0.5">
           <svg
