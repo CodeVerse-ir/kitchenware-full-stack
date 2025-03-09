@@ -281,22 +281,8 @@
   }
 
   /* loading dots */
-  .loading-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 36px;
-    height: 20px;
-  }
-
   .dot {
-    width: 8px;
-    height: 8px;
-    background-color: #ffffff;
-    border-radius: 50%;
-    margin: 0 2px;
     animation: moveUpDown 1s infinite ease-in-out;
-    position: relative;
   }
 
   .dot:nth-child(1) {
