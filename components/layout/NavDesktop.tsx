@@ -63,7 +63,14 @@ const NavDesktop: React.FC<NavDesktopPrpos> = ({
         <nav className="flex items-center gap-x-5 lg:gap-x-9">
           {/* <!-- Logo --> */}
           <div className="w-12 h-12 shrink-0">
-            <Image src={logoImg} alt="Kitchenware" width={48} height={48} />
+            <Image
+              className="size-12"
+              src={logoImg}
+              alt="Kitchenware"
+              width={48}
+              height={48}
+              priority
+            />
           </div>
 
           <div className="flex gap-x-5 lg:gap-x-9 h-full text-xl text-gray-300 tracking-tightest child:leading-[56px] child-hover:text-orange-300 transition-colors">
@@ -175,7 +182,9 @@ const NavDesktop: React.FC<NavDesktopPrpos> = ({
                   {/* logout */}
                   {loading ? (
                     <div className="flex items-center justify-center gap-x-1">
-                      <div className="text-sm text-orange-500">منتظر بمانید</div>
+                      <div className="text-sm text-orange-500">
+                        منتظر بمانید
+                      </div>
                       <div className="flex items-center justify-center w-6 h-1 gap-x-1 child:size-1 child:rounded-full child:bg-orange-500">
                         <div className="dot"></div>
                         <div className="dot"></div>

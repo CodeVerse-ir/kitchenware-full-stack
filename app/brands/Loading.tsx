@@ -2,7 +2,7 @@
 
 import { JSX, useEffect, useState } from "react";
 
-const LoadingAnimation = () => {
+const Loading = () => {
   const [bubbles, setBubbles] = useState<JSX.Element[]>([]);
 
   useEffect(() => {
@@ -14,9 +14,12 @@ const LoadingAnimation = () => {
   }, []);
 
   return (
-    <div className="w-screen h-screen">
+    <div className="">
+        <h1 className="mt-5 text-center font-DanaMedium text-lg sm:text-xl">
+        لطفا منتظر بمانید ...
+      </h1>
       <div
-        className="relative mx-auto size-[350px] sm:size-[500px] overflow-hidden"
+        className="relative mx-auto size-[300px] overflow-hidden"
         id="cooking"
       >
         {bubbles}
@@ -30,11 +33,8 @@ const LoadingAnimation = () => {
           </div>
         </div>
       </div>
-      <h1 className="mt-5 text-center font-DanaMedium text-lg sm:text-xl">
-        لطفا منتظر بمانید ...
-      </h1>
     </div>
   );
 };
 
-export default LoadingAnimation;
+export default Loading;
