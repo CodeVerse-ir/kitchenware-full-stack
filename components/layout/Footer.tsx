@@ -74,14 +74,16 @@ const Footer = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-y-10 xl:gap-y-0 pb-10 border-b border-b-gray-100/20">
         <div className="flex flex-col md:col-span-2 xl:col-span-1 gap-y-6">
-          <Image
-            className="w-56 mb-2.5"
-            src={logo}
-            alt="logo"
-            width={224}
-            height={224}
-            loading="lazy"
-          />
+          <div className="w-40 h-5 sm:w-56 sm:h-8 shrink-0">
+            <Image
+              className="w-40 h-5 sm:w-56 sm:h-8 mb-2.5"
+              src={logo}
+              alt="logo"
+              width={224}
+              height={224}
+              loading="lazy"
+            />
+          </div>
 
           <p className="text-base lg:text-lg xl:pl-20 text-justify">
             در اینجا، ما در خدمت شما هستیم تا تجربه‌ی آشپزی و پخت و پز شما را به
@@ -164,16 +166,16 @@ const Footer = () => {
 
       <div className="flex flex-col xl:flex-row gap-y-4 xl:gap-y-0 items-center justify-between mt-7 text-sm lg:text-base">
         <div className="flex items-center justify-center">
-          <div>تمامی حقوق برای</div>{" "}
-          <div className="font-DanaMedium px-1 text-orange-300">
+          <div className="shrink-0">تمامی حقوق برای</div>{" "}
+          <span className="shrink-0 font-DanaMedium px-1 text-orange-300">
             فروشگاه لوازم آشپزخانه کبیری
-          </div>{" "}
-          <div>محفوظ است. ©</div>
+          </span>{" "}
+          <div className="shrink-0">محفوظ است. ©</div>
         </div>
         <p>
           طراحی شده توسط
           <a
-            href="https://codeverse.iapp.ir"
+            href="https://codeverse-portfolio.vercel.app"
             className="pr-1 hover:text-orange-300 transition-colors"
             target="_blank"
           >
