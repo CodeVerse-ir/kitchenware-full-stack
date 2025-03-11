@@ -18,17 +18,17 @@
       ["تعداد پارچه :", 35]
     ],
     "image": [
-      "/utils/image/products/product1/product1.jpeg",
-      "/utils/image/products/product1/product2.jpeg",
-      "/utils/image/products/product1/product3.jpeg",
-      "/utils/image/products/product1/product4.jpeg",
-      "/utils/image/products/product1/product5.jpeg",
-      "/utils/image/products/product1/product6.jpeg",
-      "/utils/image/products/product1/product7.jpeg",
-      "/utils/image/products/product1/product8.jpeg",
-      "/utils/image/products/product1/product9.jpeg",
-      "/utils/image/products/product1/product10.jpeg",
-      "/utils/image/products/product1/product11.jpeg"
+      "/image/products/product1/product1.jpeg",
+      "/image/products/product1/product2.jpeg",
+      "/image/products/product1/product3.jpeg",
+      "/image/products/product1/product4.jpeg",
+      "/image/products/product1/product5.jpeg",
+      "/image/products/product1/product6.jpeg",
+      "/image/products/product1/product7.jpeg",
+      "/image/products/product1/product8.jpeg",
+      "/image/products/product1/product9.jpeg",
+      "/image/products/product1/product10.jpeg",
+      "/image/products/product1/product11.jpeg"
     ],
     "description": [
       {
@@ -113,11 +113,11 @@
       ["امکان استفاده در مایکروفر :", "ندارد"]
     ],
     "image": [
-      "/utils/image/products/product2/product1.jpeg",
-      "/utils/image/products/product2/product2.jpeg",
-      "/utils/image/products/product2/product3.jpeg",
-      "/utils/image/products/product2/product4.jpeg",
-      "/utils/image/products/product2/product5.jpeg"
+      "/image/products/product2/product1.jpeg",
+      "/image/products/product2/product2.jpeg",
+      "/image/products/product2/product3.jpeg",
+      "/image/products/product2/product4.jpeg",
+      "/image/products/product2/product5.jpeg"
     ],
     "description": [
       {
@@ -152,7 +152,7 @@
         "dislike": 2,
         "isLiked": false,
         "isDisliked": false,
-        "image": "/utils/image/comment/avatar.png"
+        "image": "/image/comment/avatar.png"
       },
       {
         "name": "مژده اکبری",
@@ -168,7 +168,7 @@
         "dislike": 0,
         "isLiked": false,
         "isDisliked": false,
-        "image": "/utils/image/comment/avatar.png"
+        "image": "/image/comment/avatar.png"
       },
       {
         "name": "بهناز فرج پور",
@@ -184,7 +184,7 @@
         "dislike": 5,
         "isLiked": false,
         "isDisliked": false,
-        "image": "/utils/image/comment/avatar.png"
+        "image": "/image/comment/avatar.png"
       },
       {
         "name": "احسان پارسا",
@@ -200,7 +200,7 @@
         "dislike": 19,
         "isLiked": false,
         "isDisliked": false,
-        "image": "/utils/image/comment/avatar.png"
+        "image": "/image/comment/avatar.png"
       }
     ]
   },
@@ -231,10 +231,10 @@
       ["خاکستری", "6b7280"]
     ],
     "image": [
-      "/utils/image/products/product3/product1.jpeg",
-      "/utils/image/products/product3/product2.jpeg",
-      "/utils/image/products/product3/product3.jpeg",
-      "/utils/image/products/product3/product4.jpeg"
+      "/image/products/product3/product1.jpeg",
+      "/image/products/product3/product2.jpeg",
+      "/image/products/product3/product3.jpeg",
+      "/image/products/product3/product4.jpeg"
     ],
     "description": [
       {
@@ -278,7 +278,7 @@
         "dislike": 2,
         "isLiked": false,
         "isDisliked": false,
-        "image": "/utils/image/comment/avatar.png"
+        "image": "/image/comment/avatar.png"
       },
       {
         "name": "مژده اکبری",
@@ -294,7 +294,7 @@
         "dislike": 0,
         "isLiked": false,
         "isDisliked": false,
-        "image": "/utils/image/comment/avatar.png"
+        "image": "/image/comment/avatar.png"
       },
       {
         "name": "بهناز فرج پور",
@@ -310,7 +310,7 @@
         "dislike": 5,
         "isLiked": false,
         "isDisliked": false,
-        "image": "/utils/image/comment/avatar.png"
+        "image": "/image/comment/avatar.png"
       },
       {
         "name": "احسان پارسا",
@@ -326,7 +326,7 @@
         "dislike": 19,
         "isLiked": false,
         "isDisliked": false,
-        "image": "/utils/image/comment/avatar.png"
+        "image": "/image/comment/avatar.png"
       }
     ]
   },
@@ -349,10 +349,10 @@
       ["ارتفاع :", "1.7 سانتیمتر"]
     ],
     "image": [
-      "/utils/image/products/product4/product1.jpeg",
-      "/utils/image/products/product4/product2.jpeg",
-      "/utils/image/products/product4/product3.jpeg",
-      "/utils/image/products/product4/product4.jpeg"
+      "/image/products/product4/product1.jpeg",
+      "/image/products/product4/product2.jpeg",
+      "/image/products/product4/product3.jpeg",
+      "/image/products/product4/product4.jpeg"
     ],
     "description": [
       {
@@ -385,7 +385,7 @@
         "dislike": 2,
         "isLiked": false,
         "isDisliked": false,
-        "image": "/utils/image/comment/avatar.png"
+        "image": "/image/comment/avatar.png"
       },
       {
         "name": "مژده اکبری",
@@ -401,7 +401,7 @@
         "dislike": 0,
         "isLiked": false,
         "isDisliked": false,
-        "image": "/utils/image/comment/avatar.png"
+        "image": "/image/comment/avatar.png"
       },
       {
         "name": "بهناز فرج پور",
@@ -417,7 +417,7 @@
         "dislike": 5,
         "isLiked": false,
         "isDisliked": false,
-        "image": "/utils/image/comment/avatar.png"
+        "image": "/image/comment/avatar.png"
       },
       {
         "name": "احسان پارسا",
@@ -433,7 +433,7 @@
         "dislike": 19,
         "isLiked": false,
         "isDisliked": false,
-        "image": "/utils/image/comment/avatar.png"
+        "image": "/image/comment/avatar.png"
       }
     ]
   },
@@ -456,10 +456,10 @@
       ["ابعاد :", "قطر 12  - ارتفاع 28"]
     ],
     "image": [
-      "/utils/image/products/product5/product1.jpeg",
-      "/utils/image/products/product5/product2.jpeg",
-      "/utils/image/products/product5/product3.jpeg",
-      "/utils/image/products/product5/product4.jpeg"
+      "/image/products/product5/product1.jpeg",
+      "/image/products/product5/product2.jpeg",
+      "/image/products/product5/product3.jpeg",
+      "/image/products/product5/product4.jpeg"
     ],
     "description": [
       {
@@ -486,7 +486,7 @@
         "dislike": 2,
         "isLiked": false,
         "isDisliked": false,
-        "image": "/utils/image/comment/avatar.png"
+        "image": "/image/comment/avatar.png"
       },
       {
         "name": "مژده اکبری",
@@ -502,7 +502,7 @@
         "dislike": 0,
         "isLiked": false,
         "isDisliked": false,
-        "image": "/utils/image/comment/avatar.png"
+        "image": "/image/comment/avatar.png"
       },
       {
         "name": "بهناز فرج پور",
@@ -518,7 +518,7 @@
         "dislike": 5,
         "isLiked": false,
         "isDisliked": false,
-        "image": "/utils/image/comment/avatar.png"
+        "image": "/image/comment/avatar.png"
       },
       {
         "name": "احسان پارسا",
@@ -534,7 +534,7 @@
         "dislike": 19,
         "isLiked": false,
         "isDisliked": false,
-        "image": "/utils/image/comment/avatar.png"
+        "image": "/image/comment/avatar.png"
       }
     ]
   },
@@ -558,12 +558,12 @@
       ["ارتفاع بند رخت :", "100 سانتیمتر"]
     ],
     "image": [
-      "/utils/image/products/product6/product1.jpeg",
-      "/utils/image/products/product6/product2.jpeg",
-      "/utils/image/products/product6/product3.jpeg",
-      "/utils/image/products/product6/product4.jpeg",
-      "/utils/image/products/product6/product5.jpeg",
-      "/utils/image/products/product6/product6.jpeg"
+      "/image/products/product6/product1.jpeg",
+      "/image/products/product6/product2.jpeg",
+      "/image/products/product6/product3.jpeg",
+      "/image/products/product6/product4.jpeg",
+      "/image/products/product6/product5.jpeg",
+      "/image/products/product6/product6.jpeg"
     ],
     "description": [
       {
@@ -590,7 +590,7 @@
         "dislike": 2,
         "isLiked": false,
         "isDisliked": false,
-        "image": "/utils/image/comment/avatar.png"
+        "image": "/image/comment/avatar.png"
       },
       {
         "name": "مژده اکبری",
@@ -606,7 +606,7 @@
         "dislike": 0,
         "isLiked": false,
         "isDisliked": false,
-        "image": "/utils/image/comment/avatar.png"
+        "image": "/image/comment/avatar.png"
       },
       {
         "name": "بهناز فرج پور",
@@ -622,7 +622,7 @@
         "dislike": 5,
         "isLiked": false,
         "isDisliked": false,
-        "image": "/utils/image/comment/avatar.png"
+        "image": "/image/comment/avatar.png"
       },
       {
         "name": "احسان پارسا",
@@ -638,7 +638,7 @@
         "dislike": 19,
         "isLiked": false,
         "isDisliked": false,
-        "image": "/utils/image/comment/avatar.png"
+        "image": "/image/comment/avatar.png"
       }
     ]
   },
@@ -667,12 +667,12 @@
       ["خاکستری", "6b7280"]
     ],
     "image": [
-      "/utils/image/products/product7/product1.jpeg",
-      "/utils/image/products/product7/product2.jpeg",
-      "/utils/image/products/product7/product3.jpeg",
-      "/utils/image/products/product7/product4.jpeg",
-      "/utils/image/products/product7/product5.jpeg",
-      "/utils/image/products/product7/product6.jpeg"
+      "/image/products/product7/product1.jpeg",
+      "/image/products/product7/product2.jpeg",
+      "/image/products/product7/product3.jpeg",
+      "/image/products/product7/product4.jpeg",
+      "/image/products/product7/product5.jpeg",
+      "/image/products/product7/product6.jpeg"
     ],
     "description": [
       {
@@ -702,7 +702,7 @@
         "dislike": 2,
         "isLiked": false,
         "isDisliked": false,
-        "image": "/utils/image/comment/avatar.png"
+        "image": "/image/comment/avatar.png"
       },
       {
         "name": "مژده اکبری",
@@ -718,7 +718,7 @@
         "dislike": 0,
         "isLiked": false,
         "isDisliked": false,
-        "image": "/utils/image/comment/avatar.png"
+        "image": "/image/comment/avatar.png"
       },
       {
         "name": "بهناز فرج پور",
@@ -734,7 +734,7 @@
         "dislike": 5,
         "isLiked": false,
         "isDisliked": false,
-        "image": "/utils/image/comment/avatar.png"
+        "image": "/image/comment/avatar.png"
       },
       {
         "name": "احسان پارسا",
@@ -750,7 +750,7 @@
         "dislike": 19,
         "isLiked": false,
         "isDisliked": false,
-        "image": "/utils/image/comment/avatar.png"
+        "image": "/image/comment/avatar.png"
       }
     ]
   },
@@ -781,10 +781,10 @@
       ["خاکستری", "6b7280"]
     ],
     "image": [
-      "/utils/image/products/product8/product1.jpeg",
-      "/utils/image/products/product8/product2.jpeg",
-      "/utils/image/products/product8/product3.jpeg",
-      "/utils/image/products/product8/product4.jpeg"
+      "/image/products/product8/product1.jpeg",
+      "/image/products/product8/product2.jpeg",
+      "/image/products/product8/product3.jpeg",
+      "/image/products/product8/product4.jpeg"
     ],
     "description": [
       {
@@ -819,7 +819,7 @@
         "dislike": 2,
         "isLiked": false,
         "isDisliked": false,
-        "image": "/utils/image/comment/avatar.png"
+        "image": "/image/comment/avatar.png"
       },
       {
         "name": "مژده اکبری",
@@ -835,7 +835,7 @@
         "dislike": 0,
         "isLiked": false,
         "isDisliked": false,
-        "image": "/utils/image/comment/avatar.png"
+        "image": "/image/comment/avatar.png"
       },
       {
         "name": "بهناز فرج پور",
@@ -851,7 +851,7 @@
         "dislike": 5,
         "isLiked": false,
         "isDisliked": false,
-        "image": "/utils/image/comment/avatar.png"
+        "image": "/image/comment/avatar.png"
       },
       {
         "name": "احسان پارسا",
@@ -867,7 +867,7 @@
         "dislike": 19,
         "isLiked": false,
         "isDisliked": false,
-        "image": "/utils/image/comment/avatar.png"
+        "image": "/image/comment/avatar.png"
       }
     ]
   }

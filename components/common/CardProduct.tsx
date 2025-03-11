@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { getBlurDataURL } from "@/utils/helper";
 
 // components
 import Clock from "./Clock";
@@ -34,12 +35,14 @@ const CardProduct: React.FC<CardProductProps> = ({
       <div className="relative mb-2 md:mb-5">
         <Image
           className="mx-auto md:w-auto"
-          src={image[0].replace("/utils", "")}
+          src={image[0]}
           alt={`product ${code}`}
           width={128}
           height={128}
           sizes="(min-width: 768px)"
           loading="lazy"
+          placeholder="blur"
+          blurDataURL={getBlurDataURL()}
         />
         {discount !== 0 && (
           <span className="absolute top-1 right-1 flex items-center justify-center w-10 lg:w-[3.375rem] h-5 md:h-[30px] text-xs/[24px] md:text-base/[34px] font-DanaBold bg-orange-300 text-white dark:text-zinc-700 rounded-3xl pt-1">
