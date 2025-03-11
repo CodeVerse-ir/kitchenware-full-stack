@@ -11,6 +11,9 @@ import { Navigation, Autoplay } from "swiper/modules";
 // Swiper css
 import "swiper/swiper-bundle.css";
 
+// components
+import LoadingAnimation from "../common/LoadingAnimation";
+
 interface Category {
   text: string;
   image: string;
@@ -85,10 +88,7 @@ export default function CategoryLoad() {
         </symbol>
       </svg>
 
-      {/* Loader */}
-      {!categories && <div>در حال بارگذاری داده‌ها...</div>}
-
-      {categories && (
+      {categories ? (
         <>
           <section className="title pt-8 md:pt-40 lg:pt-44">
             <div className="container">
@@ -196,6 +196,8 @@ export default function CategoryLoad() {
             );
           })}
         </>
+      ) : (
+        <LoadingAnimation />
       )}
     </>
   );
