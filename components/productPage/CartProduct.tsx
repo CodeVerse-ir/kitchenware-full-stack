@@ -75,7 +75,7 @@ const CartProduct: React.FC<CartProductProps> = ({ product_code }) => {
 
   useEffect(() => {
     axios
-      .get(`${baseURL}products/${product_code}`)
+      .get(`${baseURL}products?code=${product_code}`)
       .then((response) => {
         setProduct(response.data);
       })

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { axiosFetch } from "@/utils/axios_fetch";
 
 // components
-import CardBlog from "../blogs/CardBlog";
+import CardBlog from "../blogsPage/CardBlog";
 
 interface Blog {
   image: string;

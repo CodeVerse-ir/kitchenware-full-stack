@@ -4,7 +4,7 @@ import { axiosFetch } from "@/utils/axios_fetch";
 // components
 import Loading from "./Loading";
 import Pagination from "@/components/common/Pagination";
-import BrandsBody from "@/components/brands/BrandsBody";
+import BrandsBody from "@/components/brandsPage/BrandsBody";
 
 interface TotalProducts {
   totalProducts: number;

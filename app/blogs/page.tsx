@@ -3,7 +3,7 @@ import { Suspense } from "react";
 
 // components
 import Loading from "./Loading";
-import BlogsBody from "@/components/blogs/BlogsBody";
+import BlogsBody from "@/components/blogsPage/BlogsBody";
 import Pagination from "@/components/common/Pagination";
 
 interface TotalBlogs {
