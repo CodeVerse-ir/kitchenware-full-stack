@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 interface PaginationProps {
@@ -16,6 +16,7 @@ const Pagination: React.FC<PaginationProps> = ({
   const [currentPage, setCurrentPage] = useState(1);
 
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const router = useRouter();
 
   const handlePageChange = (page: number) => {
@@ -23,6 +24,15 @@ const Pagination: React.FC<PaginationProps> = ({
     setCurrentPage(page);
 
     const params = new URLSearchParams();
+    const category = searchParams.get("category");
+    const brand = searchParams.get("brand");
+
+    if (category) {
+      params.set("category", category.toString());
+    }
+    if (brand) {
+      params.set("brand", brand.toString());
+    }
     params.set("page", page.toString());
 
     router.replace(`${pathname}?${params}`);
