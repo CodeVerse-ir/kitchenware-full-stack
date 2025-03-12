@@ -110,7 +110,7 @@ const CardBlog: React.FC<CardBlogProps> = ({ blog }) => {
               <span>{year}</span>
             </div>
             <Link
-              href={`/blog/${encodeURIComponent(blog.title)}`}
+              href={`/blogs/${encodeURIComponent(blog.title)}`}
               className="flex items-center justify-evenly bg-orange-200/20 text-orange-300 w-[4.4375rem] h-5 rounded-md"
             >
               <p className="text-sm/4">مطالعه</p>
