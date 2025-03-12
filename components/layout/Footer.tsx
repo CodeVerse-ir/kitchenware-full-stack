@@ -80,7 +80,8 @@ const Footer = () => {
               src={logo}
               alt="logo"
               width={224}
-              height={224}
+              height={32}
+              sizes="(min-width: 640px)"
               loading="lazy"
             />
           </div>
