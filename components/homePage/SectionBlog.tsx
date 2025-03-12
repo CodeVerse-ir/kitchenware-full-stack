@@ -1,12 +1,8 @@
 import Link from "next/link";
-import Image from "next/image";
-import logo from "/public/image/logo/logo.png";
 import { axiosFetch } from "@/utils/axios_fetch";
 
-// react-multi-date-picker persian
-import { DateObject } from "react-multi-date-picker";
-import persian from "react-date-object/calendars/persian";
-import persian_fa from "react-date-object/locales/persian_fa";
+// components
+import CardBlog from "../blogs/CardBlog";
 
 interface Blog {
   image: string;
@@ -76,83 +72,7 @@ const SectionBlog = async () => {
               {/* <!-- items --> */}
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {blogs.map((blog, index) => {
-                  // convert data persian
-                  const data_replace = blog.date.replace("T", " ");
-                  const data_persian = new DateObject(data_replace).convert(
-                    persian,
-                    persian_fa
-                  );
-
-                  const day = data_persian.format("DD");
-                  const month = data_persian.format("MMMM");
-                  const year = data_persian.format("YYYY");
-
-                  return (
-                    <div
-                      key={index}
-                      className="flex md:flex-col dark:bg-zinc-700 bg-white p-2.5 justify-center rounded-2xl gap-4 md:justify-between md:items-center"
-                    >
-                      {/* <!-- image --> */}
-                      <div className="relative flex items-center group w-32 h-32 md:w-full md:h-48">
-                        <Image
-                          className="object-cover rounded-2xl rounded-bl-4xl w-full h-full"
-                          src={blog.image}
-                          alt={`blog ${index + 1}`}
-                          width={288}
-                          height={192}
-                          loading="lazy"
-                        />
-                        <div className="absolute inset-0 flex items-center justify-center opacity-0 bg-gradient-to-bl from-sky-950 to-sky-950/80 group-hover:opacity-100 rounded-2xl rounded-bl-4xl transition-opacity duration-300">
-                          <div className="flex items-center justify-center px-3 md:px-0">
-                            <Image
-                              className="w-28 md:w-48 mx-auto"
-                              src={logo}
-                              alt={`blog ${index + 1}`}
-                              width={112}
-                              height={112}
-                              loading="lazy"
-                            />
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* <!-- text --> */}
-                      <div className="w-[calc(100%-148px)] md:w-full pl-2.5 flex flex-col md:flex-row justify-between">
-                        {/* <!-- title --> */}
-                        <div className="flex flex-col justify-between text-right md:p-2 md:max-w-48 md:h-36 text-wrap">
-                          <h4 className="font-dana-Medium line-clamp-2 text-sm/7 md:text-lg/7 text-zinc-700 dark:text-white md:mb-2.5">
-                            {blog.title}
-                          </h4>
-                          <p className="font-Dana line-clamp-3 text-sm text-gray-400">
-                            {blog.text}
-                          </p>
-                        </div>
-
-                        {/* <!-- divide --> */}
-                        <span className="w-full my-4 md:my-0 h-px bg-gray-100 dark:bg-white/10 md:w-px md:h-full"></span>
-
-                        {/* <!-- created date --> */}
-                        <div className="flex md:flex-col gap-y-5 justify-between">
-                          <div className="flex text-teal-600 dark:text-emerald-500 text-xs/4 md:text-base/5 md:flex-col md:items-center md:justify-center">
-                            <span className="md:font-dana-Bold md:text-2xl/8">
-                              {day}
-                            </span>
-                            <span>{month}</span>
-                            <span>{year}</span>
-                          </div>
-                          <Link
-                            href={`/blog/${encodeURIComponent(blog.title)}`}
-                            className="flex items-center justify-evenly bg-orange-200/20 text-orange-300 w-[4.4375rem] h-5 rounded-md"
-                          >
-                            <p className="text-sm/4">مطالعه</p>
-                            <svg className="w-4 h-4">
-                              <use href="#arrow-left"></use>
-                            </svg>
-                          </Link>
-                        </div>
-                      </div>
-                    </div>
-                  );
+                  return <CardBlog key={index} blog={blog} />;
                 })}
               </div>
             </div>

@@ -76,7 +76,7 @@ const CardBlog: React.FC<CardBlogProps> = ({ blog }) => {
           <div className="absolute inset-0 flex items-center justify-center opacity-0 bg-gradient-to-bl from-sky-950 to-sky-950/80 group-hover:opacity-100 rounded-2xl rounded-bl-4xl transition-opacity duration-300">
             <div className="flex items-center justify-center px-3 md:px-0">
               <Image
-                className="w-28 md:w-48 mx-auto"
+                className="w-28 h-3 md:w-48 md:h-6 mx-auto"
                 src={logo}
                 alt="logo"
                 width={112}
