@@ -1,0 +1,225 @@
+[
+  {
+    "title": "لوازم برقی",
+    "body": [
+      {
+        "name": "سرخ کن",
+        "image": "/utils/image/categories/category-1/c1.png"
+      },
+      {
+        "name": "ترازوی آشپزخانه",
+        "image": "/utils/image/categories/category-1/c2.png"
+      },
+      {
+        "name": "کارواش خانگی",
+        "image": "/utils/image/categories/category-1/c3.png"
+      },
+      {
+        "name": "دستگاه قهوه ساز",
+        "image": "/utils/image/categories/category-1/c4.png"
+      },
+      {
+        "name": "جارو برقی",
+        "image": "/utils/image/categories/category-1/c5.png"
+      },
+      {
+        "name": "کتری برقی",
+        "image": "/utils/image/categories/category-1/c6.png"
+      },
+      {
+        "name": "چرخ گوشت",
+        "image": "/utils/image/categories/category-1/c7.png"
+      },
+      {
+        "name": "خردکن برقی",
+        "image": "/utils/image/categories/category-1/c8.png"
+      },
+      {
+        "name": "ساندویچ ساز",
+        "image": "/utils/image/categories/category-1/c9.png"
+      },
+      {
+        "name": "مخلوط کن",
+        "image": "/utils/image/categories/category-1/c10.png"
+      },
+      {
+        "name": "چای ساز",
+        "image": "/utils/image/categories/category-1/c11.png"
+      }
+    ]
+  },
+  {
+    "title": "مراقبت شخصی",
+    "body": [
+      {
+        "name": "نام دسته بندی",
+        "image": "/utils/image/categories/category-2/c1.png"
+      },
+      {
+        "name": "نام دسته بندی",
+        "image": "/utils/image/categories/category-2/c2.png"
+      },
+      {
+        "name": "نام دسته بندی",
+        "image": "/utils/image/categories/category-2/c3.png"
+      },
+      {
+        "name": "نام دسته بندی",
+        "image": "/utils/image/categories/category-2/c4.png"
+      },
+      {
+        "name": "نام دسته بندی",
+        "image": "/utils/image/categories/category-2/c5.png"
+      },
+      {
+        "name": "نام دسته بندی",
+        "image": "/utils/image/categories/category-2/c6.png"
+      },
+      {
+        "name": "نام دسته بندی",
+        "image": "/utils/image/categories/category-2/c7.png"
+      },
+      {
+        "name": "نام دسته بندی",
+        "image": "/utils/image/categories/category-2/c8.png"
+      }
+    ]
+  },
+  {
+    "title": "ظروف چینی",
+    "body": [
+      {
+        "name": "نام دسته بندی",
+        "image": "/utils/image/categories/category-3/c1.png"
+      },
+      {
+        "name": "نام دسته بندی",
+        "image": "/utils/image/categories/category-3/c2.png"
+      },
+      {
+        "name": "نام دسته بندی",
+        "image": "/utils/image/categories/category-3/c3.png"
+      },
+      {
+        "name": "نام دسته بندی",
+        "image": "/utils/image/categories/category-3/c4.png"
+      },
+      {
+        "name": "نام دسته بندی",
+        "image": "/utils/image/categories/category-3/c5.png"
+      },
+      {
+        "name": "نام دسته بندی",
+        "image": "/utils/image/categories/category-3/c6.png"
+      },
+      {
+        "name": "نام دسته بندی",
+        "image": "/utils/image/categories/category-3/c7.png"
+      },
+      {
+        "name": "نام دسته بندی",
+        "image": "/utils/image/categories/category-3/c8.png"
+      },
+      {
+        "name": "نام دسته بندی",
+        "image": "/utils/image/categories/category-3/c9.png"
+      },
+      {
+        "name": "نام دسته بندی",
+        "image": "/utils/image/categories/category-3/c10.png"
+      },
+      {
+        "name": "نام دسته بندی",
+        "image": "/utils/image/categories/category-3/c11.png"
+      },
+      {
+        "name": "نام دسته بندی",
+        "image": "/utils/image/categories/category-3/c12.png"
+      }
+    ]
+  },
+  {
+    "title": "تجهیزات آشپزخانه",
+    "body": [
+      {
+        "name": "نام دسته بندی",
+        "image": "/utils/image/categories/category-4/c1.png"
+      },
+      {
+        "name": "نام دسته بندی",
+        "image": "/utils/image/categories/category-4/c2.png"
+      },
+      {
+        "name": "نام دسته بندی",
+        "image": "/utils/image/categories/category-4/c3.png"
+      }
+    ]
+  },
+  {
+    "title": "ظروف سرو و پذیرایی",
+    "body": [
+      {
+        "name": "نام دسته بندی",
+        "image": "/utils/image/categories/category-5/c1.png"
+      },
+      {
+        "name": "نام دسته بندی",
+        "image": "/utils/image/categories/category-5/c2.png"
+      },
+      {
+        "name": "نام دسته بندی",
+        "image": "/utils/image/categories/category-5/c3.png"
+      },
+      {
+        "name": "نام دسته بندی",
+        "image": "/utils/image/categories/category-5/c4.png"
+      },
+      {
+        "name": "نام دسته بندی",
+        "image": "/utils/image/categories/category-5/c5.png"
+      }
+    ]
+  },
+  {
+    "title": "قاشق، چنگال و ابزار سرو",
+    "body": [
+      {
+        "name": "نام دسته بندی",
+        "image": "/utils/image/categories/category-6/c1.png"
+      },
+      {
+        "name": "نام دسته بندی",
+        "image": "/utils/image/categories/category-6/c2.png"
+      },
+      {
+        "name": "نام دسته بندی",
+        "image": "/utils/image/categories/category-6/c3.png"
+      },
+      {
+        "name": "نام دسته بندی",
+        "image": "/utils/image/categories/category-6/c4.png"
+      }
+    ]
+  },
+  {
+    "title": "ظروف پخت و پز",
+    "body": [
+      {
+        "name": "نام دسته بندی",
+        "image": "/utils/image/categories/category-7/c1.png"
+      },
+      {
+        "name": "نام دسته بندی",
+        "image": "/utils/image/categories/category-7/c2.png"
+      },
+      {
+        "name": "نام دسته بندی",
+        "image": "/utils/image/categories/category-7/c3.png"
+      },
+      {
+        "name": "نام دسته بندی",
+        "image": "/utils/image/categories/category-7/c4.png"
+      }
+    ]
+  }
+]

@@ -26,7 +26,7 @@ interface Category {
   ];
 }
 
-const baseURL = "https://fake-json-server-in.vercel.app/api/";
+const baseURL = process.env.BASE_URL;
 
 export default function CategoryLoad() {
   const [categories, setCategories] = useState<Category[] | null>(null);
