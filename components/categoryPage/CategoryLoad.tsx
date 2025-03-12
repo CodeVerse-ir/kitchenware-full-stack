@@ -167,15 +167,15 @@ export default function CategoryLoad() {
                       return (
                         <SwiperSlide key={index}>
                           <Link
-                            href={`/products/category/${encodeURIComponent(
+                            href={`/products?category=${encodeURIComponent(
                               information.name
                             )}`}
                             className="flex flex-col justify-between p-4 md:p-5 bg-white dark:bg-zinc-700 rounded-2xl max-w-36 max-h-36 select-none"
                           >
                             <Image
                               className="w-16 mx-auto md:w-20"
-                              src={information.image.replaceAll("/utils", "")}
-                              alt={`category ${index + 1}`}
+                              src={information.image}
+                              alt={`category ${information.name}`}
                               width={128}
                               height={128}
                               sizes="(min-width: 768px)"

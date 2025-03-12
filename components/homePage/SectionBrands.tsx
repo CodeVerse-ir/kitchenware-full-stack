@@ -99,7 +99,7 @@ const SectionBrands = () => {
                         <Link
                           key={index}
                           className="max-w-[6.25rem] lg:max-w-25"
-                          href={`/products/brand/${encodeURIComponent(
+                          href={`/products?brand=${encodeURIComponent(
                             brand.name
                           )}`}
                         >
@@ -109,7 +109,7 @@ const SectionBrands = () => {
                             alt={`product ${index + 1}`}
                             width={56}
                             height={56}
-                            // sizes="(min-width: 768px)"
+                            sizes="(min-width: 768px)"
                             loading="lazy"
                           />
                         </Link>

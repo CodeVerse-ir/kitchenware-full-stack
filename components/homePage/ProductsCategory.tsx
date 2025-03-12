@@ -38,7 +38,7 @@ const ProductsCategory = async () => {
                   return (
                     <Link
                       key={index}
-                      href={`/products/category/${encodeURIComponent(
+                      href={`/products?category=${encodeURIComponent(
                         item.text
                       )}`}
                       className="max-w-[6.25rem] lg:max-w-[12.5rem] flex flex-col"

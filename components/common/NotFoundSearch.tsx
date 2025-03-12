@@ -1,10 +1,11 @@
-const NotFound = () => {
+interface NotFoundSearchProps {
+  text: string;
+}
+
+const NotFoundSearch: React.FC<NotFoundSearchProps> = ({ text }) => {
   return (
-    <div className="flex flex-col items-center justify-center w-screen h-screen sm:mt-20 gap-y-5 background">
-      <div className="font-DanaMedium text-sm sm:text-xl text-zinc-700 dark:text-white  ">404</div>
-      <div className="font-DanaMedium text-sm sm:text-xl text-zinc-700 dark:text-white">
-        صفحه مورد نظر یافت نشد !
-      </div>
+    <div className="flex flex-col items-center justify-center sm:mt-20 gap-y-5">
+      <div className="font-DanaMedium text-sm sm:text-xl text-zinc-700 dark:text-white">{text}</div>
       <svg
         className="sm:hidden"
         width="152"
@@ -138,4 +139,4 @@ const NotFound = () => {
   );
 };
 
-export default NotFound;
+export default NotFoundSearch;

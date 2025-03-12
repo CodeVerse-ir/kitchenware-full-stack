@@ -12,7 +12,7 @@ const CardBrand: React.FC<CardBrandProps> = ({ brand }) => {
   return (
     <Link
       key={brand.name}
-      href={`/products/brand/${brand.name}`}
+      href={`/products?brand=${brand.name}`}
       className="flex flex-col justify-between w-[150px] h-[130px] sm:w-[170px] sm:h-[150px] p-4 md:p-5 bg-white dark:bg-zinc-700 shadow-normal rounded-2xl"
     >
       <Image

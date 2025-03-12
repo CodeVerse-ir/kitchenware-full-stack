@@ -5,7 +5,7 @@ import CardProduct from "../common/CardProduct";
 import { redirect } from "next/navigation";
 
 interface ProductsBodyProps {
-  page: string;
+  params: string;
 }
 
 interface Product {
@@ -18,10 +18,10 @@ interface Product {
   clock: string;
 }
 
-const ProductsBody: React.FC<ProductsBodyProps> = async ({ page }) => {
+const ProductsBody: React.FC<ProductsBodyProps> = async ({ params }) => {
   const products = await axiosFetch<Product[]>({
     fetchType: "get",
-    url: `products?${page}`,
+    url: `products?${params}`,
   });
 
   if (!products) {

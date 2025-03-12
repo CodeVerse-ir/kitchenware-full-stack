@@ -5,6 +5,7 @@ import { axiosFetch } from "@/utils/axios_fetch";
 import Loading from "./Loading";
 import ProductsBody from "@/components/productsPage/ProductsBody";
 import Pagination from "@/components/common/Pagination";
+import NotFoundSearch from "@/components/common/NotFoundSearch";
 
 interface TotalProducts {
   totalProducts: number;
@@ -13,33 +14,29 @@ interface TotalProducts {
 const Products = async ({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) => {
+  const { page, category, brand } = await searchParams;
+
+  const params = new URLSearchParams();
+  if (category) {
+    params.set("category", category as string);
+  }
+  if (brand) {
+    params.set("brand", brand as string);
+  }
+
   const totalProducts = await axiosFetch<TotalProducts>({
     fetchType: "get",
-    url: "products",
+    url: `products?${params.toString()}`,
   });
-  const totalItems = totalProducts ? totalProducts.totalProducts : 0;  
+  const totalItems = totalProducts ? totalProducts.totalProducts : 0;
 
-  const { page } = await searchParams;
-  const params = new URLSearchParams();
   if (page) {
     params.set("page", page as string);
   } else {
     params.set("page", "1");
   }
-
-  // const paramPath = productsName?.[0];
-  // const paramSearch = decodeURIComponent(productsName?.[1]);
-
-  //   const handleInputChange = (event) => {
-  //     setParamSearch(event.target.value);
-  //   };
-
-  // const products = await axiosFetch<Product[]>({
-  //   fetchType: "get",
-  //   url: `products?${paramPath}=${paramSearch}`,
-  // });
 
   return (
     <main className="background">
@@ -66,24 +63,25 @@ const Products = async ({
           </div>
 
           {/* <!-- Section Body  --> */}
-          <Suspense key={params.toString()} fallback={<Loading />}>
-            <ProductsBody page={params.toString()} />
-          </Suspense>
+          {totalItems ? (
+            <Suspense key={params.toString()} fallback={<Loading />}>
+              <ProductsBody params={params.toString()} />
+            </Suspense>
+          ) : (
+            <NotFoundSearch
+              text={
+                category
+                  ? "محصولات دسته بندی مورد نظر یافت نشد !"
+                  : "محصولات برند مورد نظر یافت نشد !"
+              }
+            />
+          )}
 
           {/* Pagination */}
-          <Pagination totalItems={totalItems} itemsPerPage={8} />
+          {totalItems > 8 && (
+            <Pagination totalItems={totalItems} itemsPerPage={8} />
+          )}
 
-          {/* {products.length === 0 ? (
-            <h1 className="w-full h-[40vh] flex items-center justify-center font-MorabbaBold text-black dark:text-white text-base md:text-lg lg:text-2xl">
-              {paramPath === "category"
-                ? " محصولات دسته بندی مورد نظر یافت نشد !"
-                : "محصولات برند مورد نظر یافت نشد !"}
-            </h1>
-          ) : (
-            <>
-              <ProductsBody />
-            </>
-          )} */}
         </div>
       </section>
     </main>

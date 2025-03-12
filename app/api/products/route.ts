@@ -1,6 +1,11 @@
 import { Db, MongoClient } from "mongodb";
 import type { NextRequest } from "next/server";
 
+interface ProductFilter {
+  category?: string;
+  brand?: string;
+}
+
 const url = process.env.MONGODB_URI;
 
 if (!url) {
@@ -9,6 +14,66 @@ if (!url) {
 
 async function getProduct(db: Db, code: string) {
   return await db.collection("products").findOne({ code: code });
+}
+
+async function getCategoryPage(
+  db: Db,
+  page: number,
+  limit: number = 8,
+  category_name: string
+) {
+  const skip = (page - 1) * limit;
+
+  return await db
+    .collection("products")
+    .find(
+      { category: category_name },
+      {
+        projection: {
+          code: 1,
+          image: 1,
+          product_name: 1,
+          price: 1,
+          discount: 1,
+          star: 1,
+          clock: 1,
+        },
+      }
+    )
+    .sort({ date: -1, _id: 1 })
+    .skip(skip)
+    .limit(limit)
+    .toArray();
+}
+
+async function getBrandPage(
+  db: Db,
+  page: number,
+  limit: number = 8,
+  brand_name: string
+) {
+  const skip = (page - 1) * limit;
+
+  return await db
+    .collection("products")
+    .find(
+      { brand: brand_name },
+      {
+        projection: {
+          code: 1,
+          image: 1,
+          product_name: 1,
+          price: 1,
+          discount: 1,
+          star: 1,
+          clock: 1,
+        },
+      }
+    )
+    .sort({ date: -1, _id: 1 })
+    .skip(skip)
+    .limit(limit)
+    .toArray();
 }
 
 async function getProductsPage(db: Db, page: number, limit: number = 8) {
@@ -80,19 +145,35 @@ async function getProductsDiscount(db: Db, limit: number) {
     .toArray();
 }
 
-async function getProductsCount(db: Db) {
-  return await db.collection("products").countDocuments({});
+async function getProductsCount(
+  db: Db,
+  category_name: string,
+  brand_name: string
+) {
+  const filter: ProductFilter = {};
+
+  if (category_name) {
+    filter.category = category_name;
+  }
+
+  if (brand_name) {
+    filter.brand = brand_name;
+  }
+
+  return await db.collection("products").countDocuments(filter);
 }
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
 
-  // params number=8&type=discount || page=1 || code="123ab"
+  // params number=8&type=discount || page=1 || code="123ab" || category || brand
 
   const code = searchParams.get("code");
   const number = searchParams.get("number");
   const type = searchParams.get("type");
   const page = searchParams.get("page");
+  const category_name = searchParams.get("category");
+  const brand_name = searchParams.get("brand");
 
   const client = new MongoClient(`${url}`);
 
@@ -103,21 +184,44 @@ export async function GET(request: NextRequest) {
     if (code) {
       const product = await getProduct(db, code);
       return Response.json(product);
-    } else if (number && type === "discount") {
-      const products = await getProductsDiscount(db, Number(number));
-      return Response.json(products);
-    } else if (number) {
-      const products = await getProducts(db, Number(number));
-      return Response.json(products);
-    } else if (page) {
-      const products = await getProductsPage(db, Number(page));
-      return Response.json(products);
     } else if (number && Number(number) > 0) {
-      const products = await getProducts(db, Number(number));
-      return Response.json(products);
+      if (type === "discount") {
+        const products = await getProductsDiscount(db, Number(number));
+        return Response.json(products);
+      } else {
+        const products = await getProducts(db, Number(number));
+        return Response.json(products);
+      }
+    } else if (page) {
+      if (category_name) {
+        const products = await getCategoryPage(
+          db,
+          Number(page),
+          8,
+          category_name
+        );
+
+        return Response.json(products);
+      } else if (brand_name) {
+        const products = await getBrandPage(db, Number(page), 8, brand_name);
+        return Response.json(products);
+      } else {
+        const products = await getProductsPage(db, Number(page), 8);
+        return Response.json(products);
+      }
     } else {
-      const products_count = await getProductsCount(db);
-      return Response.json({ totalProducts: products_count });
+      if (category_name) {
+        const products_count = await getProductsCount(db, category_name, "");
+
+        return Response.json({ totalProducts: products_count });
+      } else if (brand_name) {
+        const products_count = await getProductsCount(db, "", brand_name);
+
+        return Response.json({ totalProducts: products_count });
+      } else {
+        const products_count = await getProductsCount(db, "", "");
+        return Response.json({ totalProducts: products_count });
+      }
     }
   } catch (error) {
     console.error("Error connecting to MongoDB:", error);
