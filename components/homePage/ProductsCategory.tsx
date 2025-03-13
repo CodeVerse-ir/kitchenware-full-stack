@@ -4,19 +4,19 @@ import Image from "next/image";
 const category = [
   {
     image: "/image/categories/category1.png",
-    text: "کالای سرامیکی و چینی",
+    text: "ظروف سرامیکی و چینی",
   },
   {
     image: "/image/categories/category2.png",
-    text: "کالای چوبی",
+    text: "قاشق ، چنگال و ابزار سرو",
   },
   {
     image: "/image/categories/category3.png",
-    text: "مکمل خانه و آشپزخانه",
+    text: "وسایل مراقبت شخصی",
   },
   {
     image: "/image/categories/category4.png",
-    text: "سرو و نوشیدنی",
+    text: "ظروف سرو و پذیرایی",
   },
   {
     image: "/image/categories/category5.png",
