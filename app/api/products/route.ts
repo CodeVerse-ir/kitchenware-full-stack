@@ -2,6 +2,7 @@ import { Db, MongoClient } from "mongodb";
 import type { NextRequest } from "next/server";
 
 interface ProductFilter {
+  product_name?: RegExp;
   category?: string;
   brand?: string;
 }
@@ -14,6 +15,36 @@ if (!url) {
 
 async function getProduct(db: Db, code: string) {
   return await db.collection("products").findOne({ code: code });
+}
+
+async function getSearchPage(
+  db: Db,
+  page: number,
+  limit: number = 8,
+  search: string
+) {
+  const skip = (page - 1) * limit;
+
+  return await db
+    .collection("products")
+    .find(
+      { product_name: { $regex: new RegExp(search, "i") } },
+      {
+        projection: {
+          code: 1,
+          image: 1,
+          product_name: 1,
+          price: 1,
+          discount: 1,
+          star: 1,
+          clock: 1,
+        },
+      }
+    )
+    .sort({ date: -1, _id: 1 })
+    .skip(skip)
+    .limit(limit)
+    .toArray();
 }
 
 async function getCategoryPage(
@@ -147,10 +178,15 @@ async function getProductsDiscount(db: Db, limit: number) {
 
 async function getProductsCount(
   db: Db,
+  search: string,
   category_name: string,
   brand_name: string
 ) {
   const filter: ProductFilter = {};
+
+  if (search) {
+    filter.product_name = new RegExp(search, "i");
+  }
 
   if (category_name) {
     filter.category = category_name;
@@ -166,12 +202,13 @@ async function getProductsCount(
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
 
-  // params number=8&type=discount || page=1 || code="123ab" || category || brand
+  // params number=8&type=discount || page=1 || code="123ab" || search || category || brand
 
   const code = searchParams.get("code");
   const number = searchParams.get("number");
   const type = searchParams.get("type");
   const page = searchParams.get("page");
+  const search = searchParams.get("search");
   const category_name = searchParams.get("category");
   const brand_name = searchParams.get("brand");
 
@@ -193,7 +230,10 @@ export async function GET(request: NextRequest) {
         return Response.json(products);
       }
     } else if (page) {
-      if (category_name) {
+      if (search) {
+        const products = await getSearchPage(db, Number(page), 8, search);
+        return Response.json(products);
+      } else if (category_name) {
         const products = await getCategoryPage(
           db,
           Number(page),
@@ -210,16 +250,25 @@ export async function GET(request: NextRequest) {
         return Response.json(products);
       }
     } else {
-      if (category_name) {
-        const products_count = await getProductsCount(db, category_name, "");
+      if (search) {
+        const products_count = await getProductsCount(db, search, "", "");
+
+        return Response.json({ totalProducts: products_count });
+      } else if (category_name) {
+        const products_count = await getProductsCount(
+          db,
+          "",
+          category_name,
+          ""
+        );
 
         return Response.json({ totalProducts: products_count });
       } else if (brand_name) {
-        const products_count = await getProductsCount(db, "", brand_name);
+        const products_count = await getProductsCount(db, "", "", brand_name);
 
         return Response.json({ totalProducts: products_count });
       } else {
-        const products_count = await getProductsCount(db, "", "");
+        const products_count = await getProductsCount(db, "", "", "");
         return Response.json({ totalProducts: products_count });
       }
     }

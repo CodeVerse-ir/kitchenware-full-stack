@@ -16,9 +16,12 @@ const Products = async ({
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) => {
-  const { page, category, brand } = await searchParams;
+  const { page, search, category, brand } = await searchParams;
 
   const params = new URLSearchParams();
+  if (search) {
+    params.set("search", search as string);
+  }
   if (category) {
     params.set("category", category as string);
   }
@@ -81,7 +84,6 @@ const Products = async ({
           {totalItems > 8 && (
             <Pagination totalItems={totalItems} itemsPerPage={8} />
           )}
-
         </div>
       </section>
     </main>
