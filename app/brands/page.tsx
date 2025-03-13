@@ -1,10 +1,12 @@
 import { Suspense } from "react";
+import { redirect } from "next/navigation";
 import { axiosFetch } from "@/utils/axios_fetch";
 
 // components
 import Loading from "./Loading";
 import Pagination from "@/components/common/Pagination";
 import BrandsBody from "@/components/brandsPage/BrandsBody";
+import NotFoundSearch from "@/components/common/NotFoundSearch";
 
 interface TotalProducts {
   totalProducts: number;
@@ -29,6 +31,12 @@ const Brands = async ({
     params.set("page", "1");
   }
 
+  const totalPages = Math.ceil(totalItems / 12);
+
+  if (Number(page) > totalPages && Number(page) > 1) {
+    redirect("/not-found");
+  }
+
   return (
     <>
       <main className="background">
@@ -40,12 +48,16 @@ const Brands = async ({
             </div>
 
             {/* <!-- Section Body  --> */}
-            <Suspense key={params.toString()} fallback={<Loading />}>
-              <BrandsBody page={params.toString()} />
-            </Suspense>
+            {totalPages ? (
+              <Suspense key={params.toString()} fallback={<Loading />}>
+                <BrandsBody page={params.toString()} />
+              </Suspense>
+            ) : (
+              <NotFoundSearch text="هیچ برندی یافت نشد !" />
+            )}
 
             {/* Pagination */}
-            <Pagination totalItems={totalItems} itemsPerPage={12} />
+            {totalPages > 1 && <Pagination totalPages={totalPages} />}
           </div>
         </section>
       </main>

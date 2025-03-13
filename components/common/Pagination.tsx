@@ -4,18 +4,15 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 interface PaginationProps {
-  totalItems: number;
-  itemsPerPage: number;
+  totalPages: number;
 }
 
 const Pagination: React.FC<PaginationProps> = ({
-  totalItems,
-  itemsPerPage,
+  totalPages
 }) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
   const [currentPage, setCurrentPage] = useState(
     Number(searchParams.get("page") || 1)
   );

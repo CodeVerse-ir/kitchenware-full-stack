@@ -1,10 +1,12 @@
-import { axiosFetch } from "@/utils/axios_fetch";
 import { Suspense } from "react";
+import { redirect } from "next/navigation";
+import { axiosFetch } from "@/utils/axios_fetch";
 
 // components
 import Loading from "./Loading";
 import BlogsBody from "@/components/blogsPage/BlogsBody";
 import Pagination from "@/components/common/Pagination";
+import NotFoundSearch from "@/components/common/NotFoundSearch";
 
 interface TotalBlogs {
   totalBlogs: number;
@@ -28,6 +30,12 @@ const Blogs = async ({
     params.set("page", "1");
   }
 
+  const totalPages = Math.ceil(totalItems / 8);  
+
+  if (Number(page) > totalPages && Number(page) > 1) {
+    redirect("/not-found");
+  }
+
   return (
     <main className="background">
       <section className="blog py-8 md:pt-40 md:pb-20 lg:pt-44 lg:pb-24">
@@ -38,14 +46,17 @@ const Blogs = async ({
           </div>
 
           {/* <!-- Section Body --> */}
-          <Suspense key={params.toString()} fallback={<Loading />}>
-            <BlogsBody page={params.toString()} />
-          </Suspense>
+          {/* <!-- Section Body  --> */}
+          {totalPages ? (
+            <Suspense key={params.toString()} fallback={<Loading />}>
+              <BlogsBody page={params.toString()} />
+            </Suspense>
+          ) : (
+            <NotFoundSearch text="هیچ مقاله ای یافت نشد !" />
+          )}
 
           {/* Pagination */}
-          {totalItems > 8 && (
-            <Pagination totalItems={totalItems} itemsPerPage={8} />
-          )}
+          {totalPages > 1 && <Pagination totalPages={totalPages} />}
         </div>
       </section>
     </main>

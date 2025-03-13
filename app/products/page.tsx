@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { redirect } from "next/navigation";
 import { axiosFetch } from "@/utils/axios_fetch";
 
 // components
@@ -56,6 +57,12 @@ const Products = async ({
     params.set("page", "1");
   }
 
+  const totalPages = Math.ceil(totalItems / 8);
+
+  if (Number(page) > totalPages && Number(page) > 1) {
+    redirect("/not-found");
+  }
+
   return (
     <main className="background">
       <section className="blog py-8 md:pt-40 md:pb-20 lg:pt-44 lg:pb-24">
@@ -69,7 +76,7 @@ const Products = async ({
           </div>
 
           {/* <!-- Section Body  --> */}
-          {totalItems ? (
+          {totalPages ? (
             <Suspense key={params.toString()} fallback={<Loading />}>
               <ProductsBody params={params.toString()} />
             </Suspense>
@@ -78,9 +85,7 @@ const Products = async ({
           )}
 
           {/* Pagination */}
-          {totalItems > 8 && (
-            <Pagination totalItems={totalItems} itemsPerPage={8} />
-          )}
+          {totalPages > 1 && <Pagination totalPages={totalPages} />}
         </div>
       </section>
     </main>
