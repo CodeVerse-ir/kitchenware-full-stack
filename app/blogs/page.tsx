@@ -43,7 +43,9 @@ const Blogs = async ({
           </Suspense>
 
           {/* Pagination */}
-          <Pagination totalItems={totalItems} itemsPerPage={8} />
+          {totalItems > 8 && (
+            <Pagination totalItems={totalItems} itemsPerPage={8} />
+          )}
         </div>
       </section>
     </main>
