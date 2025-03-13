@@ -167,7 +167,7 @@ export default function CategoryLoad() {
                       return (
                         <SwiperSlide key={index}>
                           <Link
-                            href={`/products?category=${encodeURIComponent(
+                            href={`/products?search=${encodeURIComponent(
                               information.name
                             )}`}
                             className="flex flex-col justify-between p-4 md:p-5 bg-white dark:bg-zinc-700 rounded-2xl max-w-36 max-h-36 select-none"
