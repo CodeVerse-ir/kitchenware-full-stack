@@ -35,6 +35,20 @@ const Products = async ({
   });
   const totalItems = totalProducts ? totalProducts.totalProducts : 0;
 
+  let error_text = "";
+
+  if (totalItems === 0) {
+    if (search) {
+      error_text = "محصول مورد نظر یافت نشد!";
+    } else if (category) {
+      error_text = "محصولات دسته بندی مورد نظر یافت نشد!";
+    } else if (brand) {
+      error_text = "محصولات برند مورد نظر یافت نشد!";
+    } else {
+      error_text = "هیچ محصولی یافت نشد!";
+    }
+  }
+
   if (page) {
     params.set("page", page as string);
   } else {
@@ -71,13 +85,7 @@ const Products = async ({
               <ProductsBody params={params.toString()} />
             </Suspense>
           ) : (
-            <NotFoundSearch
-              text={
-                category
-                  ? "محصولات دسته بندی مورد نظر یافت نشد !"
-                  : "محصولات برند مورد نظر یافت نشد !"
-              }
-            />
+            <NotFoundSearch text={error_text} />
           )}
 
           {/* Pagination */}
