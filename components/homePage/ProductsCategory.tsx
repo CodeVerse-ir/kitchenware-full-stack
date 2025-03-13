@@ -24,7 +24,7 @@ const category = [
   },
 ];
 
-const ProductsCategory = async () => {
+const ProductsCategory = () => {
   return (
     <section className="products-category mb-10 md:mb-20">
       <div className="container">
