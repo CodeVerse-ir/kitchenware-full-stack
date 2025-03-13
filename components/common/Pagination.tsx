@@ -12,15 +12,17 @@ const Pagination: React.FC<PaginationProps> = ({
   totalItems,
   itemsPerPage,
 }) => {
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
-  const [currentPage, setCurrentPage] = useState(1);
-
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const [currentPage, setCurrentPage] = useState(
+    Number(searchParams.get("page") || 1)
+  );
 
   const handlePageChange = (page: number) => {
     if (page < 1 || page > totalPages) return;
+    if (page === currentPage) return;
     setCurrentPage(page);
 
     const params = new URLSearchParams(searchParams);
