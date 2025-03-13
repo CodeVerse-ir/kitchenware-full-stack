@@ -23,16 +23,7 @@ const Pagination: React.FC<PaginationProps> = ({
     if (page < 1 || page > totalPages) return;
     setCurrentPage(page);
 
-    const params = new URLSearchParams();
-    const category = searchParams.get("category");
-    const brand = searchParams.get("brand");
-
-    if (category) {
-      params.set("category", category.toString());
-    }
-    if (brand) {
-      params.set("brand", brand.toString());
-    }
+    const params = new URLSearchParams(searchParams);
     params.set("page", page.toString());
 
     router.replace(`${pathname}?${params}`);
