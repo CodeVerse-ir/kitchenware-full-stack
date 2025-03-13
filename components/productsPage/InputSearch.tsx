@@ -8,7 +8,9 @@ const InputSearch = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [search, setSearch] = useState(searchParams.get("search") || "");
-  const [showSearch, setShowSearch] = useState(true);
+  const [showSearch, setShowSearch] = useState(
+    searchParams.get("search") ? false : true
+  );
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchValue = e.target.value;
