@@ -9,6 +9,7 @@ import Pagination from "@/components/common/Pagination";
 import NotFoundSearch from "@/components/common/NotFoundSearch";
 import InputSearch from "@/components/productsPage/InputSearch";
 import HashtagMain from "@/components/productsPage/HashtagMain";
+import SelectFilters from "@/components/productsPage/SelectFilters";
 
 interface TotalProducts {
   totalProducts: number;
@@ -19,7 +20,7 @@ const Products = async ({
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) => {
-  const { page, search, category, brand } = await searchParams;
+  const { page, search, category, brand, filter } = await searchParams;
 
   const params = new URLSearchParams();
   if (search) {
@@ -30,6 +31,9 @@ const Products = async ({
   }
   if (brand) {
     params.set("brand", brand as string);
+  }
+  if (filter) {
+    params.set("filter", filter as string);
   }
 
   const totalProducts = await axiosFetch<TotalProducts>({
@@ -47,6 +51,8 @@ const Products = async ({
       error_text = "محصولات دسته بندی مورد نظر یافت نشد!";
     } else if (brand) {
       error_text = "محصولات برند مورد نظر یافت نشد!";
+    } else if (filter) {
+      error_text = "محصولات فیلتر مورد نظر یافت نشد!";
     } else {
       error_text = "هیچ محصولی یافت نشد!";
     }
@@ -58,7 +64,7 @@ const Products = async ({
     params.set("page", "1");
   }
 
-  const totalPages = Math.ceil(totalItems / 8);  
+  const totalPages = Math.ceil(totalItems / 8);
 
   if (Number(page) > totalPages && Number(page) > 1) {
     redirect("/not-found");
@@ -70,16 +76,21 @@ const Products = async ({
         <div className="container">
           {/* <!-- Section Head --> */}
           <div className="flex flex-col md:flex-row items-center justify-between gap-y-2 md:gap-y-0 mb-5 md:mb-12">
-            <div className="flex items-center justify-start">
+            <div className="flex flex-col md:flex-row items-center justify-start">
               <h2 className="section-title">محصولات</h2>
-              {category && (
-                <h3 className="section-subtitle">{`/${category}`}</h3>
-              )}
-              {brand && <h3 className="section-subtitle">{`/${brand}`}</h3>}
+              <div className="flex items-center justify-center">
+                {category && (
+                  <h3 className="section-subtitle">{`/${category}`}</h3>
+                )}
+                {brand && <h3 className="section-subtitle">{`/${brand}`}</h3>}
+              </div>
             </div>
 
             {/* input search */}
-            <InputSearch />
+            <div className="flex flex-col items-start justify-center gap-y-2">
+              <InputSearch />
+              <SelectFilters />
+            </div>
           </div>
 
           {/* categories & brands */}

@@ -25,7 +25,7 @@ async function getProducts(
   search?: string,
   category_name?: string,
   brand_name?: string,
-  discount?: boolean
+  filter?: string
 ) {
   let skip = 0;
   if (page) {
@@ -33,18 +33,19 @@ async function getProducts(
   }
   const query: ProductFilter = {};
 
-  if (discount) {
-    query.discount = { $ne: 0 };
-  } else {
-    if (search) {
-      query.product_name = new RegExp(search, "i");
+  if (filter) {
+    if (filter === "discount") {
+      query.discount = { $ne: 0 };
     }
-    if (category_name) {
-      query.category = category_name;
-    }
-    if (brand_name) {
-      query.brand = brand_name;
-    }
+  }
+  if (search) {
+    query.product_name = new RegExp(search, "i");
+  }
+  if (category_name) {
+    query.category = category_name;
+  }
+  if (brand_name) {
+    query.brand = brand_name;
   }
 
   return await db
@@ -60,7 +61,7 @@ async function getProducts(
         clock: 1,
       },
     })
-    .sort(discount ? { discount: -1 } : { date: -1, _id: 1 })
+    .sort(filter ? { discount: -1 } : { date: -1, _id: 1 })
     .skip(skip)
     .limit(limit)
     .toArray();
@@ -70,33 +71,39 @@ async function getProductsCount(
   db: Db,
   search?: string,
   category_name?: string,
-  brand_name?: string
+  brand_name?: string,
+  filter?: string
 ) {
-  const filter: ProductFilter = {};
+  const query: ProductFilter = {};
 
+  if (filter) {
+    if (filter === "discount") {
+      query.discount = { $ne: 0 };
+    }
+  }
   if (search) {
-    filter.product_name = new RegExp(search, "i");
+    query.product_name = new RegExp(search, "i");
   }
 
   if (category_name) {
-    filter.category = category_name;
+    query.category = category_name;
   }
 
   if (brand_name) {
-    filter.brand = brand_name;
+    query.brand = brand_name;
   }
 
-  return await db.collection("products").countDocuments(filter);
+  return await db.collection("products").countDocuments(query);
 }
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
 
-  // params number=8&type=discount || page=1 || code="123ab" || search || category || brand
+  // params number=8&filter=discount || page=1 || code="123ab" || search || category || brand
 
   const code = searchParams.get("code");
   const number = searchParams.get("number");
-  const type = searchParams.get("type");
+  const filter = searchParams.get("filter");
   const page = searchParams.get("page");
   const search = searchParams.get("search");
   const category_name = searchParams.get("category");
@@ -119,7 +126,7 @@ export async function GET(request: NextRequest) {
         search?.toString(),
         category_name?.toString(),
         brand_name?.toString(),
-        type === "discount"
+        filter?.toString()
       );
       return Response.json(products);
     } else {
@@ -127,7 +134,8 @@ export async function GET(request: NextRequest) {
         db,
         search?.toString(),
         category_name?.toString(),
-        brand_name?.toString()
+        brand_name?.toString(),
+        filter?.toString()
       );
       return Response.json({ totalProducts: products_count });
     }

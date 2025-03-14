@@ -83,20 +83,11 @@ const HashtagBrands: React.FC<HashtagBrandsProps> = ({ brands }) => {
           delay: 5000,
           disableOnInteraction: false,
         }}
-        slidesPerView={2}
+        slidesPerView={"auto"}
         spaceBetween={10}
         breakpoints={{
-          500: {
-            slidesPerView: 3,
-            spaceBetween: 16,
-          },
-          890: {
-            slidesPerView: 5,
+          768: {
             spaceBetween: 20,
-          },
-          1260: {
-            slidesPerView: 6,
-            spaceBetween: 24,
           },
         }}
         onReachBeginning={() => setIsBeginning(true)}
@@ -109,7 +100,7 @@ const HashtagBrands: React.FC<HashtagBrandsProps> = ({ brands }) => {
         {/* <!-- Slides --> */}
         {brands.map((brand, index) => {
           return (
-            <SwiperSlide key={index}>
+            <SwiperSlide key={index} style={{ width: "auto" }}>
               <Hashtag
                 text={brand.name}
                 isSelected={brand.name === selectedHashtag}

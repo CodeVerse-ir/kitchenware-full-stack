@@ -29,7 +29,7 @@ const BestSelling = () => {
 
   useEffect(() => {
     axios
-      .get(`${baseURL}products?number=8&type=discount`)
+      .get(`${baseURL}products?number=20&filter=discount`)
       .then((response) => {
         setProducts(response.data);
       })

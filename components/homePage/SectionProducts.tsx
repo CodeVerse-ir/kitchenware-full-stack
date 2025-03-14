@@ -15,7 +15,7 @@ interface Product {
 const SectionProducts = async () => {
   const products = await axiosFetch<Product[]>({
     fetchType: "get",
-    url: "products?number=8&type=latest",
+    url: "products?number=8",
   });
 
   return (
