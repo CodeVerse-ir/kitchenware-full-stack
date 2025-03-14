@@ -15,8 +15,6 @@ import "swiper/swiper-bundle.css";
 import LoadingAnimation from "../common/LoadingAnimation";
 
 interface Category {
-  text: string;
-  image: string;
   title: string;
   body: [
     {

@@ -8,6 +8,7 @@ import ProductsBody from "@/components/productsPage/ProductsBody";
 import Pagination from "@/components/common/Pagination";
 import NotFoundSearch from "@/components/common/NotFoundSearch";
 import InputSearch from "@/components/productsPage/InputSearch";
+import HashtagMain from "@/components/productsPage/HashtagMain";
 
 interface TotalProducts {
   totalProducts: number;
@@ -57,7 +58,7 @@ const Products = async ({
     params.set("page", "1");
   }
 
-  const totalPages = Math.ceil(totalItems / 8);
+  const totalPages = Math.ceil(totalItems / 8);  
 
   if (Number(page) > totalPages && Number(page) > 1) {
     redirect("/not-found");
@@ -69,11 +70,20 @@ const Products = async ({
         <div className="container">
           {/* <!-- Section Head --> */}
           <div className="flex flex-col md:flex-row items-center justify-between gap-y-2 md:gap-y-0 mb-5 md:mb-12">
-            <h2 className="section-title">محصولات</h2>
+            <div className="flex items-center justify-start">
+              <h2 className="section-title">محصولات</h2>
+              {category && (
+                <h3 className="section-subtitle">{`/${category}`}</h3>
+              )}
+              {brand && <h3 className="section-subtitle">{`/${brand}`}</h3>}
+            </div>
 
             {/* input search */}
             <InputSearch />
           </div>
+
+          {/* categories & brands */}
+          <HashtagMain />
 
           {/* <!-- Section Body  --> */}
           {totalPages ? (

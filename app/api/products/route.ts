@@ -5,6 +5,7 @@ interface ProductFilter {
   product_name?: RegExp;
   category?: string;
   brand?: string;
+  discount?: { $ne: number };
 }
 
 const url = process.env.MONGODB_URI;
@@ -17,170 +18,59 @@ async function getProduct(db: Db, code: string) {
   return await db.collection("products").findOne({ code: code });
 }
 
-async function getSearchPage(
+async function getProducts(
   db: Db,
   page: number,
-  limit: number = 8,
-  search: string
+  limit: number,
+  search?: string,
+  category_name?: string,
+  brand_name?: string,
+  discount?: boolean
 ) {
-  const skip = (page - 1) * limit;
+  let skip = 0;
+  if (page) {
+    skip = (page - 1) * limit;
+  }
+  const query: ProductFilter = {};
+
+  if (discount) {
+    query.discount = { $ne: 0 };
+  } else {
+    if (search) {
+      query.product_name = new RegExp(search, "i");
+    }
+    if (category_name) {
+      query.category = category_name;
+    }
+    if (brand_name) {
+      query.brand = brand_name;
+    }
+  }
 
   return await db
     .collection("products")
-    .find(
-      { product_name: { $regex: new RegExp(search, "i") } },
-      {
-        projection: {
-          code: 1,
-          image: 1,
-          product_name: 1,
-          price: 1,
-          discount: 1,
-          star: 1,
-          clock: 1,
-        },
-      }
-    )
-    .sort({ date: -1, _id: 1 })
+    .find(query, {
+      projection: {
+        code: 1,
+        image: 1,
+        product_name: 1,
+        price: 1,
+        discount: 1,
+        star: 1,
+        clock: 1,
+      },
+    })
+    .sort(discount ? { discount: -1 } : { date: -1, _id: 1 })
     .skip(skip)
-    .limit(limit)
-    .toArray();
-}
-
-async function getCategoryPage(
-  db: Db,
-  page: number,
-  limit: number = 8,
-  category_name: string
-) {
-  const skip = (page - 1) * limit;
-
-  return await db
-    .collection("products")
-    .find(
-      { category: category_name },
-      {
-        projection: {
-          code: 1,
-          image: 1,
-          product_name: 1,
-          price: 1,
-          discount: 1,
-          star: 1,
-          clock: 1,
-        },
-      }
-    )
-    .sort({ date: -1, _id: 1 })
-    .skip(skip)
-    .limit(limit)
-    .toArray();
-}
-
-async function getBrandPage(
-  db: Db,
-  page: number,
-  limit: number = 8,
-  brand_name: string
-) {
-  const skip = (page - 1) * limit;
-
-  return await db
-    .collection("products")
-    .find(
-      { brand: brand_name },
-      {
-        projection: {
-          code: 1,
-          image: 1,
-          product_name: 1,
-          price: 1,
-          discount: 1,
-          star: 1,
-          clock: 1,
-        },
-      }
-    )
-    .sort({ date: -1, _id: 1 })
-    .skip(skip)
-    .limit(limit)
-    .toArray();
-}
-
-async function getProductsPage(db: Db, page: number, limit: number = 8) {
-  const skip = (page - 1) * limit;
-
-  return await db
-    .collection("products")
-    .find(
-      {},
-      {
-        projection: {
-          code: 1,
-          image: 1,
-          product_name: 1,
-          price: 1,
-          discount: 1,
-          star: 1,
-          clock: 1,
-        },
-      }
-    )
-    .sort({ date: -1, _id: 1 })
-    .skip(skip)
-    .limit(limit)
-    .toArray();
-}
-
-async function getProducts(db: Db, limit: number) {
-  return await db
-    .collection("products")
-    .find(
-      {},
-      {
-        projection: {
-          code: 1,
-          image: 1,
-          product_name: 1,
-          price: 1,
-          discount: 1,
-          star: 1,
-          clock: 1,
-        },
-      }
-    )
-    .sort({ created_at: -1 })
-    .limit(limit)
-    .toArray();
-}
-
-async function getProductsDiscount(db: Db, limit: number) {
-  return await db
-    .collection("products")
-    .find(
-      { discount: { $ne: 0 } },
-      {
-        projection: {
-          code: 1,
-          image: 1,
-          product_name: 1,
-          price: 1,
-          discount: 1,
-          star: 1,
-          clock: 1,
-        },
-      }
-    )
-    .sort({ discount: -1 })
     .limit(limit)
     .toArray();
 }
 
 async function getProductsCount(
   db: Db,
-  search: string,
-  category_name: string,
-  brand_name: string
+  search?: string,
+  category_name?: string,
+  brand_name?: string
 ) {
   const filter: ProductFilter = {};
 
@@ -221,56 +111,25 @@ export async function GET(request: NextRequest) {
     if (code) {
       const product = await getProduct(db, code);
       return Response.json(product);
-    } else if (number && Number(number) > 0) {
-      if (type === "discount") {
-        const products = await getProductsDiscount(db, Number(number));
-        return Response.json(products);
-      } else {
-        const products = await getProducts(db, Number(number));
-        return Response.json(products);
-      }
-    } else if (page) {
-      if (search) {
-        const products = await getSearchPage(db, Number(page), 8, search);
-        return Response.json(products);
-      } else if (category_name) {
-        const products = await getCategoryPage(
-          db,
-          Number(page),
-          8,
-          category_name
-        );
-
-        return Response.json(products);
-      } else if (brand_name) {
-        const products = await getBrandPage(db, Number(page), 8, brand_name);
-        return Response.json(products);
-      } else {
-        const products = await getProductsPage(db, Number(page), 8);
-        return Response.json(products);
-      }
+    } else if (number || page) {
+      const products = await getProducts(
+        db,
+        Number(page),
+        Number(number) || 8,
+        search?.toString(),
+        category_name?.toString(),
+        brand_name?.toString(),
+        type === "discount"
+      );
+      return Response.json(products);
     } else {
-      if (search) {
-        const products_count = await getProductsCount(db, search, "", "");
-
-        return Response.json({ totalProducts: products_count });
-      } else if (category_name) {
-        const products_count = await getProductsCount(
-          db,
-          "",
-          category_name,
-          ""
-        );
-
-        return Response.json({ totalProducts: products_count });
-      } else if (brand_name) {
-        const products_count = await getProductsCount(db, "", "", brand_name);
-
-        return Response.json({ totalProducts: products_count });
-      } else {
-        const products_count = await getProductsCount(db, "", "", "");
-        return Response.json({ totalProducts: products_count });
-      }
+      const products_count = await getProductsCount(
+        db,
+        search?.toString(),
+        category_name?.toString(),
+        brand_name?.toString()
+      );
+      return Response.json({ totalProducts: products_count });
     }
   } catch (error) {
     console.error("Error connecting to MongoDB:", error);

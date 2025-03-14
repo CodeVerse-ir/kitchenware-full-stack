@@ -18,12 +18,6 @@ const InputSearch = () => {
     const pattern = /^[\u0600-\u06FF0-9\s]*$/;
     if (pattern.test(searchValue) && searchValue.length <= 30) {
       setSearch(searchValue);
-    }
-    if (!searchValue) {
-      const params = new URLSearchParams(searchParams);
-      params.delete("search");
-
-      router.replace(`${pathname}?${params}`);
       setShowSearch(true);
     }
   };
@@ -37,6 +31,12 @@ const InputSearch = () => {
       router.replace(`${pathname}?${params}`);
 
       setShowSearch(false);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleClickSearch();
     }
   };
 
@@ -61,6 +61,7 @@ const InputSearch = () => {
         placeholder="جستجوی محصول"
         value={search}
         onChange={handleInputChange}
+        onKeyDown={handleKeyDown}
       />
       {showSearch ? (
         <button
