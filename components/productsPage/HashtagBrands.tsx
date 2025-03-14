@@ -28,6 +28,8 @@ const HashtagBrands: React.FC<HashtagBrandsProps> = ({ brands }) => {
   const [selectedHashtag, setSelectedHashtag] = useState<string | null>(
     searchParams.get("brand")
   );
+  const [isBeginning, setIsBeginning] = useState(true);
+  const [isEnd, setIsEnd] = useState(false);
 
   const handleHashtagClick = (text: string) => {
     if (text === selectedHashtag) {
@@ -49,16 +51,38 @@ const HashtagBrands: React.FC<HashtagBrandsProps> = ({ brands }) => {
 
   return (
     <div className="flex items-center justify-start w-full gap-x-2">
+      <button
+        type="button"
+        className={`swiper-button-prev-brands hidden md:flex items-center justify-center transition-colors ${
+          isBeginning
+            ? "text-zinc-400/50 dark:text-zinc-600/50 cursor-default"
+            : "text-zinc-700 dark:text-white dark:hover:text-zinc-700"
+        }`}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          className="w-9 h-9 md:w-10 md:h-10"
+        >
+          <path
+            fillRule="evenodd"
+            d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z"
+            clipRule="evenodd"
+          />
+        </svg>
+      </button>
+
       <Swiper
         modules={[Navigation, Autoplay]}
         navigation={{
-          nextEl: ".swiper-button-next-NonIranianFoods",
+          nextEl: ".swiper-button-next-brands",
+          prevEl: ".swiper-button-prev-brands",
         }}
         autoplay={{
-          delay: 2000,
+          delay: 5000,
           disableOnInteraction: false,
         }}
-        rewind={true}
         slidesPerView={2}
         spaceBetween={10}
         breakpoints={{
@@ -75,6 +99,12 @@ const HashtagBrands: React.FC<HashtagBrandsProps> = ({ brands }) => {
             spaceBetween: 24,
           },
         }}
+        onReachBeginning={() => setIsBeginning(true)}
+        onReachEnd={() => setIsEnd(true)}
+        onSlideChange={(swiper) => {
+          setIsBeginning(swiper.isBeginning);
+          setIsEnd(swiper.isEnd);
+        }}
       >
         {/* <!-- Slides --> */}
         {brands.map((brand, index) => {
@@ -89,6 +119,28 @@ const HashtagBrands: React.FC<HashtagBrandsProps> = ({ brands }) => {
           );
         })}
       </Swiper>
+
+      <button
+        type="button"
+        className={`swiper-button-next-brands hidden md:flex items-center justify-center transition-colors ${
+          isEnd
+            ? "text-zinc-700/50 dark:text-zinc-600/50 cursor-default"
+            : "text-zinc-700 dark:text-white dark:hover:text-zinc-700"
+        }`}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          className="w-9 h-9 md:w-10 md:h-10"
+        >
+          <path
+            fillRule="evenodd"
+            d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z"
+            clipRule="evenodd"
+          />
+        </svg>
+      </button>
     </div>
   );
 };
