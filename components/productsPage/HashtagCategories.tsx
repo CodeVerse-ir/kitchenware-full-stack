@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 // Swiper
@@ -34,6 +34,10 @@ const HashtagCategories: React.FC<HashtagCategoriesProps> = ({
   const [selectedHashtag, setSelectedHashtag] = useState<string | null>(
     searchParams.get("category")
   );
+
+  useEffect(() => {
+    setSelectedHashtag(searchParams.get("category"));
+  }, [searchParams]);
 
   const handleHashtagClick = (text: string) => {
     if (text === selectedHashtag) {

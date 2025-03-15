@@ -10,6 +10,7 @@ import NotFoundSearch from "@/components/common/NotFoundSearch";
 import InputSearch from "@/components/productsPage/InputSearch";
 import HashtagMain from "@/components/productsPage/HashtagMain";
 import SelectFilters from "@/components/productsPage/SelectFilters";
+import DeleteCategoryAndBrand from "@/components/productsPage/DeleteCategoryAndBrand";
 
 interface TotalProducts {
   totalProducts: number;
@@ -95,6 +96,7 @@ const Products = async ({
                   <h3 className="section-subtitle">{`/${category}`}</h3>
                 )}
                 {brand && <h3 className="section-subtitle">{`/${brand}`}</h3>}
+                {(category || brand) && <DeleteCategoryAndBrand />}
               </div>
             </div>
 
