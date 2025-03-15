@@ -51,6 +51,7 @@ const HashtagCategories: React.FC<HashtagCategoriesProps> = ({
       setSelectedHashtag(text);
 
       const params = new URLSearchParams(searchParams);
+      params.delete("page");
       params.set("category", text);
 
       router.replace(`${pathname}?${params}`);

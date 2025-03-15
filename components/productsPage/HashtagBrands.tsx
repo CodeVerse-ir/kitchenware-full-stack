@@ -47,6 +47,7 @@ const HashtagBrands: React.FC<HashtagBrandsProps> = ({ brands }) => {
       setSelectedHashtag(text);
 
       const params = new URLSearchParams(searchParams);
+      params.delete("page");
       params.set("brand", text);
 
       router.replace(`${pathname}?${params}`);
