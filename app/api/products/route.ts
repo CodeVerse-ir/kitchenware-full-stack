@@ -8,6 +8,10 @@ interface ProductFilter {
   discount?: { $ne: number };
 }
 
+interface SortOptions {
+  [key: string]: 1 | -1;
+}
+
 const url = process.env.MONGODB_URI;
 
 if (!url) {
@@ -31,13 +35,9 @@ async function getProducts(
   if (page) {
     skip = (page - 1) * limit;
   }
+
   const query: ProductFilter = {};
 
-  if (filter) {
-    if (filter === "discount") {
-      query.discount = { $ne: 0 };
-    }
-  }
   if (search) {
     query.product_name = new RegExp(search, "i");
   }
@@ -46,6 +46,31 @@ async function getProducts(
   }
   if (brand_name) {
     query.brand = brand_name;
+  }
+
+  let sortOptions: SortOptions = { created_at: -1, _id: 1 };
+
+  if (filter) {
+    switch (filter) {
+      case "discount":
+        query.discount = { $ne: 0 };
+        sortOptions = { discount: -1 };
+        break;
+      case "price_asc":
+        sortOptions = { price: 1 };
+        break;
+      case "price_desc":
+        sortOptions = { price: -1 };
+        break;
+      // case "best_selling":
+      //   sortOptions = { sales_count: -1 };
+      //   break;
+      case "newest":
+        sortOptions = { created_at: -1 };
+        break;
+      default:
+        break;
+    }
   }
 
   return await db
@@ -59,9 +84,11 @@ async function getProducts(
         discount: 1,
         star: 1,
         clock: 1,
+        // sales_count: 1,
+        created_at: 1,
       },
     })
-    .sort(filter ? { discount: -1 } : { date: -1, _id: 1 })
+    .sort(sortOptions)
     .skip(skip)
     .limit(limit)
     .toArray();
