@@ -44,17 +44,29 @@ const Products = async ({
 
   let error_text = "";
 
+  const error_text_array = [];
+
   if (totalItems === 0) {
     if (search) {
       error_text = "محصول مورد نظر یافت نشد!";
-    } else if (category) {
-      error_text = "محصولات دسته بندی مورد نظر یافت نشد!";
-    } else if (brand) {
-      error_text = "محصولات برند مورد نظر یافت نشد!";
-    } else if (filter) {
-      error_text = "محصولات فیلتر مورد نظر یافت نشد!";
     } else {
-      error_text = "هیچ محصولی یافت نشد!";
+      if (category) {
+        error_text_array.push("دسته بندی");
+      }
+      if (brand) {
+        error_text_array.push("برند");
+      }
+      if (filter) {
+        error_text_array.push("فیلتر");
+      }
+
+      if (error_text_array.length !== 0) {
+        error_text = `محصولات ${error_text_array.join(
+          " ، "
+        )} مورد نظر یافت نشد!`;
+      } else {
+        error_text = "هیچ محصولی یافت نشد!";
+      }
     }
   }
 
