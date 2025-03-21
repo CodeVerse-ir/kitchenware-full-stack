@@ -4,7 +4,7 @@ const UserPanel = () => {
   return (
     <div className="w-2/4 lg:w-full lg:mt-5 p-5 text-sm md:text-base lg:text-lg text-black dark:text-white bg-white dark:bg-zinc-700 shadow-normal rounded-2xl">
       <div className="flex flex-col items-start child:flex child:items-center child:justify-start child:gap-x-2 child-hover:text-orange-300 child:transition-colors child:duration-150 select-none">
-        <Link className="" href="/profile">
+        <Link href="/profile">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -22,7 +22,7 @@ const UserPanel = () => {
 
           <span className="mt-1">اطلاعات شخصی</span>
         </Link>
-        <a className="" href="">
+        <Link href="/profile/likes">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -39,8 +39,8 @@ const UserPanel = () => {
           </svg>
 
           <span className="mt-1">ذخیره شده ها</span>
-        </a>
-        <a className="" href="">
+        </Link>
+        <Link href="/profile/save">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -57,7 +57,7 @@ const UserPanel = () => {
           </svg>
 
           <span className="mt-1">علاقه مندی ها</span>
-        </a>
+        </Link>
         <a className="" href="">
           <svg
             xmlns="http://www.w3.org/2000/svg"

@@ -1,7 +1,7 @@
 // components
 // import Comments from "../../../components/productPage/Comments";
 // import Description from "../../../components/productPage/Description";
-import CartProduct from "@/components/productPage/CartProduct";
+import CartProduct from "@/components/productPage/CardProduct";
 import ChangeInformation from "@/components/productPage/ChangeInformation";
 
 const Product = async ({
