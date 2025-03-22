@@ -159,7 +159,7 @@ const NavDesktop: React.FC<NavDesktopPrpos> = ({
 
                 <div className="absolute left-0 top-full w-[120px] h-[100px] px-2 py-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible space-y-2 font-Dana text-xl tracking-tighter text-zinc-700 dark:text-gray-300 bg-white dark:bg-zinc-700 border-t-[3px] border-t-orange-300 shadow-normal rounded-2xl delay-75 transition-all">
                   <Link
-                    href=""
+                    href="/profile"
                     className="flex items-center justify-evenly hover:text-orange-300 transition-colors duration-150"
                   >
                     <svg

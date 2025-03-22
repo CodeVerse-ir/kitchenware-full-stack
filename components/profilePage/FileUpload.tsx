@@ -3,7 +3,7 @@
 import { useState, ChangeEvent } from "react";
 import Image from "next/image";
 
-export default function FileUpload() {
+const FileUpload = () => {
   const [fileName, setFileName] = useState<string>(
     "هیچ فایلی انتخاب نشده است."
   );
@@ -199,4 +199,6 @@ export default function FileUpload() {
       </div>
     </div>
   );
-}
+};
+
+export default FileUpload;
