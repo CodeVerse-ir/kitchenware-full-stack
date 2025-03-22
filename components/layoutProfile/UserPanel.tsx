@@ -22,7 +22,7 @@ const UserPanel = () => {
 
           <span className="mt-1">اطلاعات شخصی</span>
         </Link>
-        <Link href="/profile/likes">
+        <Link href="/profile/save">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -40,7 +40,7 @@ const UserPanel = () => {
 
           <span className="mt-1">ذخیره شده ها</span>
         </Link>
-        <Link href="/profile/save">
+        <Link href="/profile/likes">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

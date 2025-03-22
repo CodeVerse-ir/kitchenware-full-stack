@@ -533,4 +533,49 @@
       opacity: 0.25;
     }
   }
+
+  /* custom calendar react-multi-date-picker */
+  .custom-calendar.rmdp-wrapper,
+  .rmdp-container .custom-calendar.ep-arrow::after {
+    @apply bg-gray-50 dark:bg-black;
+  }
+
+  .custom-calendar.rmdp-ep-arrow[direction="bottom"] {
+    border-top: 0px solid #fff;
+  }
+
+  .custom-calendar.rmdp-ep-arrow[direction="top"] {
+    border-bottom: 0px solid #fff;
+  }
+
+  .custom-calendar .rmdp-arrow {
+    @apply border-orange-500;
+  }
+
+  .custom-calendar .sd,
+  .custom-calendar .rmdp-header-values,
+  .custom-calendar .rmdp-day {
+    @apply text-zinc-800 dark:text-white;
+  }
+
+  .custom-calendar .rmdp-week-day {
+    @apply text-orange-500;
+  }
+
+  .custom-calendar .rmdp-year-picker,
+  .custom-calendar .rmdp-month-picker {
+    @apply bg-gray-50 dark:bg-black;
+  }
+
+  .custom-calendar .rmdp-day:not(.rmdp-disabled, .rmdp-day-hidden) span:hover {
+    @apply bg-orange-400;
+  }
+
+  .custom-calendar .rmdp-day.rmdp-selected span:not(.highlight) {
+    @apply bg-orange-500 shadow-orange-400;
+  }
+
+  .custom-calendar .rmdp-day.rmdp-today span {
+    @apply bg-orange-300;
+  }
 }

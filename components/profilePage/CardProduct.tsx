@@ -8,8 +8,8 @@ const CardProduct = () => {
           className="w-32 mx-auto md:w-auto"
           src="/image/products/product1/product1.jpeg"
           alt="avatar"
-          width={80}
-          height={80}
+          width={128}
+          height={128}
           sizes="(min-width: 768px)"
           priority
         />
