@@ -39,6 +39,9 @@ interface meProps {
     last_name: string;
     mobile_number: string;
     username: string;
+    image: string;
+    birthdate: string;
+    nickname: string;
   } | null;
 }
 
@@ -363,6 +366,9 @@ async function me(): Promise<meProps> {
               last_name: user.last_name,
               mobile_number: user.mobile_number,
               username: user.username,
+              image: user.image,
+              birthdate: user.birthdate,
+              nickname: user.nickname,
             },
           };
         }

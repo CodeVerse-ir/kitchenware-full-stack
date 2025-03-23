@@ -8,6 +8,9 @@ interface User {
   last_name: string;
   mobile_number: string;
   username: string;
+  image: string;
+  birthdate: string;
+  nickname: string;
 }
 
 interface SessionContextType {

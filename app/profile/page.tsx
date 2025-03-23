@@ -16,14 +16,7 @@ const Profile = () => {
 
       {/* <!-- Body --> */}
       <div className="flex flex-col xl:flex-row items-center xl:items-start justify-center w-full gap-x-10">
-        <Information
-          data={{
-            first_name: "محمد",
-            last_name: "کبیری",
-            birthdate: "1380/08/25",
-            nickname: "گل",
-          }}
-        />
+        <Information />
 
         <FileUpload />
       </div>

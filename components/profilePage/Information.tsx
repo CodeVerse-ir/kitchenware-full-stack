@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSession } from "@/utils/useSession";
 
 // react-multi-date-picker persian
 import { DateObject } from "react-multi-date-picker";
@@ -11,29 +12,44 @@ import persian_fa from "react-date-object/locales/persian_fa";
 // type
 import type { Value } from "react-multi-date-picker";
 
-// react-multi-date-picker gregorian
-import gregorian from "react-date-object/calendars/gregorian";
-import gregorian_en from "react-date-object/locales/gregorian_en";
-
-interface InformationProps {
-  data: {
-    first_name: string;
-    last_name: string;
-    birthdate: Value;
-    nickname: string;
-  };
+interface UserInformation {
+  first_name: string;
+  last_name: string;
+  birthdate: string;
+  nickname: string;
 }
 
-const Information = ({ data }: InformationProps) => {
-  const [information, setInformation] = useState({
-    first_name: data.first_name || "",
-    last_name: data.last_name || "",
-    birthdate: data.birthdate || "",
-    nickname: data.nickname || "",
+const Information = () => {
+  const { user } = useSession();
+
+  const [information, setInformation] = useState<UserInformation>({
+    first_name: "",
+    last_name: "",
+    birthdate: "",
+    nickname: "",
   });
 
   const [isEditing, setIsEditing] = useState(false);
-  const [tempInformation, setTempInformation] = useState({ ...information });
+  const [tempInformation, setTempInformation] = useState<UserInformation>({
+    ...information,
+  });
+
+  useEffect(() => {
+    if (user) {
+      setInformation({
+        first_name: user.first_name || "",
+        last_name: user.last_name || "",
+        birthdate: user.birthdate || "",
+        nickname: user.nickname || "",
+      });
+      setTempInformation({
+        first_name: user.first_name || "",
+        last_name: user.last_name || "",
+        birthdate: user.birthdate || "",
+        nickname: user.nickname || "",
+      });
+    }
+  }, [user]);
 
   const today = new DateObject({ calendar: persian });
   const minDate = new DateObject({ calendar: persian })
@@ -59,19 +75,19 @@ const Information = ({ data }: InformationProps) => {
   const handleBirthdate = (value: Value) => {
     if (value) {
       const date = new DateObject(value);
-      const gregorianDate = date
-        .convert(gregorian, gregorian_en)
-        .format("YYYY-MM-DD");
+
+      const persianDate = date
+        .convert(persian, persian_fa)
+        .format("YYYY/MM/DD");
+
       setTempInformation((prev) => ({
         ...prev,
-        birthdate: value,
-        birthdate_gregorian: gregorianDate,
+        birthdate: persianDate,
       }));
     } else {
       setTempInformation((prev) => ({
         ...prev,
         birthdate: "",
-        birthdate_gregorian: "",
       }));
     }
   };
