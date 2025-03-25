@@ -247,7 +247,7 @@ async function usernameAndPassword(
             mobile_number,
             username,
             password: hashedPassword,
-            image: "/image/comment/avatar.png",
+            image: "/image/profile/avatar.png",
             created_at: now,
             active: false,
             otp_code: generateRandomOTP(),

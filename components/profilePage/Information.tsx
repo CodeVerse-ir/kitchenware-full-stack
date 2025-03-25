@@ -3,6 +3,7 @@
 import { useState, useEffect, useActionState } from "react";
 import { useSession } from "@/utils/useSession";
 import { action_information } from "@/actions/profile/information";
+import { getToastType } from "@/utils/helper";
 
 // react-multi-date-picker persian
 import { DateObject } from "react-multi-date-picker";
@@ -16,7 +17,8 @@ import gregorian_en from "react-date-object/locales/gregorian_en";
 // type
 import type { Value } from "react-multi-date-picker";
 import { toast } from "react-toastify";
-import { getToastType } from "@/utils/helper";
+
+// components
 import SubmitBtn from "../common/SubmitBtn";
 
 interface UserInformation {
@@ -86,7 +88,7 @@ const Information = () => {
       type: `${getToastType(stateInformation?.status)}`,
     });
 
-    console.log("CheckOtpForm stateOtp : ", stateInformation);
+    console.log("Information stateInformation : ", stateInformation);
 
     if (stateInformation?.status === "success") {
       userContext((prev) => ({
@@ -252,14 +254,8 @@ const Information = () => {
       <div className="flex items-center justify-center w-full gap-x-2 text-sm md:text-base">
         {isEditing ? (
           <>
-            {/* <button
-              className="flex flex-col items-start justify-center py-2 px-4 text-white bg-green-500 hover:bg-green-600 rounded-lg transition-colors duration-300"
-              onClick={handleConfirm}
-            >
-              ثبت
-            </button> */}
             <SubmitBtn
-              title="تایید"
+              title="ثبت"
               style="flex flex-col items-start justify-center py-2 px-4 text-white bg-green-500 hover:bg-green-600 rounded-lg transition-colors duration-300"
               isPending={isPending}
             />

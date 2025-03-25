@@ -3,6 +3,9 @@
 import { decodeJWT } from "@/utils/helper";
 import { MongoClient } from "mongodb";
 import { cookies } from "next/headers";
+import { writeFile, mkdir, access } from "fs/promises";
+import { constants } from "fs";
+import { join } from "path";
 
 const url = process.env.MONGODB_URI;
 
@@ -15,6 +18,15 @@ interface informationProps {
     last_name: string;
     birthdate: string;
     nickname: string;
+  };
+}
+
+interface imageProps {
+  status: string | null;
+  message: string | undefined | null;
+  field: string[] | null;
+  user: {
+    image: string;
   };
 }
 
@@ -31,10 +43,10 @@ async function action_information(
   const birthdate = getStringValue(formData.get("birthdate"));
   const not_trim_nickname = getStringValue(formData.get("nickname"));
 
-  console.log("sign up not_trim_first_name : ", not_trim_first_name);
-  console.log("sign up not_trim_last_name : ", not_trim_last_name);
-  console.log("login birthdate : ", birthdate);
-  console.log("login not_trim_nickname : ", not_trim_nickname);
+  console.log("action_information not_trim_first_name : ", not_trim_first_name);
+  console.log("action_information not_trim_last_name : ", not_trim_last_name);
+  console.log("action_information birthdate : ", birthdate);
+  console.log("action_information not_trim_nickname : ", not_trim_nickname);
 
   const emptyFields: string[] = [];
   const message: string[] = [];
@@ -46,6 +58,10 @@ async function action_information(
   if (not_trim_last_name === null || not_trim_last_name === "") {
     emptyFields.push("last_name");
     message.push("نام خانوادگی");
+  }
+  if (birthdate === null || birthdate === "") {
+    emptyFields.push("birthdate");
+    message.push("تاریخ تولد");
   }
 
   if (emptyFields.length > 0) {
@@ -79,9 +95,9 @@ async function action_information(
   const last_name = not_trim_last_name.trim();
   const nickname = not_trim_nickname.trim();
 
-  console.log("sign up first_name : ", first_name);
-  console.log("sign up last_name : ", last_name);
-  console.log("sign up nickname : ", nickname);
+  console.log("action_information first_name : ", first_name);
+  console.log("action_information last_name : ", last_name);
+  console.log("action_information nickname : ", nickname);
 
   const client = new MongoClient(`${url}`);
 
@@ -159,4 +175,94 @@ async function action_information(
   }
 }
 
-export { action_information };
+async function action_image(
+  prevState: imageProps,
+  formData: FormData
+): Promise<imageProps> {
+  const image = formData.get("image") as File;
+
+  if (!image || image.size === 0) {
+    return {
+      ...prevState,
+      status: "error",
+      message: "عکس الزامی است.",
+      field: ["image"],
+    };
+  }
+
+  const client = new MongoClient(process.env.MONGODB_URI!);
+
+  try {
+    const uploadDir = join(process.cwd(), "public/image/profile");
+    const filename = `${Date.now()}-${image.name}`;
+    const filePath = join(uploadDir, filename);
+
+    try {
+      await access(uploadDir, constants.F_OK);
+    } catch {
+      await mkdir(uploadDir, { recursive: true });
+    }
+
+    const bytes = await image.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+    await writeFile(filePath, buffer);
+
+    await client.connect();
+    const db = client.db();
+
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token");
+
+    if (!token) {
+      return {
+        ...prevState,
+        status: "error",
+        message: "احراز هویت ناموفق بود.",
+      };
+    }
+
+    const decodedToken = decodeJWT(token.value);
+    if (!decodedToken) {
+      return {
+        ...prevState,
+        status: "error",
+        message: "توکن نامعتبر است.",
+      };
+    }
+
+    const result = await db
+      .collection("users")
+      .updateOne(
+        { username: decodedToken.username },
+        { $set: { image: `/uploads/${filename}` } }
+      );
+
+    if (result.matchedCount === 0) {
+      return {
+        ...prevState,
+        status: "error",
+        message: "کاربر یافت نشد.",
+      };
+    }
+
+    return {
+      ...prevState,
+      status: "success",
+      message: "عکس با موفقیت ذخیره شد.",
+      user: {
+        image: `/uploads/${filename}`,
+      },
+    };
+  } catch (error) {
+    console.error("خطا در آپلود تصویر:", error);
+    return {
+      ...prevState,
+      status: "error",
+      message: "مشکلی در ذخیره تصویر رخ داد.",
+    };
+  } finally {
+    await client.close();
+  }
+}
+
+export { action_information, action_image };

@@ -1,18 +1,73 @@
 "use client";
 
-import { useState, ChangeEvent } from "react";
+import {
+  useState,
+  ChangeEvent,
+  useActionState,
+  useEffect,
+  useRef,
+} from "react";
 import Image from "next/image";
+import { action_image } from "@/actions/profile/information";
+
+// components
+import SubmitBtn from "../common/SubmitBtn";
+import { toast } from "react-toastify";
+import { getToastType } from "@/utils/helper";
+import { useSession } from "@/utils/useSession";
+
+const INITIAL_STATE_Image = {
+  status: null,
+  message: null,
+  field: null,
+  user: {
+    image: "",
+  },
+};
 
 const FileUpload = () => {
+  const { user, userContext } = useSession();
+
   const [fileName, setFileName] = useState<string>(
     "هیچ فایلی انتخاب نشده است."
   );
   const [error, setError] = useState<string | null>(null);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<string | null>(
+    user?.image || null
+  );
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [tempSelectedImage, setTempSelectedImage] = useState<string | null>(
     null
   );
+
+  const [stateImage, formActionImage, isPending] = useActionState(
+    action_image,
+    INITIAL_STATE_Image
+  );
+
+  useEffect(() => {
+    toast(stateImage?.message, {
+      type: `${getToastType(stateImage?.status)}`,
+    });
+
+    console.log("FileUpload stateImage : ", stateImage);
+
+    if (stateImage?.status === "success") {
+      userContext((prev) => ({
+        ...prev,
+        image: stateImage.user.image,
+      }));
+      setSelectedImage(tempSelectedImage);
+      setIsEditing(false);
+      setFileName("هیچ فایلی انتخاب نشده است.");
+      setTempSelectedImage(null);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stateImage]);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -40,7 +95,6 @@ const FileUpload = () => {
   };
 
   const handleDeleteImage = () => {
-    setSelectedImage(null);
     setTempSelectedImage(null);
     setFileName("هیچ فایلی انتخاب نشده است.");
     setError(null);
@@ -49,11 +103,6 @@ const FileUpload = () => {
   const handleEditClick = () => {
     setTempSelectedImage(selectedImage);
     setIsEditing(true);
-  };
-
-  const handleConfirm = () => {
-    setSelectedImage(tempSelectedImage);
-    setIsEditing(false);
   };
 
   const handleCancel = () => {
@@ -103,7 +152,7 @@ const FileUpload = () => {
       </div>
 
       {/* Change Image */}
-      <div>
+      <form action={formActionImage}>
         <div className="flex flex-col items-start justify-center gap-y-2 mb-5">
           <h4 className="text-sm md:text-base lg:text-lg">تصویر کاربری</h4>
           <div className="space-y-2 text-xs lg:text-sm">
@@ -136,13 +185,15 @@ const FileUpload = () => {
                 </button>
                 <input
                   type="file"
-                  name="uploadedFile"
+                  id="image"
+                  name="image"
                   accept=".jpg, .png"
                   className={`absolute top-0 left-0 w-full h-full opacity-0 ${
                     isEditing && "cursor-pointer"
                   }`}
                   onChange={handleFileChange}
                   disabled={!isEditing}
+                  ref={fileInputRef}
                 />
                 <div className="w-px h-4 md:h-5 lg:h-6 bg-gray-500 dark:bg-gray-400"></div>
                 <span className="max-w-50 text-gray-600 dark:text-gray-300 overflow-hidden">
@@ -160,12 +211,11 @@ const FileUpload = () => {
         <div className="flex items-center justify-center w-full gap-x-2 text-sm md:text-base">
           {isEditing ? (
             <>
-              <button
-                className="flex flex-col items-start justify-center py-2 px-4 text-white bg-green-500 hover:bg-green-600 rounded-lg transition-colors duration-300"
-                onClick={handleConfirm}
-              >
-                ثبت
-              </button>
+              <SubmitBtn
+                title="ثبت"
+                style="flex flex-col items-start justify-center py-2 px-4 text-white bg-green-500 hover:bg-green-600 rounded-lg transition-colors duration-300"
+                isPending={isPending}
+              />
               <button
                 className="flex flex-col items-start justify-center py-2 px-4 text-red-400 border border-red-400 hover:text-white hover:bg-red-500 rounded-lg transition-colors duration-300"
                 onClick={handleCancel}
@@ -196,7 +246,7 @@ const FileUpload = () => {
             </button>
           )}
         </div>
-      </div>
+      </form>
     </div>
   );
 };
