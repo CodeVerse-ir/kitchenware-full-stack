@@ -105,6 +105,7 @@ const Information = () => {
       });
       setIsEditing(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stateInformation]);
 
   const today = new DateObject({ calendar: persian });
