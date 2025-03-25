@@ -14,7 +14,7 @@ interface TotalBlogs {
 const Blogs = async ({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) => {
   const totalBlogs = await axiosFetch<TotalBlogs>({
     fetchType: "get",
@@ -30,7 +30,7 @@ const Blogs = async ({
     params.set("page", "1");
   }
 
-  const totalPages = Math.ceil(totalItems / 8);  
+  const totalPages = Math.ceil(totalItems / 8);
 
   if (Number(page) > totalPages && Number(page) > 1) {
     redirect("/not-found");
@@ -45,7 +45,6 @@ const Blogs = async ({
             <h2 className="section-title">مطالب خواندنی</h2>
           </div>
 
-          {/* <!-- Section Body --> */}
           {/* <!-- Section Body  --> */}
           {totalPages ? (
             <Suspense key={params.toString()} fallback={<Loading />}>

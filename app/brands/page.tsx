@@ -15,7 +15,7 @@ interface TotalProducts {
 const Brands = async ({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) => {
   const totalProducts = await axiosFetch<TotalProducts>({
     fetchType: "get",
