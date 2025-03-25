@@ -26,11 +26,19 @@ const INITIAL_STATE_OTP_FORM = {
   status: null,
   message: null,
   field: null,
-  user: { first_name: "", last_name: "", mobile_number: "", username: "" },
+  user: {
+    first_name: "",
+    last_name: "",
+    mobile_number: "",
+    username: "",
+    image: "",
+    birthdate: "",
+    nickname: "",
+  },
 };
 
 const OtpForm: React.FC<OtpFormProps> = ({ setStep }) => {
-  const { loginContext } = useSession();
+  const { userContext } = useSession();
   // 6 otp input
   const [otp, setOtp] = useState<string[]>(Array(5).fill(""));
   const inputRefs = useRef<(HTMLInputElement | null)[]>(Array(5).fill(null));
@@ -63,7 +71,7 @@ const OtpForm: React.FC<OtpFormProps> = ({ setStep }) => {
 
     if (stateOtp?.status === "success") {
       stateOtp.status = "info";
-      loginContext(stateOtp.user);
+      userContext(stateOtp.user);
       router.push("/");
     } else if (
       stateOtp?.status === "error" &&
@@ -75,7 +83,7 @@ const OtpForm: React.FC<OtpFormProps> = ({ setStep }) => {
         setCounter(counterRef.current - 1);
       }
     }
-  }, [stateOtp, router, setStep, loginContext]);
+  }, [stateOtp, router, setStep, userContext]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,

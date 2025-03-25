@@ -56,7 +56,7 @@ const decodeJWT = (token: string): DecodedToken | null => {
   }
   try {
     const decoded = jwt.verify(token, secretKey) as DecodedToken;
-    return decoded || null;
+    return decoded;
   } catch (err) {
     console.error("توکن معتبر نیست:", err);
     return null;

@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { useSession } from "@/utils/useSession";
 import { logout } from "@/actions/auth/auth";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import logoImg from "/public//image/logo/logo-img.png";
 
@@ -46,14 +46,17 @@ const NavDesktop: React.FC<NavDesktopPrpos> = ({
 }) => {
   const pathname = usePathname();
 
-  const { user, loginContext } = useSession();
+  const { user, userContext } = useSession();
   const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
 
   const handleLogout = async () => {
     setLoading(true);
     await logout();
-    loginContext(null);
+    userContext(null);
     setLoading(false);
+    router.push("/");
   };
 
   return (

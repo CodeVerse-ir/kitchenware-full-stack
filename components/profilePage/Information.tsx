@@ -1,32 +1,74 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useActionState } from "react";
 import { useSession } from "@/utils/useSession";
+import { action_information } from "@/actions/profile/information";
 
 // react-multi-date-picker persian
 import { DateObject } from "react-multi-date-picker";
 import DatePicker from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
+// react-multi-date-picker gregorian
+import gregorian from "react-date-object/calendars/gregorian";
+import gregorian_en from "react-date-object/locales/gregorian_en";
 
 // type
 import type { Value } from "react-multi-date-picker";
+import { toast } from "react-toastify";
+import { getToastType } from "@/utils/helper";
+import SubmitBtn from "../common/SubmitBtn";
 
 interface UserInformation {
   first_name: string;
   last_name: string;
-  birthdate: string;
+  birthdate_persian: string;
+  birthdate_gregorian: string;
   nickname: string;
 }
 
-const Information = () => {
-  const { user } = useSession();
-
-  const [information, setInformation] = useState<UserInformation>({
+const INITIAL_STATE_Information = {
+  status: null,
+  message: null,
+  field: null,
+  user: {
     first_name: "",
     last_name: "",
     birthdate: "",
     nickname: "",
+  },
+};
+
+const convertDate = (value: Value | undefined) => {
+  if (value) {
+    const date = new DateObject(value);
+    return date.convert(persian, persian_fa).format("YYYY/MM/DD");
+  }
+};
+
+const persianDate = (value: Value | undefined) => {
+  if (value) {
+    const date = new DateObject(value);
+    return date.convert(persian, persian_fa).format("YYYY/MM/DD");
+  }
+};
+
+const gregorianDate = (value: Value) => {
+  if (value) {
+    const date = new DateObject(value);
+    return date.convert(gregorian, gregorian_en).format("YYYY-MM-DD");
+  }
+};
+
+const Information = () => {
+  const { user, userContext } = useSession();
+
+  const [information, setInformation] = useState<UserInformation>({
+    first_name: user?.first_name || "",
+    last_name: user?.last_name || "",
+    birthdate_persian: convertDate(user?.birthdate) || "",
+    birthdate_gregorian: user?.birthdate || "",
+    nickname: user?.nickname || "",
   });
 
   const [isEditing, setIsEditing] = useState(false);
@@ -34,22 +76,36 @@ const Information = () => {
     ...information,
   });
 
+  const [stateInformation, formActionInformation, isPending] = useActionState(
+    action_information,
+    INITIAL_STATE_Information
+  );
+
   useEffect(() => {
-    if (user) {
+    toast(stateInformation?.message, {
+      type: `${getToastType(stateInformation?.status)}`,
+    });
+
+    console.log("CheckOtpForm stateOtp : ", stateInformation);
+
+    if (stateInformation?.status === "success") {
+      userContext((prev) => ({
+        ...prev,
+        first_name: stateInformation.user.first_name,
+        last_name: stateInformation.user.last_name,
+        birthdate: stateInformation.user.birthdate,
+        nickname: stateInformation.user.nickname,
+      }));
       setInformation({
-        first_name: user.first_name || "",
-        last_name: user.last_name || "",
-        birthdate: user.birthdate || "",
-        nickname: user.nickname || "",
+        first_name: stateInformation.user.first_name,
+        last_name: stateInformation.user.last_name,
+        birthdate_persian: convertDate(stateInformation.user.birthdate) || "",
+        birthdate_gregorian: stateInformation.user.birthdate,
+        nickname: stateInformation.user.nickname,
       });
-      setTempInformation({
-        first_name: user.first_name || "",
-        last_name: user.last_name || "",
-        birthdate: user.birthdate || "",
-        nickname: user.nickname || "",
-      });
+      setIsEditing(false);
     }
-  }, [user]);
+  }, [stateInformation]);
 
   const today = new DateObject({ calendar: persian });
   const minDate = new DateObject({ calendar: persian })
@@ -74,20 +130,10 @@ const Information = () => {
 
   const handleBirthdate = (value: Value) => {
     if (value) {
-      const date = new DateObject(value);
-
-      const persianDate = date
-        .convert(persian, persian_fa)
-        .format("YYYY/MM/DD");
-
       setTempInformation((prev) => ({
         ...prev,
-        birthdate: persianDate,
-      }));
-    } else {
-      setTempInformation((prev) => ({
-        ...prev,
-        birthdate: "",
+        birthdate_persian: persianDate(value) || "",
+        birthdate_gregorian: gregorianDate(value) || "",
       }));
     }
   };
@@ -105,18 +151,16 @@ const Information = () => {
     setIsEditing(true);
   };
 
-  const handleConfirm = () => {
-    setInformation({ ...tempInformation });
-    setIsEditing(false);
-  };
-
   const handleCancel = () => {
     setTempInformation({ ...information });
     setIsEditing(false);
   };
 
   return (
-    <div className="flex flex-col items-start justify-normal mb-10 xl:mb-0">
+    <form
+      action={formActionInformation}
+      className="flex flex-col items-start justify-normal mb-10 xl:mb-0"
+    >
       {/* First & Last Name */}
       <div className="flex flex-col md:flex-row items-center justify-start gap-x-5 gap-y-5 md:gap-y-0 text-sm md:text-base lg:text-lg mb-5 md:mb-10">
         <div className="flex flex-col items-start justify-center gap-y-2">
@@ -158,7 +202,7 @@ const Information = () => {
       {/* Birthdate & Nickname */}
       <div className="flex flex-col md:flex-row items-center justify-start gap-x-5 gap-y-5 md:gap-y-0 text-sm md:text-base lg:text-lg mb-5 md:mb-10">
         <div className="flex flex-col items-start justify-center gap-y-2">
-          <span>تاریخ تولد (اختیاری) :</span>
+          <span>تاریخ تولد :</span>
           <div dir="ltr">
             <DatePicker
               className="custom-calendar"
@@ -172,10 +216,17 @@ const Information = () => {
               minDate={minDate}
               maxDate={today}
               value={
-                isEditing ? tempInformation.birthdate : information.birthdate
+                isEditing
+                  ? tempInformation.birthdate_persian
+                  : information.birthdate_persian
               }
               onChange={handleBirthdate}
               disabled={!isEditing}
+            />
+            <input
+              type="hidden"
+              name="birthdate"
+              value={tempInformation.birthdate_gregorian}
             />
           </div>
         </div>
@@ -200,12 +251,17 @@ const Information = () => {
       <div className="flex items-center justify-center w-full gap-x-2 text-sm md:text-base">
         {isEditing ? (
           <>
-            <button
+            {/* <button
               className="flex flex-col items-start justify-center py-2 px-4 text-white bg-green-500 hover:bg-green-600 rounded-lg transition-colors duration-300"
               onClick={handleConfirm}
             >
               ثبت
-            </button>
+            </button> */}
+            <SubmitBtn
+              title="تایید"
+              style="flex flex-col items-start justify-center py-2 px-4 text-white bg-green-500 hover:bg-green-600 rounded-lg transition-colors duration-300"
+              isPending={isPending}
+            />
             <button
               className="flex flex-col items-start justify-center py-2 px-4 text-red-400 border border-red-400 hover:text-white hover:bg-red-500 rounded-lg transition-colors duration-300"
               onClick={handleCancel}
@@ -236,7 +292,7 @@ const Information = () => {
           </button>
         )}
       </div>
-    </div>
+    </form>
   );
 };
 

@@ -26,6 +26,9 @@ interface checkOtpProps {
     last_name: string;
     mobile_number: string;
     username: string;
+    image: string;
+    birthdate: string;
+    nickname: string;
   };
 }
 
@@ -260,6 +263,9 @@ async function checkOtp(
                   last_name: user.last_name,
                   mobile_number: user.mobile_number,
                   username: user.username,
+                  image: user.image,
+                  birthdate: user.birthdate,
+                  nickname: user.nickname,
                 },
               };
             }
@@ -374,6 +380,12 @@ async function me(): Promise<meProps> {
         }
       }
 
+      const cookieStore = await cookies();
+      const hasCookie = cookieStore.has("token");
+
+      if (hasCookie) {
+        cookieStore.delete("token");
+      }
       return {
         user: null,
       };
