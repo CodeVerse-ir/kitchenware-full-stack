@@ -1,41 +1,67 @@
 import Image from "next/image";
+import { getBlurDataURL } from "@/utils/helper";
 
-const CardProduct = () => {
+interface CardProductProps {
+  code: string;
+  image: string[];
+  product_name: string;
+  finalPrice: number;
+  price: number;
+  discount: number;
+}
+
+const CardProduct: React.FC<CardProductProps> = ({
+  code,
+  image,
+  product_name,
+  finalPrice,
+  price,
+  discount,
+}) => {
   return (
     <div className="flex flex-col justify-between p-4 md:p-5 bg-white dark:bg-zinc-700 border border-gray-300 rounded-2xl">
       <div className="relative mb-2 md:mb-5">
         <Image
-          className="w-32 mx-auto md:w-auto"
-          src="/image/products/product1/product1.jpeg"
-          alt="avatar"
+          className="mx-auto md:w-auto"
+          src={image[0]}
+          alt={`product ${code}`}
           width={128}
           height={128}
           sizes="(min-width: 768px)"
-          priority
+          loading="lazy"
+          placeholder="blur"
+          blurDataURL={getBlurDataURL()}
         />
 
         {/* <!-- discount percent  --> */}
-        <span className="absolute top-1 right-1 flex items-center justify-center w-10 lg:w-[3.375rem] h-5 md:h-[30px] text-xs/[24px] md:text-base/[34px] font-DanaBold bg-orange-300 text-white dark:text-zinc-700 rounded-3xl pt-1">
-          12%
-        </span>
+        {discount !== 0 && (
+          <span className="absolute top-1 right-1 flex items-center justify-center w-10 lg:w-[3.375rem] h-5 md:h-[30px] text-xs/[24px] md:text-base/[34px] font-DanaBold bg-orange-300 text-white dark:text-zinc-700 rounded-3xl pt-1">
+            {discount}%
+          </span>
+        )}
       </div>
 
       {/* <!-- Cart Title --> */}
       <h5 className="font-DanaMedium text-sm/7 lg:text-xl/7 min-h-14 text-zinc-700 dark:text-white line-clamp-2">
-        کتری و قوری استیل 2 لیتر مدل کلاسیک یونیک کد UN-7264
+        {product_name}
       </h5>
 
       {/* <!-- Cart Price --> */}
       <div className="flex gap-x-2 md:gap-x-2.5 mt-1.5 md:mt-2.5">
         <div className="text-teal-600 dark:text-emerald-500">
-          <span className="font-DanaBold text-base lg:text-xl">75,000</span>
+          <span className="font-DanaBold text-base lg:text-xl">
+            {" "}
+            {Number(finalPrice).toLocaleString()}
+          </span>
           <span className="pr-0.5 text-xs md:text-sm tracking-tighter">
             تومان
           </span>
-          <span className="mr-2 text-sm text-gray-400 line-through lg:text-base decoration-red-500 decoration-1">
-            175,000
-            <span className="hidden pr-0.5 md:inline">تومان</span>
-          </span>
+          {discount !== 0 && (
+            <div className="mr-2 text-xs md:text-sm text-gray-400 line-through lg:text-base decoration-red-500 decoration-1">
+              <span className="">{Number(price).toLocaleString()}</span>
+              <span className="hidden lg:inline">تومان</span>
+            </div>
+          )}
         </div>
       </div>
 

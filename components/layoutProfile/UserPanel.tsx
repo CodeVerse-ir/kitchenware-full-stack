@@ -22,7 +22,7 @@ const UserPanel = () => {
 
           <span className="mt-1">اطلاعات شخصی</span>
         </Link>
-        <Link href="/profile/save">
+        <Link href="/profile/bookmark">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

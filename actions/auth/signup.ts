@@ -239,7 +239,10 @@ async function usernameAndPassword(
       const twoMinutesLater = new Date(now.getTime() + 2 * 60000);
 
       await db.collection("users").updateOne(
-        { username: username, mobile_number: mobile_number, active: false },
+        {
+          $or: [{ username: username }, { mobile_number: mobile_number }],
+          active: false,
+        },
         {
           $set: {
             first_name,
@@ -252,6 +255,7 @@ async function usernameAndPassword(
             active: false,
             otp_code: generateRandomOTP(),
             otp_validity_time: twoMinutesLater,
+            bookmarked_products: [],
           },
         },
         { upsert: true }
@@ -372,7 +376,7 @@ async function checkOtp(
                 error_code: null,
               };
             }
-            
+
             await db
               .collection("users")
               .updateOne(
