@@ -98,6 +98,9 @@ const FileUpload = () => {
     setTempSelectedImage(null);
     setFileName("هیچ فایلی انتخاب نشده است.");
     setError(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   const handleEditClick = () => {
@@ -120,8 +123,8 @@ const FileUpload = () => {
           className="w-24 h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 border-4 border-orange-300 rounded-full mb-5"
           src={
             isEditing
-              ? tempSelectedImage || "/image/comment/avatar.png"
-              : selectedImage || "/image/comment/avatar.png"
+              ? tempSelectedImage || "/image/profile/avatar.png"
+              : selectedImage || "/image/profile/avatar.png"
           }
           alt="avatar"
           width={128}

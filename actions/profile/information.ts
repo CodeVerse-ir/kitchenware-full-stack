@@ -250,7 +250,7 @@ async function action_image(
       status: "success",
       message: "عکس با موفقیت ذخیره شد.",
       user: {
-        image: `/uploads/${filename}`,
+        image: `/image/profile/${filename}`,
       },
     };
   } catch (error) {
