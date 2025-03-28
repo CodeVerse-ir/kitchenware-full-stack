@@ -118,7 +118,7 @@ const Information = () => {
   const handleFirst_name = (e: React.ChangeEvent<HTMLInputElement>) => {
     const first_nameValue = e.target.value;
     const pattern = /^[\u0600-\u06FF\s]*$/;
-    if (pattern.test(first_nameValue)) {
+    if (pattern.test(first_nameValue) && first_nameValue.length <= 30) {
       setTempInformation((prev) => ({ ...prev, first_name: first_nameValue }));
     }
   };
@@ -126,7 +126,7 @@ const Information = () => {
   const handleLast_name = (e: React.ChangeEvent<HTMLInputElement>) => {
     const last_nameValue = e.target.value;
     const pattern = /^[\u0600-\u06FF\s]*$/;
-    if (pattern.test(last_nameValue)) {
+    if (pattern.test(last_nameValue) && last_nameValue.length <= 30) {
       setTempInformation((prev) => ({ ...prev, last_name: last_nameValue }));
     }
   };
@@ -144,7 +144,7 @@ const Information = () => {
   const handleNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
     const nicknameValue = e.target.value;
     const pattern = /^[\u0600-\u06FF\s]*$/;
-    if (pattern.test(nicknameValue)) {
+    if (pattern.test(nicknameValue) && nicknameValue.length <= 20) {
       setTempInformation((prev) => ({ ...prev, nickname: nicknameValue }));
     }
   };
