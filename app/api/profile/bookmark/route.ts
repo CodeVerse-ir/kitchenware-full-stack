@@ -120,3 +120,66 @@ export async function GET(request: NextRequest) {
     await client.close();
   }
 }
+
+export async function DELETE(request: NextRequest) {
+  const authHeader = request.headers.get("Authorization");
+  const token = authHeader?.split(" ")[1];
+
+  if (!token) {
+    return Response.json(
+      { error: "توکن احراز هویت یافت نشد" },
+      { status: 401 }
+    );
+  }
+
+  const decodedToken = decodeJWT(token);
+  if (!decodedToken) {
+    return Response.json(
+      { error: "توکن احراز هویت نامعتبر است" },
+      { status: 403 }
+    );
+  }
+
+  const username = decodedToken.username;
+
+  const body = await request.json();
+  const product_code = body.code;
+
+  if (!product_code) {
+    return Response.json({ error: "کد محصول مورد نیاز است" }, { status: 400 });
+  }
+
+  const client = new MongoClient(process.env.MONGODB_URI!);
+
+  try {
+    await client.connect();
+    const db = client.db();
+
+    const result = await db
+      .collection("users")
+      .updateOne(
+        { username },
+        { $pull: { bookmarked_products: product_code } }
+      );
+
+    if (result.modifiedCount === 0) {
+      return Response.json(
+        { error: "محصول از لیست ذخیره شده ها حذف نشد" },
+        { status: 404 }
+      );
+    }
+
+    return Response.json(
+      { message: "محصول با موفقیت از لیست ذخیره شده ها حذف شد" },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error in DELETE operation:", error);
+    return Response.json(
+      { error: "خطای سرور در پردازش درخواست" },
+      { status: 500 }
+    );
+  } finally {
+    await client.close();
+  }
+}
