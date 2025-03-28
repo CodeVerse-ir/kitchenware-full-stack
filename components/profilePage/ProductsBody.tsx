@@ -4,7 +4,7 @@ import { axiosFetch } from "@/utils/axios_fetch";
 import CardProduct from "./CardProduct";
 
 interface ProductsBodyProps {
-  page: string;
+  url: string;
   token: string;
 }
 
@@ -18,10 +18,10 @@ interface Product {
   clock: string;
 }
 
-const ProductsBody: React.FC<ProductsBodyProps> = async ({ page, token }) => {
+const ProductsBody: React.FC<ProductsBodyProps> = async ({ url, token }) => {
   const products = await axiosFetch<Product[]>({
     fetchType: "get",
-    url: `profile/bookmark?${page}`,
+    url,
     token,
   });
 

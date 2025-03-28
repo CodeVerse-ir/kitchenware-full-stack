@@ -3,9 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getBlurDataURL, getToastType } from "@/utils/helper";
-import { action_bookmark } from "@/actions/profile/bookmark";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { usePathname } from "next/navigation";
+import { action_delete } from "@/actions/profile/information";
 
 interface CardProductProps {
   code: string;
@@ -24,10 +25,12 @@ const CardProduct: React.FC<CardProductProps> = ({
   price,
   discount,
 }) => {
+  const pathname = usePathname();  
   const [loading, setLoading] = useState<boolean>(false);
+
   const handleDelete = async (code: string) => {
     setLoading(true);
-    const data = await action_bookmark(code);
+    const data = await action_delete(pathname, code);
     if (data) {
       toast(data.message, { type: getToastType(data.status) });
     }

@@ -6,6 +6,8 @@ import { cookies } from "next/headers";
 import { writeFile, mkdir, access } from "fs/promises";
 import { constants } from "fs";
 import { join } from "path";
+import { axiosFetch } from "@/utils/axios_fetch";
+import { revalidatePath } from "next/cache";
 
 const url = process.env.MONGODB_URI;
 
@@ -28,6 +30,11 @@ interface imageProps {
   user: {
     image: string;
   };
+}
+
+interface deleteProps {
+  status: string;
+  message: string;
 }
 
 const getStringValue = (value: FormDataEntryValue | null): string => {
@@ -265,4 +272,47 @@ async function action_image(
   }
 }
 
-export { action_information, action_image };
+async function action_delete(
+  pathname: string,
+  code: string
+): Promise<deleteProps> {
+  // cookies
+  const cookieStore = await cookies();
+  const token = cookieStore.get("token");
+
+  if (token) {
+    const tokenValue = token.value;
+
+    const path = pathname.slice(1); // delete "/"    
+
+    const deleteProduct = await axiosFetch({
+      fetchType: "delete",
+      url: path,
+      data: { code },
+      token: tokenValue,
+    });
+
+    if (
+      deleteProduct &&
+      typeof deleteProduct === "object" &&
+      "message" in deleteProduct
+    ) {
+      revalidatePath("/profile/bookmark");
+
+      return {
+        status: "success",
+        message: deleteProduct?.message as string,
+      };
+    }
+    return {
+      status: "error",
+      message: "محصول از لیست حذف نشد.",
+    };
+  }
+  return {
+    status: "error",
+    message: "توکن احراز هویت وجود ندارد.",
+  };
+}
+
+export { action_information, action_image, action_delete };

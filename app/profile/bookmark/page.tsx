@@ -63,7 +63,7 @@ const Bookmark = async ({
       {/* <!-- Section Body  --> */}
       {totalPages ? (
         <Suspense key={params.toString()} fallback={<Loading />}>
-          <ProductsBody page={params.toString()} token={tokenValue} />
+          <ProductsBody url={`profile/bookmark?${params}`} token={tokenValue} />
         </Suspense>
       ) : (
         <EmptyCard text="شما در حال حاضر هیچ محصولی را به ذخیره شده ها اضافه نکرده‌اید!" />
