@@ -234,7 +234,7 @@ async function action_image(
       .collection("users")
       .updateOne(
         { username: decodedToken.username },
-        { $set: { image: `/uploads/${filename}` } }
+        { $set: { image: `/profile/${filename}` } }
       );
 
     if (result.matchedCount === 0) {
