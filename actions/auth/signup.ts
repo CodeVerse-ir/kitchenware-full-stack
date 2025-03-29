@@ -257,6 +257,7 @@ async function usernameAndPassword(
             otp_validity_time: twoMinutesLater,
             bookmarked_products: [],
             lieked_products: [],
+            addresses: [],
           },
         },
         { upsert: true }

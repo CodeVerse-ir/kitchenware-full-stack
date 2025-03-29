@@ -10,6 +10,7 @@ const links = {
   profile: "/profile",
   bookmark: "/profile/bookmark",
   likes: "/profile/likes",
+  addresses: "/profile/addresses",
 };
 
 const UserPanel = () => {
@@ -29,6 +30,7 @@ const UserPanel = () => {
   return (
     <div className="w-2/4 lg:w-full lg:mt-5 p-5 text-sm md:text-base lg:text-lg bg-white dark:bg-zinc-700 shadow-normal rounded-2xl">
       <div className="flex flex-col items-start select-none">
+        {/* profile */}
         <Link
           href={links.profile}
           className={`flex items-center justify-start gap-x-2 hover:text-orange-300 ${
@@ -54,6 +56,7 @@ const UserPanel = () => {
 
           <span className="mt-1">اطلاعات شخصی</span>
         </Link>
+        {/* bookmark */}
         <Link
           href={links.bookmark}
           className={`flex items-center justify-start gap-x-2 hover:text-orange-300 ${
@@ -79,6 +82,7 @@ const UserPanel = () => {
 
           <span className="mt-1">ذخیره شده ها</span>
         </Link>
+        {/* likes */}
         <Link
           href={links.likes}
           className={`flex items-center justify-start gap-x-2 hover:text-orange-300 ${
@@ -103,6 +107,37 @@ const UserPanel = () => {
           </svg>
 
           <span className="mt-1">علاقه مندی ها</span>
+        </Link>
+        {/* addresses */}
+        <Link
+          href={links.addresses}
+          className={`flex items-center justify-start gap-x-2 hover:text-orange-300 ${
+            links.addresses === pathname
+              ? "text-orange-300"
+              : "text-black dark:text-white"
+          } transition-colors duration-150`}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="size-4 md:size-5 lg:size-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+            />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
+            />
+          </svg>
+
+          <span className="mt-1">آدرس ها</span>
         </Link>
         {/* divide */}
         <div className="w-full h-px my-2 bg-gray-400 rounded-full"></div>
