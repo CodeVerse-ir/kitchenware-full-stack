@@ -10,7 +10,7 @@ const Addresses = () => {
 
       {/* <!-- Body --> */}
       <div className="flex flex-col items-center justify-center w-full">
-        {/* <Address /> */}
+        <Address />
       </div>
     </div>
   );

@@ -127,6 +127,14 @@ const CreateAddress = () => {
 
   const handleToggleForm = () => {
     setIsFormVisible(!isFormVisible);
+    setAddress({
+      title: "",
+      mobile_number: "",
+      postal_code: "",
+      state: "تهران",
+      city: "",
+      address_details: "",
+    });
   };
 
   const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
