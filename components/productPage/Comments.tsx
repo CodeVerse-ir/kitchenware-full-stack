@@ -1,47 +1,19 @@
-"use client";
+"use clinet";
 
-import axios from "axios";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-
-const baseURL = "https://fake-json-server-in.vercel.app/api/";
-
-interface CommentsProps {
-  showComment: boolean;
-  product_code: string;
-}
 
 interface Comment {
-  initialComments: [
-    {
-      image: string;
-      name: string;
-      date: { day: string; mounth: string; year: string };
-      star: number;
-      title: string;
-      text: string;
-      isLiked: boolean;
-      dislike: boolean;
-      isDisliked: boolean;
-      like: number;
-    }
-  ];
+  name: string;
+  title: string;
+  text: string;
+  date: string;
 }
 
-const Comments: React.FC<CommentsProps> = ({ showComment, product_code }) => {
-  const [comments, setComments] = useState<Comment[] | null>(null);
+interface CommentsProps {
+  comments: Comment[];
+}
 
-  useEffect(() => {
-    axios
-      .get(`${baseURL}products?code=${product_code}`)
-      .then((response) => {
-        setComments(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }, [product_code]);
-
+const Comments: React.FC<CommentsProps> = ({ comments }) => {
   // const toggleLike = (index: number) => {
   //   setComments((prevComments) => {
   //     const newComments = [...prevComments];
@@ -50,13 +22,13 @@ const Comments: React.FC<CommentsProps> = ({ showComment, product_code }) => {
 
   //     if (comment.isLiked) {
   //       comment.like -= 1;
-  //       comment.isLiked = false; 
+  //       comment.isLiked = false;
   //     } else {
   //       comment.like += 1;
-  //       comment.isLiked = true; 
+  //       comment.isLiked = true;
   //     }
 
-  //     newComments[index] = comment; 
+  //     newComments[index] = comment;
   //     return newComments;
   //   });
   // };
@@ -157,116 +129,102 @@ const Comments: React.FC<CommentsProps> = ({ showComment, product_code }) => {
         </symbol>
       </svg>
 
-      {/* Loader */}
-      {!comments && <div>در حال بارگذاری داده‌ها...</div>}
+      <div className="flex flex-col w-full divide-y-[1px] divide-gray-300 mt-2.5 p-5 md:p-10 gap-y-4 lg:gap-y-6 text-sm md:text-base lg:text-lg text-black dark:text-white bg-white dark:bg-zinc-700 shadow-normal rounded-2xl">
+        {/* <!-- User --> */}
+        {comments.map((comment, index) => {
+          return (
+            <div key={index}>
+              <div className="flex flex-col lg:flex-row gap-y-5 lg:gap-y-0 items-start justify-start mt-4 lg:mt-6 gap-x-20">
+                {/* <!-- Information --> */}
+                <div className="flex items-start justify-normal w-full lg:w-[20%]">
+                  {/* <!-- User Image --> */}
+                  <Image
+                    className="w-10 h-10 lg:w-14 lg:h-14"
+                    src={comment.image}
+                    alt={`avatar ${index + 1}`}
+                    width={40}
+                    height={40}
+                    loading="lazy"
+                  />
 
-      {comments && (
-        <>
-          {/* <!-- Comments flex --> */}
-          <div
-            className={`${
-              showComment ? "flex" : "hidden"
-            } flex-col w-full divide-y-[1px] divide-gray-300 mt-2.5 p-5 md:p-10 gap-y-4 lg:gap-y-6 text-sm md:text-base lg:text-lg text-black dark:text-white bg-white dark:bg-zinc-700 shadow-normal rounded-2xl`}
-          >
-            {/* <!-- User --> */}
-            {comments[0].initialComments.map((comment, index) => {
-              return (
-                <div key={index}>
-                  <div className="flex flex-col lg:flex-row gap-y-5 lg:gap-y-0 items-start justify-start mt-4 lg:mt-6 gap-x-20">
-                    {/* <!-- Information --> */}
-                    <div className="flex items-start justify-normal w-full lg:w-[20%]">
-                      {/* <!-- User Image --> */}
-                      <Image
-                        className="w-10 h-10 lg:w-14 lg:h-14"
-                        src={comment.image.replaceAll("/utils", "")}
-                        alt={`avatar ${index + 1}`}
-                        width={40}
-                        height={40}
-                        loading="lazy"
-                      />
-
-                      <div className="flex flex-col items-start justify-center mr-5 gap-y-2.5">
-                        {/* <!-- Name --> */}
-                        <h4 className="font-MorabbaMedium text-base  md:text-lg lg:text-xl">
-                          {comment.name}
-                        </h4>
-                        {/* <!-- Date --> */}
-                        <div className="flex gap-x-2 font-MorabbaMedium text-xs md:text-sm lg:text-base text-gray-700 dark:text-gray-300">
-                          <svg className="w-4 h-4 lg:w-5 lg:h-5">
-                            <use href="#calendar-days"></use>
-                          </svg>
-                          <div className="flex items-center justify-center gap-x-1">
-                            <span>{comment.date.day}</span>
-                            <span>{comment.date.mounth}</span>
-                            <span>{comment.date.year}</span>
-                          </div>
-                        </div>
-
-                        {/* <!-- Star --> */}
-                        <div className="flex text-gray-300 dark:text-gray-400">
-                          {Array.from({ length: 5 }, (_, index) => (
-                            <svg
-                              key={index}
-                              className={`mb-1 w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 ${
-                                index < comment.star && "text-yellow-400"
-                              }`}
-                            >
-                              <use href="#star-solid"></use>
-                            </svg>
-                          ))}
-                        </div>
+                  <div className="flex flex-col items-start justify-center mr-5 gap-y-2.5">
+                    {/* <!-- Name --> */}
+                    <h4 className="font-MorabbaMedium text-base  md:text-lg lg:text-xl">
+                      {comment.name}
+                    </h4>
+                    {/* <!-- Date --> */}
+                    <div className="flex gap-x-2 font-MorabbaMedium text-xs md:text-sm lg:text-base text-gray-700 dark:text-gray-300">
+                      <svg className="w-4 h-4 lg:w-5 lg:h-5">
+                        <use href="#calendar-days"></use>
+                      </svg>
+                      <div className="flex items-center justify-center gap-x-1">
+                        <span>{comment.date.day}</span>
+                        <span>{comment.date.mounth}</span>
+                        <span>{comment.date.year}</span>
                       </div>
                     </div>
 
-                    {/* <!-- Comment --> */}
-                    <div className="flex flex-col items-start justify-center w-[80%] gap-y-2 lg:gap-y-4">
-                      {/* <!-- Title --> */}
-                      <h4 className="font-DanaMedium text-sm md:text-base lg:text-lg">
-                        {comment.title}
-                      </h4>
-                      {/* <!-- Text --> */}
-                      <p className="text-sm md:text-base lg:text-lg">
-                        {comment.text}
-                      </p>
-                      {/* <!-- Like & Dislike --> */}
-                      <div className="flex gap-x-2">
-                        <div
-                          className="group flex items-center justify-center w-16 h-8 lg:w-20 lg:h-10 gap-x-2 rounded-xl border border-gray-300 child:transition-all select-none"
-                          // onClick={() => toggleLike(index)}
+                    {/* <!-- Star --> */}
+                    <div className="flex text-gray-300 dark:text-gray-400">
+                      {Array.from({ length: 5 }, (_, index) => (
+                        <svg
+                          key={index}
+                          className={`mb-1 w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 ${
+                            index < comment.star && "text-yellow-400"
+                          }`}
                         >
-                          <svg className="w-4 h-4 lg:w-5 lg:h-5 text-green-500 group-hover:scale-125">
-                            <use
-                              href={`#${
-                                comment.isLiked ? "hand-up-solid" : "hand-up"
-                              }`}
-                            ></use>
-                          </svg>
-                          <span className="mt-1">{comment.like}</span>
-                        </div>
-                        <div
-                          className="group flex items-center justify-center w-16 h-8 lg:w-20 lg:h-10 gap-x-2 rounded-xl border border-gray-300 child:transition-all select-none"
-                          // onClick={() => toggleDislike(index)}
-                        >
-                          <svg className="w-4 h-4 lg:w-5 lg:h-5 text-red-500 group-hover:scale-125">
-                            <use
-                              href={`#${
-                                comment.isDisliked
-                                  ? "hand-down-solid"
-                                  : "hand-down"
-                              }`}
-                            ></use>
-                          </svg>
-                          <span className="mt-1">{comment.dislike}</span>
-                        </div>
-                      </div>
+                          <use href="#star-solid"></use>
+                        </svg>
+                      ))}
                     </div>
                   </div>
                 </div>
-              );
-            })}
-          </div>
-        </>
-      )}
+
+                {/* <!-- Comment --> */}
+                <div className="flex flex-col items-start justify-center w-[80%] gap-y-2 lg:gap-y-4">
+                  {/* <!-- Title --> */}
+                  <h4 className="font-DanaMedium text-sm md:text-base lg:text-lg">
+                    {comment.title}
+                  </h4>
+                  {/* <!-- Text --> */}
+                  <p className="text-sm md:text-base lg:text-lg">
+                    {comment.text}
+                  </p>
+                  {/* <!-- Like & Dislike --> */}
+                  <div className="flex gap-x-2">
+                    <div
+                      className="group flex items-center justify-center w-16 h-8 lg:w-20 lg:h-10 gap-x-2 rounded-xl border border-gray-300 child:transition-all select-none"
+                      // onClick={() => toggleLike(index)}
+                    >
+                      <svg className="w-4 h-4 lg:w-5 lg:h-5 text-green-500 group-hover:scale-125">
+                        <use
+                          href={`#${
+                            comment.isLiked ? "hand-up-solid" : "hand-up"
+                          }`}
+                        ></use>
+                      </svg>
+                      <span className="mt-1">{comment.like}</span>
+                    </div>
+                    <div
+                      className="group flex items-center justify-center w-16 h-8 lg:w-20 lg:h-10 gap-x-2 rounded-xl border border-gray-300 child:transition-all select-none"
+                      // onClick={() => toggleDislike(index)}
+                    >
+                      <svg className="w-4 h-4 lg:w-5 lg:h-5 text-red-500 group-hover:scale-125">
+                        <use
+                          href={`#${
+                            comment.isDisliked ? "hand-down-solid" : "hand-down"
+                          }`}
+                        ></use>
+                      </svg>
+                      <span className="mt-1">{comment.dislike}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </>
   );
 };
