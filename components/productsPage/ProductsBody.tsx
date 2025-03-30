@@ -1,4 +1,5 @@
 import { axiosFetch } from "@/utils/axios_fetch";
+import { checkDiscountStatus } from "@/utils/helper";
 
 // components
 import CardProduct from "../common/CardProduct";
@@ -12,9 +13,12 @@ interface Product {
   image: string[];
   product_name: string;
   price: number;
-  discount: number;
+  discount: {
+    percent: number;
+    start_time: string;
+    end_time: string;
+  };
   star: number;
-  clock: string;
 }
 
 const ProductsBody: React.FC<ProductsBodyProps> = async ({ params }) => {
@@ -28,10 +32,9 @@ const ProductsBody: React.FC<ProductsBodyProps> = async ({ params }) => {
       {data &&
         data.length > 0 &&
         data.map((cart) => {
-          const finalPrice =
-            cart.discount === 0
-              ? cart.price
-              : cart.price - cart.price * (cart.discount / 100);
+          const finalPrice = checkDiscountStatus(cart.discount)
+            ? cart.price - cart.price * (cart.discount.percent / 100)
+            : cart.price;
           return (
             <CardProduct
               key={cart.code}
@@ -42,7 +45,6 @@ const ProductsBody: React.FC<ProductsBodyProps> = async ({ params }) => {
               price={cart.price}
               discount={cart.discount}
               star={cart.star}
-              clock={cart.clock}
             />
           );
         })}

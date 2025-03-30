@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { getBlurDataURL } from "@/utils/helper";
+import { checkDiscountStatus, getBlurDataURL } from "@/utils/helper";
 
 // components
 import Clock from "./Clock";
@@ -11,9 +11,12 @@ interface CardProductProps {
   product_name: string;
   finalPrice: number;
   price: number;
-  discount: number;
+  discount: {
+    percent: number;
+    start_time: string;
+    end_time: string;
+  };
   star: number;
-  clock: string;
 }
 
 const CardProduct: React.FC<CardProductProps> = ({
@@ -24,7 +27,6 @@ const CardProduct: React.FC<CardProductProps> = ({
   price,
   discount,
   star,
-  clock,
 }) => {
   return (
     <>
@@ -91,9 +93,9 @@ const CardProduct: React.FC<CardProductProps> = ({
             placeholder="blur"
             blurDataURL={getBlurDataURL()}
           />
-          {discount !== 0 && (
+          {checkDiscountStatus(discount) && (
             <span className="absolute top-1 right-1 flex items-center justify-center w-10 lg:w-[3.375rem] h-5 md:h-[30px] text-xs/[24px] md:text-base/[34px] font-DanaBold bg-orange-300 text-white dark:text-zinc-700 rounded-3xl pt-1">
-              {discount}%
+              {discount.percent}%
             </span>
           )}
         </div>
@@ -113,7 +115,7 @@ const CardProduct: React.FC<CardProductProps> = ({
               تومان
             </span>
           </div>
-          {discount !== 0 && (
+          {checkDiscountStatus(discount) && (
             <div className="mr-2 text-xs md:text-sm text-gray-400 line-through lg:text-base decoration-red-500 decoration-1">
               <span className="">{Number(price).toLocaleString()}</span>
               <span className="hidden lg:inline">تومان</span>
@@ -138,7 +140,9 @@ const CardProduct: React.FC<CardProductProps> = ({
           </div>
 
           {/* Timer */}
-          {discount !== 0 && <Clock clock={clock} showClock={true} />}
+          {checkDiscountStatus(discount) && (
+            <Clock discount={discount} showClock={true} />
+          )}
         </div>
       </Link>
     </>

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { getBlurDataURL } from "@/utils/helper";
+import { checkDiscountStatus, getBlurDataURL } from "@/utils/helper";
 
 // components
 import Clock from "../common/Clock";
@@ -13,8 +13,11 @@ import Pictures from "./Pictures";
 
 interface CartProductProps {
   product: {
-    discount: number;
-    clock: string;
+    discount: {
+      percent: number;
+      start_time: string;
+      end_time: string;
+    };
     image: string[];
     brand: string;
     category: string;
@@ -32,16 +35,16 @@ interface CartProductProps {
 const CartProduct: React.FC<CartProductProps> = ({ product }) => {
   const finalPrice =
     product &&
-    (product.discount === 0
-      ? product.price
-      : product.price - product.price * (product.discount / 100));
+    (checkDiscountStatus(product.discount)
+      ? product.price - product.price * (product.discount.percent / 100)
+      : product.price);
 
   return (
     <div className="flex flex-col lg:flex-row w-full p-5 md:p-10 shadow-normal rounded-2xl bg-white dark:bg-zinc-700">
       {/* <!-- Right Image Save  --> */}
       <div className="flex flex-col gap-y-10 mb-10 md:mb-0">
         {/* <!-- Proposal --> */}
-        {product.discount !== 0 && (
+        {checkDiscountStatus(product.discount) && (
           <div className="flex items-center justify-between px-5 py-3 text-sm md:text-base lg:text-lg text-orange-400 dark:text-orange-600 bg-orange-200/60 dark:bg-orange-300 rounded-xl">
             <div className="flex items-center justify-between gap-x-1.5">
               <svg
@@ -62,7 +65,7 @@ const CartProduct: React.FC<CartProductProps> = ({ product }) => {
               <span>پیشنهاد ویژه</span>
             </div>
 
-            <Clock clock={product.clock} showClock={false} />
+            <Clock discount={product.discount} showClock={false} />
           </div>
         )}
 
@@ -179,9 +182,9 @@ const CartProduct: React.FC<CartProductProps> = ({ product }) => {
                   <span>تخفیف :</span>
 
                   <div className="text-gray-500 dark:text-gray-300 line-through decoration-red-400 decoration-[1.5px]">
-                    {product.discount === 0
-                      ? 0
-                      : Number(product.price).toLocaleString()}
+                    {checkDiscountStatus(product.discount)
+                      ? Number(product.price).toLocaleString()
+                      : 0}
                     <span className="pr-1">تومان</span>
                   </div>
                 </div>

@@ -1,11 +1,20 @@
 import { Db, MongoClient } from "mongodb";
 import type { NextRequest } from "next/server";
 
+interface DiscountFilter {
+  percent?: number | { $gt?: number; $ne?: number };
+  start_time?: Date | string | { $lte?: Date | string };
+  end_time?: Date | string | { $gte?: Date | string };
+}
+
 interface ProductFilter {
   product_name?: RegExp;
   category?: string;
   brand?: string;
-  discount?: { $ne: number };
+  discount?: DiscountFilter;
+  "discount.percent"?: { $gt?: number; $ne?: number };
+  "discount.start_time"?: { $lte?: Date | string };
+  "discount.end_time"?: { $gte?: Date | string };
 }
 
 interface SortOptions {
@@ -53,8 +62,12 @@ async function getProducts(
   if (filter) {
     switch (filter) {
       case "discount":
-        query.discount = { $ne: 0 };
-        sortOptions = { discount: -1 };
+      case "discount":
+        const now = new Date();
+        query["discount.percent"] = { $ne: 0 };
+        query["discount.start_time"] = { $lte: now.toISOString() };
+        query["discount.end_time"] = { $gte: now.toISOString() };
+        sortOptions = { "discount.percent": -1 };
         break;
       case "price_asc":
         sortOptions = { price: 1 };
@@ -83,7 +96,6 @@ async function getProducts(
         price: 1,
         discount: 1,
         star: 1,
-        clock: 1,
         // sales_count: 1,
         created_at: 1,
       },
@@ -105,7 +117,10 @@ async function getProductsCount(
 
   if (filter) {
     if (filter === "discount") {
-      query.discount = { $ne: 0 };
+      const now = new Date();
+      query["discount.percent"] = { $ne: 0 };
+      query["discount.start_time"] = { $lte: now.toISOString() };
+      query["discount.end_time"] = { $gte: now.toISOString() };
     }
   }
   if (search) {
@@ -155,6 +170,9 @@ export async function GET(request: NextRequest) {
         brand_name?.toString(),
         filter?.toString()
       );
+
+      console.log(products);
+
       return Response.json(products);
     } else {
       const products_count = await getProductsCount(

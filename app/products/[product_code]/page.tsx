@@ -22,8 +22,11 @@ interface Comment {
 }
 
 interface Product {
-  discount: number;
-  clock: string;
+  discount: {
+    percent: number;
+    start_time: string;
+    end_time: string;
+  };
   image: string[];
   brand: string;
   category: string;

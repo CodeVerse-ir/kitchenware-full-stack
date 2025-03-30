@@ -1,5 +1,8 @@
 import Link from "next/link";
 import { axiosFetch } from "@/utils/axios_fetch";
+import { checkDiscountStatus } from "@/utils/helper";
+
+// components
 import CardProduct from "../common/CardProduct";
 
 interface Product {
@@ -7,9 +10,12 @@ interface Product {
   image: string[];
   product_name: string;
   price: number;
-  discount: number;
+  discount: {
+    percent: number;
+    start_time: string;
+    end_time: string;
+  };
   star: number;
-  clock: string;
 }
 
 const SectionProducts = async () => {
@@ -88,10 +94,9 @@ const SectionProducts = async () => {
           <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-3.5 md:gap-5">
             {data &&
               data.map((cart) => {
-                const finalPrice =
-                  cart.discount === 0
-                    ? cart.price
-                    : cart.price - cart.price * (cart.discount / 100);
+                const finalPrice = checkDiscountStatus(cart.discount)
+                  ? cart.price - cart.price * (cart.discount.percent / 100)
+                  : cart.price;
                 return (
                   <CardProduct
                     key={cart.code}
@@ -102,7 +107,6 @@ const SectionProducts = async () => {
                     price={cart.price}
                     discount={cart.discount}
                     star={cart.star}
-                    clock={cart.clock}
                   />
                 );
               })}

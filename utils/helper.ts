@@ -67,6 +67,28 @@ const generateRandomOTP = () => {
   return Math.floor(10000 + Math.random() * 90000);
 };
 
+const checkDiscountStatus = (discount: {
+  percent: number;
+  start_time: string;
+  end_time: string;
+}): boolean => {
+  const now = new Date();
+  const startTime = new Date(discount.start_time);
+  const endTime = new Date(discount.end_time);
+
+  if (discount.percent === 0) {
+    return false;
+  } else {
+    if (now < startTime) {
+      return false;
+    } else if (now >= startTime && now <= endTime) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+};
+
 export {
   getBlurDataURL,
   getToastType,
@@ -74,4 +96,5 @@ export {
   createJWT,
   decodeJWT,
   generateRandomOTP,
+  checkDiscountStatus,
 };
