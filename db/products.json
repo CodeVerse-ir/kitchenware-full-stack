@@ -2,7 +2,11 @@
   {
     "product_name": "سرویس چینی زرین شهرزاد طرح کوئین طلایی 6 نفره 35 پارچه",
     "price": 3322500,
-    "discount": 10,
+    "discount": {
+      "percent": 10,
+      "start_time": "2025-03-01T00:00:00.000Z",
+      "end_time": "2025-03-31T23:59:59.000Z"
+    },
     "clock": "01:01:01:05",
     "code": "73719",
     "brand": "چینی زرین",
@@ -97,7 +101,11 @@
   {
     "product_name": "سرویس چینی زرین نئوکلاسیک هوراند طلایی 6 نفره 29 پارچه",
     "price": 1575000,
-    "discount": 5,
+    "discount": {
+      "percent": 5,
+      "start_time": "2025-03-01T00:00:00.000Z",
+      "end_time": "2025-03-31T23:59:59.000Z"
+    },
     "clock": "01:20:20:05",
     "code": "72812",
     "brand": "چینی زرین",
@@ -209,7 +217,11 @@
   {
     "product_name": "ماگ دسته دار چینی زرین Zi فرم اس پاستل لیمویی 250 سی سی",
     "price": 131000,
-    "discount": 0,
+    "discount": {
+      "percent": 10,
+      "start_time": "2024-03-01T00:00:00.000Z",
+      "end_time": "2024-03-31T23:59:59.000Z"
+    },
     "clock": "02:46:50:30",
     "code": "LKPC-14820",
     "brand": "زی",
@@ -335,7 +347,11 @@
   {
     "product_name": "تخته سرو گرد دسته دار بزرگ لیمون 2229",
     "price": 617500,
-    "discount": 0,
+    "discount": {
+      "percent": 0,
+      "start_time": "",
+      "end_time": ""
+    },
     "clock": "00:00:00:00",
     "code": "L2229",
     "brand": "لیمون",
@@ -442,7 +458,11 @@
   {
     "product_name": "رنده استیل لیمون مخروطی 2118",
     "price": 226000,
-    "discount": 0,
+    "discount": {
+      "percent": 0,
+      "start_time": "",
+      "end_time": ""
+    },
     "clock": "00:00:00:00",
     "code": "LKP-5198",
     "brand": "لیمون",
@@ -543,7 +563,11 @@
   {
     "product_name": "بند رخت تمام استیل فورته",
     "price": 132000,
-    "discount": 30,
+    "discount": {
+      "percent": 15,
+      "start_time": "2025-03-01T00:00:00.000Z",
+      "end_time": "2025-03-31T23:59:59.000Z"
+    },
     "clock": "00:01:02:07",
     "code": "LKP-818",
     "brand": "فورته",
@@ -647,7 +671,11 @@
   {
     "product_name": "کیک پز لاوان الکتریک مدل شعله",
     "price": 1042500,
-    "discount": 0,
+    "discount": {
+      "percent": 0,
+      "start_time": "",
+      "end_time": ""
+    },
     "clock": "00:00:00:00",
     "code": "LKPC-16507",
     "brand": "لاوان",
@@ -759,7 +787,11 @@
   {
     "product_name": "جارو شارژی بلک اند دکر مدل SVA420B",
     "price": 6625000,
-    "discount": 0,
+    "discount": {
+      "percent": 0,
+      "start_time": "",
+      "end_time": ""
+    },
     "clock": "00:00:00:00",
     "code": "SVA420B",
     "brand": "بلک اند دکر",
@@ -876,7 +908,11 @@
   {
     "product_name": "سرویس چینی زرین شهرزاد طرح کوئین طلایی 6 نفره 35 پارچه",
     "price": 3322500,
-    "discount": 0,
+    "discount": {
+      "percent": 0,
+      "start_time": "2025-03-01T00:00:00.000Z",
+      "end_time": "2025-03-31T23:59:59.000Z"
+    },
     "clock": "",
     "code": "73718",
     "brand": "چینی زرین",
