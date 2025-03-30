@@ -30,9 +30,9 @@ const Likes = async ({
     fetchType: "get",
     url: "profile/likes",
     token: tokenValue,
-  });
+  });  
 
-  const totalItems = totalProducts ? totalProducts.totalProducts : 0;
+  const totalItems = totalProducts.data ? totalProducts.data.totalProducts : 0;
 
   const { page } = await searchParams;
   const params = new URLSearchParams();
@@ -48,7 +48,7 @@ const Likes = async ({
   if (Number(page) > totalPages && Number(page) > 1) {
     redirect("/not-found");
   }
-
+  
   return (
     <div className="flex flex-col items-center justify-center w-full p-5 text-black dark:text-white bg-white dark:bg-zinc-700 shadow-normal rounded-2xl">
       {/* <!-- Header --> */}

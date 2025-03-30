@@ -19,7 +19,7 @@ interface Product {
 }
 
 const ProductsBody: React.FC<ProductsBodyProps> = async ({ url, token }) => {
-  const products = await axiosFetch<Product[]>({
+  const { data } = await axiosFetch<Product[]>({
     fetchType: "get",
     url,
     token,
@@ -27,9 +27,9 @@ const ProductsBody: React.FC<ProductsBodyProps> = async ({ url, token }) => {
 
   return (
     <div className="grid grid-cols-2 xl:grid-cols-3 gap-3.5 md:gap-5">
-      {products &&
-        products.length > 0 &&
-        products.map((cart) => {
+      {data &&
+        data.length > 0 &&
+        data.map((cart) => {
           const finalPrice =
             cart.discount === 0
               ? cart.price

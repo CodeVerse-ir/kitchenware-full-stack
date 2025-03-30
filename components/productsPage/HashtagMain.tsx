@@ -33,8 +33,8 @@ const HashtagMain = async () => {
 
   return (
     <div className="space-y-2.5 lg:space-y-5 mb-5 lg:mb-10">
-      <HashtagCategories categories={categories || []} />
-      <HashtagBrands brands={brands || []} />
+      <HashtagCategories categories={categories.data || []} />
+      <HashtagBrands brands={brands.data || []} />
     </div>
   );
 };

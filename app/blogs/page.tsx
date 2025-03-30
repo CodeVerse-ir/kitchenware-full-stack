@@ -20,7 +20,7 @@ const Blogs = async ({
     fetchType: "get",
     url: "blogs",
   });
-  const totalItems = totalBlogs ? totalBlogs.totalBlogs : 0;
+  const totalItems = totalBlogs.data ? totalBlogs.data.totalBlogs : 0;
 
   const { page } = await searchParams;
   const params = new URLSearchParams();

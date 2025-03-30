@@ -18,16 +18,16 @@ interface Product {
 }
 
 const ProductsBody: React.FC<ProductsBodyProps> = async ({ params }) => {
-  const products = await axiosFetch<Product[]>({
+  const { data } = await axiosFetch<Product[]>({
     fetchType: "get",
     url: `products?${params}`,
   });
 
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-3.5 md:gap-5">
-      {products &&
-        products.length > 0 &&
-        products.map((cart) => {
+      {data &&
+        data.length > 0 &&
+        data.map((cart) => {
           const finalPrice =
             cart.discount === 0
               ? cart.price

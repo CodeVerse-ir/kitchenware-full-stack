@@ -21,7 +21,7 @@ const Brands = async ({
     fetchType: "get",
     url: "brands",
   });
-  const totalItems = totalProducts ? totalProducts.totalProducts : 0;
+  const totalItems = totalProducts.data ? totalProducts.data.totalProducts : 0;
 
   const { page } = await searchParams;
   const params = new URLSearchParams();

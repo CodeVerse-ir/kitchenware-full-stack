@@ -283,7 +283,7 @@ async function action_delete(
   if (token) {
     const tokenValue = token.value;
 
-    const path = pathname.slice(1); // delete "/"    
+    const path = pathname.slice(1); // delete "/"
 
     const deleteProduct = await axiosFetch({
       fetchType: "delete",
@@ -292,23 +292,20 @@ async function action_delete(
       token: tokenValue,
     });
 
-    if (
-      deleteProduct &&
-      typeof deleteProduct === "object" &&
-      "message" in deleteProduct
-    ) {
+    if (!deleteProduct.error) {
       revalidatePath("/profile/bookmark");
 
       return {
         status: "success",
-        message: deleteProduct?.message as string,
+        message: "محصول از لیست حذف شد.",
       };
     }
     return {
       status: "error",
-      message: "محصول از لیست حذف نشد.",
+      message: deleteProduct.error.message,
     };
   }
+
   return {
     status: "error",
     message: "توکن احراز هویت وجود ندارد.",

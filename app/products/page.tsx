@@ -41,7 +41,7 @@ const Products = async ({
     fetchType: "get",
     url: `products?${params.toString()}`,
   });
-  const totalItems = totalProducts ? totalProducts.totalProducts : 0;
+  const totalItems = totalProducts.data ? totalProducts.data.totalProducts : 0;
 
   let error_text = "";
 
