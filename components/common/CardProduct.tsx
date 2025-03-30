@@ -104,7 +104,7 @@ const CardProduct: React.FC<CardProductProps> = ({
         </h5>
 
         {/* Cart Price */}
-        <div className="flex items-center justify-start gap-x-1.5 md:gap-x-2 mt-1.5 md:mt-2.5">
+        <div className="flex flex-col sm:flex-row items-center justify-start gap-x-1.5 md:gap-x-2 mt-1.5 md:mt-2.5">
           <div className="text-teal-600 dark:text-emerald-500">
             <span className="font-DanaBold text-base lg:text-xl">
               {Number(finalPrice).toLocaleString()}
@@ -122,7 +122,7 @@ const CardProduct: React.FC<CardProductProps> = ({
         </div>
 
         {/* Cart Footer */}
-        <div className="flex items-center justify-between gap-x-1 mt-1.5 md:mt-2.5">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-x-1 gap-y-1 mt-1.5 md:mt-2.5">
           {/* Star */}
           <div className="flex text-gray-300 dark:text-gray-400">
             {Array.from({ length: 5 }, (_, index) => (
