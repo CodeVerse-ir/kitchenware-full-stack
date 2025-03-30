@@ -16,7 +16,7 @@ const SectionProducts = async () => {
   const products = await axiosFetch<Product[]>({
     fetchType: "get",
     url: "products?number=8",
-  });
+  });  
 
   return (
     <>
@@ -86,8 +86,8 @@ const SectionProducts = async () => {
 
           {/* Section Body */}
           <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-3.5 md:gap-5">
-            {products &&
-              products.map((cart) => {
+            {products.data &&
+              products.data.map((cart) => {
                 const finalPrice =
                   cart.discount === 0
                     ? cart.price

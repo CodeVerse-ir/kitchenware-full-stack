@@ -57,6 +57,10 @@ const Select: React.FC<SelectProps> = ({
   }, [defaultValue]);
 
   useEffect(() => {
+    setSelectedOption(defaultValue);
+  }, [defaultValue]);
+
+  useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         selectRef.current &&

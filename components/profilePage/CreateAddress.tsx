@@ -47,21 +47,29 @@ const CreateAddress = () => {
 
   const [isFormVisible, setIsFormVisible] = useState(false);
 
-  const [stateAddress, formActionAddress, isPending] = useActionState(
-    create_address,
-    INITIAL_STATE_Address
-  );
+  const [stateCreateAddress, formActionCreateAddress, isPending] =
+    useActionState(create_address, INITIAL_STATE_Address);
 
   useEffect(() => {
-    toast(stateAddress?.message, {
-      type: `${getToastType(stateAddress?.status)}`,
+    toast(stateCreateAddress?.message, {
+      type: `${getToastType(stateCreateAddress?.status)}`,
     });
 
-    console.log("Address stateAddress : ", stateAddress);
+    console.log("Address stateCreateAddress : ", stateCreateAddress);
 
-    if (stateAddress?.status === "success") {
+    if (stateCreateAddress?.status === "success") {
+      setIsFormVisible(!isFormVisible);
+      setAddress({
+        title: "",
+        mobile_number: "",
+        postal_code: "",
+        state: "تهران",
+        city: "",
+        address_details: "",
+      });
     }
-  }, [stateAddress]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stateCreateAddress]);
 
   // get states
   useEffect(() => {
@@ -216,7 +224,7 @@ const CreateAddress = () => {
         }`}
       >
         <form
-          action={formActionAddress}
+          action={formActionCreateAddress}
           className="flex flex-col items-start justify-start mb-10 xl:mb-0"
         >
           {/* title & mobile_number */}
@@ -225,7 +233,7 @@ const CreateAddress = () => {
               <label htmlFor="title">عنوان :</label>
               <input
                 className={`w-[280px] md:w-72 xl:w-80 h-8 px-2 bg-white dark:bg-zinc-700 outline-none border ${
-                  stateAddress.field?.includes("title")
+                  stateCreateAddress.field?.includes("title")
                     ? "border-red-500"
                     : "border-gray-400"
                 } focus:border-orange-300 rounded`}
@@ -241,7 +249,7 @@ const CreateAddress = () => {
               <label htmlFor="mobile_number">شماره تماس :</label>
               <input
                 className={`w-[280px] md:w-72 xl:w-80 h-8 px-2 bg-white dark:bg-zinc-700 outline-none border ${
-                  stateAddress.field?.includes("mobile_number")
+                  stateCreateAddress.field?.includes("mobile_number")
                     ? "border-red-500"
                     : "border-gray-400"
                 } focus:border-orange-300 rounded`}
@@ -261,7 +269,7 @@ const CreateAddress = () => {
               <label htmlFor="postal_code">کد پستی :</label>
               <input
                 className={`w-[280px] md:w-72 xl:w-80 h-8 px-2 bg-white dark:bg-zinc-700 outline-none border ${
-                  stateAddress.field?.includes("postal_code")
+                  stateCreateAddress.field?.includes("postal_code")
                     ? "border-red-500"
                     : "border-gray-400"
                 } focus:border-orange-300 rounded`}
@@ -281,7 +289,7 @@ const CreateAddress = () => {
                 onOptionSelect={handleStateSelect}
                 title="استان"
                 borderStyle={`${
-                  stateAddress?.field?.includes("state")
+                  stateCreateAddress?.field?.includes("state")
                     ? "border-red-500"
                     : "border-gray-400"
                 }`}
@@ -300,7 +308,7 @@ const CreateAddress = () => {
                 onOptionSelect={handleCitySelect}
                 title="شهر"
                 borderStyle={`${
-                  stateAddress?.field?.includes("city")
+                  stateCreateAddress?.field?.includes("city")
                     ? "border-red-500"
                     : "border-gray-400"
                 }`}
@@ -317,7 +325,7 @@ const CreateAddress = () => {
               <label htmlFor="address_details">آدرس :</label>
               <textarea
                 className={`w-full h-25 py-2 px-4 outline-none border border-gray-300 ${
-                  stateAddress.field?.includes("address_details")
+                  stateCreateAddress.field?.includes("address_details")
                     ? "border-red-500"
                     : "border-gray-400"
                 } focus:border-orange-300 rounded-lg bg-white dark:bg-zinc-700`}

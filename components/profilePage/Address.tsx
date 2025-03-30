@@ -1,20 +1,34 @@
 "use client";
 
 import { useState, useEffect, useActionState } from "react";
-import { useSession } from "@/utils/useSession";
-import { action_information } from "@/actions/profile/information";
+import { delete_address, edit_address } from "@/actions/profile/addresses";
 import { getToastType } from "@/utils/helper";
 import { toast } from "react-toastify";
 
 // components
-import SubmitBtn from "../common/SubmitBtn";
+import Select from "../common/Select";
+import Modal from "../common/Modal";
+
+interface EditAddressProps {
+  data: {
+    index: number;
+    id: string;
+    title: string;
+    mobile_number: string;
+    postal_code: string;
+    state: string;
+    city: string;
+    address_details: string;
+  };
+}
 
 interface UserAddress {
-  first_name: string;
-  last_name: string;
-  birthdate_persian: string;
-  birthdate_gregorian: string;
-  nickname: string;
+  title: string;
+  mobile_number: string;
+  postal_code: string;
+  state: string;
+  city: string;
+  address_details: string;
 }
 
 const INITIAL_STATE_Address = {
@@ -22,262 +36,309 @@ const INITIAL_STATE_Address = {
   message: null,
   field: null,
   user: {
-    first_name: "",
-    last_name: "",
-    birthdate: "",
-    nickname: "",
+    id: "",
+    title: "",
+    mobile_number: "",
+    postal_code: "",
+    state: "",
+    city: "",
+    address_details: "",
   },
 };
 
-const Address = () => {
-  const [Address, setAddress] = useState<UserAddress>({
-    // title: user?.title || "",
-    // mobile_number: user?.mobile_number || "",
-    // province: user?.province || "",
-    // city: user?.city || "",
-    // address_details: user?.address_details || "",
+const EditAddress: React.FC<EditAddressProps> = ({ data }) => {
+  const [editAddress, setAddress] = useState<UserAddress>({
+    title: data.title,
+    mobile_number: data.mobile_number,
+    postal_code: data.postal_code,
+    state: data.state,
+    city: data.city,
+    address_details: data.address_details,
   });
 
-  const [isEditing, setIsEditing] = useState(false);
-  const [tempAddress, setTempAddress] = useState<UserAddress>({
-    ...Address,
-  });
+  const [states, setStates] = useState(null);
+  const [cities, setCities] = useState(null);
 
-  const [stateAddress, formActionAddress, isPending] = useActionState(
-    action_information,
+  const [loading, setLoading] = useState(false);
+
+  const [stateEditAddress, formActionEditAddress, isPending] = useActionState(
+    edit_address,
     INITIAL_STATE_Address
   );
 
   useEffect(() => {
-    toast(stateAddress?.message, {
-      type: `${getToastType(stateAddress?.status)}`,
+    toast(stateEditAddress?.message, {
+      type: `${getToastType(stateEditAddress?.status)}`,
     });
 
-    console.log("Address stateAddress : ", stateAddress);
+    console.log("Address stateEditAddress : ", stateEditAddress);
 
-    if (stateAddress?.status === "success") {
-      userContext((prev) => ({
-        ...prev,
-        first_name: stateAddress.user.first_name,
-        last_name: stateAddress.user.last_name,
-        birthdate: stateAddress.user.birthdate,
-        nickname: stateAddress.user.nickname,
-      }));
-      setAddress({
-        first_name: stateAddress.user.first_name,
-        last_name: stateAddress.user.last_name,
-        birthdate_persian: convertDate(stateAddress.user.birthdate) || "",
-        birthdate_gregorian: stateAddress.user.birthdate,
-        nickname: stateAddress.user.nickname,
-      });
-      setIsEditing(false);
+    if (stateEditAddress?.status === "success") {
     }
+  }, [stateEditAddress]);
+
+  // get states
+  useEffect(() => {
+    const fetchStates = async () => {
+      const response = await getDataIran("states");
+      setStates(response);
+    };
+
+    fetchStates();
+  }, []);
+
+  // get cities
+  useEffect(() => {
+    const fetchCities = async () => {
+      const response = await getDataIran(`cities?state=${editAddress.state}`);
+      setCities(response[0].cities);
+    };
+
+    fetchCities();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stateAddress]);
+  }, []);
+
+  const getDataIran = async (url: string) => {
+    try {
+      const response = await fetch(`/api/${url}`);
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error fetching states:", error);
+      return null;
+    }
+  };
+
+  // get cities by on select state
+  const handleStateSelect = (selectedState: string) => {
+    setCities(null);
+
+    const fetchStates = async () => {
+      const response = await getDataIran(`cities?state=${selectedState}`);
+      setCities(response[0].cities);
+    };
+
+    setAddress((prevData) => ({
+      ...prevData,
+      state: selectedState,
+      city: "",
+    }));
+
+    fetchStates();
+  };
+
+  // get cities by on select state
+  const handleCitySelect = (selectedCity: string) => {
+    setAddress((prevData) => ({
+      ...prevData,
+      city: selectedCity,
+    }));
+  };
 
   const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const first_nameValue = e.target.value;
+    const titleValue = e.target.value;
     const pattern = /^[\u0600-\u06FF\s]*$/;
-    if (pattern.test(first_nameValue) && first_nameValue.length <= 30) {
-      setTempAddress((prev) => ({ ...prev, first_name: first_nameValue }));
+    if (pattern.test(titleValue) && titleValue.length <= 30) {
+      setAddress((prev) => ({ ...prev, title: titleValue }));
     }
   };
 
   const handleMobile_number = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const last_nameValue = e.target.value;
-    const pattern = /^[\u0600-\u06FF\s]*$/;
-    if (pattern.test(last_nameValue) && last_nameValue.length <= 30) {
-      setTempAddress((prev) => ({ ...prev, last_name: last_nameValue }));
+    const mobile_numberValue = e.target.value;
+    const pattern = /^[0-9]*$/;
+    if (pattern.test(mobile_numberValue) && mobile_numberValue.length <= 11) {
+      setAddress((prev) => ({ ...prev, mobile_number: mobile_numberValue }));
     }
   };
 
   const handlePostal_code = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const nicknameValue = e.target.value;
-    const pattern = /^[\u0600-\u06FF\s]*$/;
-    if (pattern.test(nicknameValue) && nicknameValue.length <= 20) {
-      setTempAddress((prev) => ({ ...prev, nickname: nicknameValue }));
+    const postal_codeValue = e.target.value;
+    const pattern = /^[0-9]*$/;
+    if (pattern.test(postal_codeValue) && postal_codeValue.length <= 10) {
+      setAddress((prev) => ({ ...prev, postal_code: postal_codeValue }));
     }
   };
 
-  const handleProvince = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const nicknameValue = e.target.value;
-    const pattern = /^[\u0600-\u06FF\s]*$/;
-    if (pattern.test(nicknameValue) && nicknameValue.length <= 20) {
-      setTempAddress((prev) => ({ ...prev, nickname: nicknameValue }));
+  const handleAddress_details = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const address_detailsValue = e.target.value;
+    const pattern = /^[\u0600-\u06FF\s\-،]*$/;
+    if (
+      pattern.test(address_detailsValue) &&
+      address_detailsValue.length <= 20
+    ) {
+      setAddress((prev) => ({
+        ...prev,
+        address_details: address_detailsValue,
+      }));
     }
   };
 
-  const handleCity = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const nicknameValue = e.target.value;
-    const pattern = /^[\u0600-\u06FF\s]*$/;
-    if (pattern.test(nicknameValue) && nicknameValue.length <= 20) {
-      setTempAddress((prev) => ({ ...prev, nickname: nicknameValue }));
-    }
-  };
-
-  const handleAddress_details = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const nicknameValue = e.target.value;
-    const pattern = /^[\u0600-\u06FF\s]*$/;
-    if (pattern.test(nicknameValue) && nicknameValue.length <= 20) {
-      setTempAddress((prev) => ({ ...prev, nickname: nicknameValue }));
-    }
-  };
-
-  const handleEditClick = () => {
-    setTempAddress({ ...Address });
-    setIsEditing(true);
-  };
-
-  const handleCancel = () => {
-    setTempAddress({ ...Address });
-    setIsEditing(false);
+  const handleDelete = async () => {
+    setLoading(true);
+    const res = await delete_address(data.id);
+    toast(res.message, { type: getToastType(res.status) });
+    setLoading(false);
   };
 
   return (
-    <form
-      action={formActionAddress}
-      className="flex flex-col items-start justify-normal mb-10 xl:mb-0"
-    >
-      {/* title & mobile_number */}
-      <div className="flex flex-col md:flex-row items-center justify-start gap-x-5 gap-y-5 md:gap-y-0 text-sm md:text-base lg:text-lg mb-5 md:mb-10">
-        <div className="flex flex-col items-start justify-center gap-y-2">
-          <label htmlFor="title">عنوان :</label>
-          <input
-            className={`w-80 h-8 px-2 ${
-              isEditing ? "text-zinc-800 dark:text-white" : "text-gray-500"
-            } bg-white dark:bg-zinc-700 outline-none outline-[1px] outline-gray-300 focus-visible:outline-orange-300 rounded`}
-            type="text"
-            id="title"
-            name="title"
-            autoComplete="off"
-            // value={isEditing ? tempAddress.first_name : Address.first_name}
-            // onChange={handleFirst_name}
-            disabled={!isEditing}
-          />
-        </div>
-        <div className="flex flex-col items-start justify-center gap-y-2">
-          <label htmlFor="mobile_number">شماره تماس :</label>
-          <input
-            className={`w-80 h-8 px-2 ${
-              isEditing ? "text-zinc-800 dark:text-white" : "text-gray-500"
-            } bg-white dark:bg-zinc-700 outline-none outline-[1px] outline-gray-300 focus-visible:outline-orange-300 rounded`}
-            type="text"
-            id="mobile_number"
-            name="mobile_number"
-            autoComplete="off"
-            // value={isEditing ? tempAddress.last_name : Address.last_name}
-            // onChange={handleLast_name}
-            disabled={!isEditing}
-          />
+    <div className="flex flex-col items-center justify-center w-full">
+      <div className="w-full text-start">
+        <div className="flex items-center justify-center size-5 p-3 text-zinc-700 dark:text-gray-400 border-b border-b-zinc-700 dark:border-b-gray-400">
+          {data.index.toString()}
         </div>
       </div>
 
-      {/* postal_code & province */}
-      <div className="flex flex-col md:flex-row items-center justify-start gap-x-5 gap-y-5 md:gap-y-0 text-sm md:text-base lg:text-lg mb-5 md:mb-10">
-        <div className="flex flex-col items-start justify-center gap-y-2">
-          <label htmlFor="postal_code">کد پستی :</label>
-          <input
-            className={`w-80 h-8 px-2 ${
-              isEditing ? "text-zinc-800 dark:text-white" : "text-gray-500"
-            } bg-white dark:bg-zinc-700 outline-none outline-[1px] outline-gray-300 focus-visible:outline-orange-300 rounded`}
-            type="text"
-            id="postal_code"
-            name="postal_code"
-            autoComplete="off"
-            // value={isEditing ? tempAddress.last_name : Address.last_name}
-            // onChange={handleLast_name}
-            disabled={!isEditing}
-          />
-        </div>
-        <div className="flex flex-col items-start justify-center gap-y-2">
-          <label htmlFor="province">استان :</label>
-          <input
-            className={`w-80 h-8 px-2 ${
-              isEditing ? "text-zinc-800 dark:text-white" : "text-gray-500"
-            } bg-white dark:bg-zinc-700 outline-none outline-[1px] outline-gray-300 focus-visible:outline-orange-300 rounded`}
-            type="text"
-            id="province"
-            name="province"
-            autoComplete="off"
-            // value={isEditing ? tempAddress.nickname : Address.nickname}
-            // onChange={handleNickname}
-            disabled={!isEditing}
-          />
-        </div>
-      </div>
-
-      {/* city */}
-      <div className="flex flex-col md:flex-row items-center justify-start gap-x-5 gap-y-5 md:gap-y-0 text-sm md:text-base lg:text-lg mb-5 md:mb-10">
-        <div className="flex flex-col items-start justify-center gap-y-2">
-          <label htmlFor="city">شهر :</label>
-          <input
-            className={`w-80 h-8 px-2 ${
-              isEditing ? "text-zinc-800 dark:text-white" : "text-gray-500"
-            } bg-white dark:bg-zinc-700 outline-none outline-[1px] outline-gray-300 focus-visible:outline-orange-300 rounded`}
-            type="text"
-            id="city"
-            name="city"
-            autoComplete="off"
-            // value={isEditing ? tempAddress.last_name : Address.last_name}
-            // onChange={handleLast_name}
-            disabled={!isEditing}
-          />
-        </div>
-      </div>
-
-      <div className="flex items-center justify-start gap-x-5 text-sm md:text-base lg:text-lg mb-5">
-        {/* <!-- State --> */}
-        <div className="flex flex-col items-start justify-center gap-y-2">
-          <label htmlFor="address_details">آدرس :</label>
-          <textarea
-            className="w-72 md:w-[660px] h-25 py-2 px-4 outline-none outline-[1px] outline-gray-300 focus-visible:outline-orange-300 rounded-lg bg-white dark:bg-zinc-700"
-            id="address_details"
-            name="address_details"
-          ></textarea>
-        </div>
-      </div>
-
-      {/* Save Address */}
-      <div className="flex items-center justify-center w-full gap-x-2 text-sm md:text-base">
-        {isEditing ? (
-          <>
-            <SubmitBtn
-              title="ثبت"
-              style="flex flex-col items-start justify-center py-2 px-4 text-white bg-green-500 hover:bg-green-600 rounded-lg transition-colors duration-300"
-              isPending={isPending}
+      <form
+        action={formActionEditAddress}
+        className="flex flex-col items-start justify-start mb-10 xl:mb-0"
+      >
+        {/* title & mobile_number */}
+        <div className="flex flex-col md:flex-row items-center justify-center w-full gap-x-10 gap-y-5 md:gap-y-0 text-sm md:text-base lg:text-lg mb-5 md:mb-10">
+          <div className="flex flex-col items-start justify-center gap-y-2">
+            <label htmlFor="title">عنوان :</label>
+            <input
+              className={`w-[280px] md:w-72 xl:w-80 h-8 px-2 bg-white dark:bg-zinc-700 outline-none border ${
+                stateEditAddress.field?.includes("title")
+                  ? "border-red-500"
+                  : "border-gray-400"
+              } focus:border-orange-300 rounded`}
+              type="text"
+              id="title"
+              name="title"
+              autoComplete="off"
+              value={editAddress.title}
+              onChange={handleTitle}
             />
-            <button
-              className="flex flex-col items-start justify-center py-2 px-4 text-red-400 border border-red-400 hover:text-white hover:bg-red-500 rounded-lg transition-colors duration-300"
-              onClick={handleCancel}
-            >
-              لغو
-            </button>
-          </>
-        ) : (
-          <button
-            className="flex items-center justify-center gap-x-2 py-2 px-4 text-white bg-orange-400 hover:bg-orange-500 rounded-lg transition-colors duration-300"
-            onClick={handleEditClick}
-          >
-            <span>ویرایش آدرس</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="size-4 md:size-5 lg:size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
-              />
-            </svg>
-          </button>
-        )}
-      </div>
-    </form>
+          </div>
+          <div className="flex flex-col items-start justify-center gap-y-2">
+            <label htmlFor="mobile_number">شماره تماس :</label>
+            <input
+              className={`w-[280px] md:w-72 xl:w-80 h-8 px-2 bg-white dark:bg-zinc-700 outline-none border ${
+                stateEditAddress.field?.includes("mobile_number")
+                  ? "border-red-500"
+                  : "border-gray-400"
+              } focus:border-orange-300 rounded`}
+              type="text"
+              id="mobile_number"
+              name="mobile_number"
+              autoComplete="off"
+              value={editAddress.mobile_number}
+              onChange={handleMobile_number}
+            />
+          </div>
+        </div>
+
+        {/* postal_code & state */}
+        <div className="flex flex-col md:flex-row items-center justify-center w-full gap-x-10 gap-y-5 md:gap-y-0 text-sm md:text-base lg:text-lg mb-5 md:mb-10">
+          <div className="flex flex-col items-start justify-center gap-y-2">
+            <label htmlFor="postal_code">کد پستی :</label>
+            <input
+              className={`w-[280px] md:w-72 xl:w-80 h-8 px-2 bg-white dark:bg-zinc-700 outline-none border ${
+                stateEditAddress.field?.includes("postal_code")
+                  ? "border-red-500"
+                  : "border-gray-400"
+              } focus:border-orange-300 rounded`}
+              type="text"
+              id="postal_code"
+              name="postal_code"
+              autoComplete="off"
+              value={editAddress.postal_code}
+              onChange={handlePostal_code}
+            />
+          </div>
+          <div className="flex flex-col items-start justify-center gap-y-2">
+            <label htmlFor="state">استان :</label>
+            <Select
+              options={states}
+              defaultValue={editAddress.state}
+              onOptionSelect={handleStateSelect}
+              title="استان"
+              borderStyle={`${
+                stateEditAddress?.field?.includes("state")
+                  ? "border-red-500"
+                  : "border-gray-400"
+              }`}
+            />
+            <input type="hidden" name="state" value={editAddress.state} />
+          </div>
+        </div>
+
+        {/* city */}
+        <div className="flex flex-col md:flex-row items-center justify-center w-full gap-x-10 gap-y-5 md:gap-y-0 text-sm md:text-base lg:text-lg md:mb-10">
+          <div className="flex flex-col items-start justify-center gap-y-2 text-sm md:text-base lg:text-lg">
+            <label htmlFor="city">شهرستان :</label>
+            <Select
+              options={cities}
+              defaultValue={editAddress.city}
+              onOptionSelect={handleCitySelect}
+              title="شهر"
+              borderStyle={`${
+                stateEditAddress?.field?.includes("city")
+                  ? "border-red-500"
+                  : "border-gray-400"
+              }`}
+            />
+            <input type="hidden" name="city" value={editAddress.city} />
+          </div>
+
+          {/* id hidden */}
+          <div className="w-[280px] md:w-72 xl:w-80">
+            <input type="hidden" name="id" value={data.id} />
+          </div>
+        </div>
+
+        <div className="flex items-center justify-start w-full gap-x-5 text-sm md:text-base lg:text-lg mb-5">
+          {/* <!-- State --> */}
+          <div className="flex flex-col items-start justify-center w-full gap-y-2">
+            <label htmlFor="address_details">آدرس :</label>
+            <textarea
+              className={`w-full h-25 py-2 px-4 outline-none border border-gray-300 ${
+                stateEditAddress.field?.includes("address_details")
+                  ? "border-red-500"
+                  : "border-gray-400"
+              } focus:border-orange-300 rounded-lg bg-white dark:bg-zinc-700`}
+              id="address_details"
+              name="address_details"
+              placeholder="از - یا ، برای جدا سازی آدرس استفاده کنید."
+              value={editAddress.address_details}
+              onChange={handleAddress_details}
+            ></textarea>
+          </div>
+        </div>
+
+        {/* Save Address */}
+        <div className="flex items-center justify-center w-full gap-x-2 text-sm md:text-base">
+          <Modal
+            modalId={"edit" + data.id}
+            btn_type="submit"
+            btn_style="flex flex-col items-start justify-center py-2 px-4 text-white bg-green-500 hover:bg-green-600 rounded-lg transition-colors duration-300"
+            btn_text="ویرایش آدرس"
+            title="ویرایش آدرس"
+            text="آیا از ویرایش آدرس مطمعن هستید؟"
+            isPending={isPending}
+          />
+
+          <Modal
+            modalId={"delete" + data.id}
+            btn_type="button"
+            btn_style="flex flex-col items-start justify-center py-2 px-4 text-white bg-red-500 hover:bg-red-600 rounded-lg transition-colors duration-300"
+            btn_text="حذف آدرس"
+            title="حذف آدرس"
+            text="آیا از حذف آدرس مطمعن هستید؟"
+            isPending={loading}
+            onConfirm={handleDelete}
+          />
+        </div>
+      </form>
+
+      {/* <!-- Line --> */}
+      <div className="w-full h-px my-5 bg-gray-300 mb-4"></div>
+    </div>
   );
 };
 
-export default Address;
+export default EditAddress;
