@@ -7,6 +7,7 @@ import NextNprogress from "@/libraries/NextNprogress";
 import ToastContainerComponent from "@/libraries/ToastContainerComponent";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import Providers from "@/redux/Provider";
 
 export const metadata: Metadata = {
   title: "Kitchenware",
@@ -25,12 +26,14 @@ export default function RootLayout({
     <html lang="fa" dir="rtl">
       <body className="font-Dana text-base bg-gray-100 dark:bg-zinc-800">
         <SessionProvider>
-          <NextNprogress>
-            <Header />
-            {children}
-            <Footer />
-            <ToastContainerComponent />
-          </NextNprogress>
+          <Providers>
+            <NextNprogress>
+              <Header />
+              {children}
+              <Footer />
+              <ToastContainerComponent />
+            </NextNprogress>
+          </Providers>
         </SessionProvider>
       </body>
     </html>

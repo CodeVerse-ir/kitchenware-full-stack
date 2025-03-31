@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
 import { checkDiscountStatus, getBlurDataURL } from "@/utils/helper";
@@ -10,6 +8,7 @@ import Star from "./Star";
 import Like from "./Like";
 import Bookmark from "./Bookmark";
 import Pictures from "./Pictures";
+import ShoppingCart from "./ShoppingCart";
 
 interface CartProductProps {
   product: {
@@ -29,6 +28,7 @@ interface CartProductProps {
     star: number;
     like: number;
     bootmark: number;
+    quantity_in_stock: number;
   };
 }
 
@@ -137,36 +137,45 @@ const CartProduct: React.FC<CartProductProps> = ({ product }) => {
         {/* <!-- Left Body --> */}
         <div className="flex flex-col xl:flex-row items-start justify-between">
           {/* <!-- Right Description --> */}
-          <div className="text-black dark:text-white">
-            <h4 className="font-DanaBold mb-4 text-base md:text-lg lg:text-xl">
-              مشخصات
-            </h4>
+          <div className="flex flex-col items-start justify-start gap-y-10 text-black dark:text-white">
+            <div>
+              <h4 className="font-DanaBold mb-4 text-base md:text-lg lg:text-xl">
+                مشخصات
+              </h4>
 
-            <div className="flex flex-col gap-y-2.5 gap-x-2.5 text-sm md:text-base lg:text-lg">
-              {product.attributes.map((property, index) => {
-                return <span key={index}>{property}</span>;
-              })}
-              {product.colors && (
-                <div className="flex flex-col">
-                  <span className="mb-1">رنگ :</span>
-                  <div className="flex items-center justify-center gap-x-1 gap-y-1 text-xs md:text-sm lg:text-base flex-wrap">
-                    {product.colors.map((color, index) => {
-                      return (
-                        <div
-                          key={index}
-                          className="flex items-center justify-center w-25 h-15 gap-x-2 py-1 px-1.5 rounded-xl border border-gray-300"
-                        >
-                          <span
-                            className="w-4 h-4 rounded"
-                            style={{ backgroundColor: `#${color[1]}` }}
-                          ></span>
-                          {color[0]}
-                        </div>
-                      );
-                    })}
+              <div className="flex flex-col gap-y-2.5 gap-x-2.5 text-sm md:text-base lg:text-lg">
+                {product.attributes.map((property, index) => {
+                  return <span key={index}>{property}</span>;
+                })}
+                {product.colors && (
+                  <div className="flex flex-col">
+                    <span className="mb-1">رنگ :</span>
+                    <div className="flex items-center justify-center gap-x-1 gap-y-1 text-xs md:text-sm lg:text-base flex-wrap">
+                      {product.colors.map((color, index) => {
+                        return (
+                          <div
+                            key={index}
+                            className="flex items-center justify-center w-25 h-15 gap-x-2 py-1 px-1.5 rounded-xl border border-gray-300"
+                          >
+                            <span
+                              className="w-4 h-4 rounded"
+                              style={{ backgroundColor: `#${color[1]}` }}
+                            ></span>
+                            {color[0]}
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
+            </div>
+
+            <div>
+              <h4 className="font-DanaBold mb-4 text-base md:text-lg lg:text-xl">
+                سبد خرید
+              </h4>
+              <ShoppingCart product={product} />
             </div>
           </div>
 
@@ -197,7 +206,6 @@ const CartProduct: React.FC<CartProductProps> = ({ product }) => {
                 </div>
               </div>
             </div>
-
             <div className="mt-10 xl:mt-16 flex flex-col items-start justify-center">
               <h4 className="font-DanaBold mb-4 text-base md:text-lg lg:text-xl text-black dark:text-white">
                 امتیازات

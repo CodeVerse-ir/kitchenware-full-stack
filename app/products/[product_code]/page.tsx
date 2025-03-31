@@ -40,6 +40,7 @@ interface Product {
   bootmark: number;
   description: SubDescription[];
   comments: Comment[];
+  quantity_in_stock: number;
 }
 
 const Product = async ({
