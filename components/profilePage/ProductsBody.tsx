@@ -2,6 +2,7 @@ import { axiosFetch } from "@/utils/axios_fetch";
 
 // components
 import CardProduct from "./CardProduct";
+import { checkDiscountStatus } from "@/utils/helper";
 
 interface ProductsBodyProps {
   url: string;
@@ -13,9 +14,12 @@ interface Product {
   image: string[];
   product_name: string;
   price: number;
-  discount: number;
+  discount: {
+    percent: number;
+    start_time: string;
+    end_time: string;
+  };
   star: number;
-  clock: string;
 }
 
 const ProductsBody: React.FC<ProductsBodyProps> = async ({ url, token }) => {
@@ -30,10 +34,9 @@ const ProductsBody: React.FC<ProductsBodyProps> = async ({ url, token }) => {
       {data &&
         data.length > 0 &&
         data.map((cart) => {
-          const finalPrice =
-            cart.discount === 0
-              ? cart.price
-              : cart.price - cart.price * (cart.discount / 100);
+          const finalPrice = checkDiscountStatus(cart.discount)
+            ? cart.price - cart.price * (cart.discount.percent / 100)
+            : cart.price;
           return (
             <CardProduct
               key={cart.code}

@@ -131,8 +131,8 @@ const NavDesktop: React.FC<NavDesktopPrpos> = ({
           {/* <!-- Login Link --> */}
           {user ? (
             <>
-              {/* shoping */}
-              <div className="relative">
+              {/* shopping */}
+              <Link className="relative" href="/profile/shopping">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -150,7 +150,7 @@ const NavDesktop: React.FC<NavDesktopPrpos> = ({
                 <div className="absolute -top-2 -right-2 flex items-center justify-center w-5 h-4 font-DanaBold text-sm text-white bg-orange-400 rounded-full">
                   {state.cart.length}
                 </div>
-              </div>
+              </Link>
 
               {/* profile */}
               <div className="relative group">

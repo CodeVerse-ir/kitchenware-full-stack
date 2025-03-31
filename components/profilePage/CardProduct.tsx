@@ -2,7 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { getBlurDataURL, getToastType } from "@/utils/helper";
+import {
+  checkDiscountStatus,
+  getBlurDataURL,
+  getToastType,
+} from "@/utils/helper";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { usePathname } from "next/navigation";
@@ -14,7 +18,11 @@ interface CardProductProps {
   product_name: string;
   finalPrice: number;
   price: number;
-  discount: number;
+  discount: {
+    percent: number;
+    start_time: string;
+    end_time: string;
+  };
 }
 
 const CardProduct: React.FC<CardProductProps> = ({
@@ -25,7 +33,7 @@ const CardProduct: React.FC<CardProductProps> = ({
   price,
   discount,
 }) => {
-  const pathname = usePathname();  
+  const pathname = usePathname();
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleDelete = async (code: string) => {
@@ -52,9 +60,9 @@ const CardProduct: React.FC<CardProductProps> = ({
         />
 
         {/* <!-- discount percent  --> */}
-        {discount !== 0 && (
+        {checkDiscountStatus(discount) && (
           <span className="absolute top-1 right-1 flex items-center justify-center w-10 lg:w-[3.375rem] h-5 md:h-[30px] text-xs/[24px] md:text-base/[34px] font-DanaBold bg-orange-300 text-white dark:text-zinc-700 rounded-3xl pt-1">
-            {discount}%
+            {discount.percent}%
           </span>
         )}
       </div>
@@ -68,13 +76,12 @@ const CardProduct: React.FC<CardProductProps> = ({
       <div className="flex gap-x-2 md:gap-x-2.5 mt-1.5 md:mt-2.5">
         <div className="text-teal-600 dark:text-emerald-500">
           <span className="font-DanaBold text-base lg:text-xl">
-            {" "}
             {Number(finalPrice).toLocaleString()}
           </span>
           <span className="pr-0.5 text-xs md:text-sm tracking-tighter">
             تومان
           </span>
-          {discount !== 0 && (
+          {checkDiscountStatus(discount) && (
             <div className="mr-2 text-xs md:text-sm text-gray-400 line-through lg:text-base decoration-red-500 decoration-1">
               <span className="">{Number(price).toLocaleString()}</span>
               <span className="hidden lg:inline">تومان</span>
