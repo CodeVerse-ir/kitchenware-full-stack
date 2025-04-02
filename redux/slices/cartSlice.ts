@@ -1,5 +1,6 @@
 "use client";
 
+import { checkDiscountStatus } from "@/utils/helper";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface CartItem {
@@ -11,7 +12,7 @@ interface CartItem {
   image: string[];
   brand: string;
   category: string;
-  productName: string;
+  product_name: string;
   code: string;
   attributes: string[];
   colors: [];
@@ -19,6 +20,7 @@ interface CartItem {
   star: number;
   like: number;
   bootmark: number;
+  quantity_in_stock: number;
 }
 
 interface CartState {
@@ -45,8 +47,58 @@ export const cartSlice = createSlice({
     removeFromCart: (state, action) => {
       state.cart = state.cart.filter((p) => p.code !== action.payload);
     },
+    increment: (state, action) => {
+      state.cart = state.cart.map((p) =>
+        p.code === action.payload ? { ...p, quantity: p.quantity + 1 } : p
+      );
+    },
+    decrement: (state, action) => {
+      state.cart = state.cart.map((p) =>
+        p.code === action.payload ? { ...p, quantity: p.quantity - 1 } : p
+      );
+    },
+    clearCart: (state) => {
+      state.cart = [];
+    },
   },
 });
 
-export const { addToCart, removeFromCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, increment, decrement, clearCart } =
+  cartSlice.actions;
 export const cartReducer = cartSlice.reducer;
+
+export const totalAmountCart = ({
+  shoppingCart,
+}: {
+  shoppingCart: CartState;
+}): number => {
+  return shoppingCart.cart.reduce(
+    (total: number, product: CartItem & { quantity: number }) => {
+      const discountedPrice =
+        product.price * (1 - product.discount.percent / 100);
+      const finalPrice = checkDiscountStatus(product.discount)
+        ? discountedPrice
+        : product.price;
+      return total + finalPrice * product.quantity;
+    },
+    0
+  );
+};
+
+export const totalDiscountAmount = ({
+  shoppingCart,
+}: {
+  shoppingCart: CartState;
+}): number => {
+  return shoppingCart.cart.reduce(
+    (total: number, product: CartItem & { quantity: number }) => {
+      if (checkDiscountStatus(product.discount)) {
+        const discountAmount =
+          product.price * (product.discount.percent / 100) * product.quantity;
+        return total + discountAmount;
+      }
+      return total;
+    },
+    0
+  );
+};

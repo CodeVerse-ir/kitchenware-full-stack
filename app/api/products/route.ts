@@ -113,7 +113,7 @@ async function getProductsCount(
   brand_name?: string,
   filter?: string
 ) {
-  const query: ProductFilter = {};
+  const query: ProductFilter = {};  
 
   if (filter) {
     if (filter === "discount") {
@@ -170,8 +170,6 @@ export async function GET(request: NextRequest) {
         brand_name?.toString(),
         filter?.toString()
       );
-
-      console.log(products);
 
       return Response.json(products);
     } else {

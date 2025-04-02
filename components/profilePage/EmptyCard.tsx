@@ -1,8 +1,14 @@
+import Link from "next/link";
+
 interface EmptyCardProps {
   text: string;
+  link?: {
+    href: string;
+    text: string;
+  };
 }
 
-const EmptyCard: React.FC<EmptyCardProps> = ({ text }) => {
+const EmptyCard: React.FC<EmptyCardProps> = ({ text, link }) => {
   return (
     <div className="relative w-full">
       <svg
@@ -21,6 +27,17 @@ const EmptyCard: React.FC<EmptyCardProps> = ({ text }) => {
       <div className="absolute top-0 right-0 left-0 mx-auto flex items-center justify-center w-full h-full text-center font-DanaMedium text-xs md:text-sm lg:text-base text-zinc-700 dark:text-gray-300">
         {text}
       </div>
+
+      {link && (
+        <div className="absolute top-10 right-0 left-0 mx-auto flex items-center justify-center w-full h-full">
+          <Link
+            href={link.href}
+            className="px-2 py-1 text-nowrap text-center font-Dana text-xs md:text-sm lg:text-base text-white bg-orange-400 hover:bg-orange-600 rounded-md transition-colors duration-150"
+          >
+            {link.text}
+          </Link>
+        </div>
+      )}
     </div>
   );
 };
