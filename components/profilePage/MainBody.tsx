@@ -28,7 +28,14 @@ const MainBody = () => {
           totalDiscount={totalDiscount}
         />
       )}
-      {step === 2 && <CompletionInformation setStep={setStep} />}
+      {step === 2 && state.cart && (
+        <CompletionInformation
+          setStep={setStep}
+          carts={state.cart}
+          totalAmount={totalAmount}
+          totalDiscount={totalDiscount}
+        />
+      )}
     </div>
   );
 };

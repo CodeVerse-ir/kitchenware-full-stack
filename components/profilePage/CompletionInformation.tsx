@@ -1,16 +1,54 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import RadioAddress from "./RadioAddress";
 import Link from "next/link";
+import { checkDiscountStatus } from "@/utils/helper";
+
+// components
+import EmptyCard from "./EmptyCard";
+
+interface CartItem {
+  discount: {
+    percent: number;
+    start_time: string;
+    end_time: string;
+  };
+  image: string[];
+  brand: string;
+  category: string;
+  product_name: string;
+  code: string;
+  attributes: string[];
+  colors: [];
+  price: number;
+  star: number;
+  like: number;
+  bootmark: number;
+  quantity_in_stock: number;
+}
 
 interface CompletionInformationProps {
   setStep: Dispatch<SetStateAction<number>>;
+  carts: Array<CartItem & { quantity: number }>;
+  totalAmount: number;
+  totalDiscount: number;
 }
 
 const CompletionInformation: React.FC<CompletionInformationProps> = ({
   setStep,
+  carts,
+  totalAmount,
+  totalDiscount,
 }) => {
+  const carts_length = carts.length;
+
+  const [selectedOrder, setselectedOrder] = useState("post");
+
+  const handleOrderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setselectedOrder(e.target.value);
+  };
+
   return (
-    <div className="flex flex-col xl:flex-row items-center justify-center gap-x-10 gap-y-5 mt-10">
+    <div className="flex flex-col xl:flex-row items-center xl:items-start justify-center gap-x-10 gap-y-5 mt-10">
       <div className="flex flex-col items-center justify-center gap-y-4 w-full xs:w-[350px] md:w-[500px]">
         {/* Order delivery method */}
         <div className="flex flex-col items-center justify-center w-full gap-y-2 p-2 md:px-4 md:py-2 lg:px-6 lg:py-4 rounded-lg border border-gray-400">
@@ -54,11 +92,13 @@ const CompletionInformation: React.FC<CompletionInformationProps> = ({
               <input
                 type="radio"
                 name="order_delivery"
+                value="post"
                 className="size-3.5 cursor-pointer"
-                defaultChecked={true}
+                checked={selectedOrder === "post"}
+                onChange={handleOrderChange}
               />
               <div className="flex items-center justify-center gap-x-1 text-zinc-600 dark:text-gray-400 text-xs md:text-sm lg:text-base">
-                <div>ارسال توسط پیک</div>
+                <div>ارسال توسط پست</div>
 
                 <svg
                   width="24"
@@ -107,7 +147,10 @@ const CompletionInformation: React.FC<CompletionInformationProps> = ({
               <input
                 type="radio"
                 name="order_delivery"
+                value="in_store_pickup"
                 className="size-3.5 cursor-pointer"
+                checked={selectedOrder === "in_store_pickup"}
+                onChange={handleOrderChange}
               />
               <div className="flex items-center justify-center gap-x-1 text-zinc-600 dark:text-gray-400 text-xs md:text-sm lg:text-base">
                 <div>تحویل حضوری</div>
@@ -138,63 +181,65 @@ const CompletionInformation: React.FC<CompletionInformationProps> = ({
           </div>
         </div>
         {/* addresses */}
-        <div className="flex flex-col items-center justify-center w-full gap-y-2 p-2 md:px-4 md:py-2 lg:px-6 lg:py-4 rounded-lg border border-gray-400">
-          <div className="flex items-center justify-between w-full">
-            <div className="flex items-center justify-start gap-x-1 text-zinc-800 dark:text-gray-300 text-xs md:text-sm lg:text-base">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="size-4 md:size-5 lg:size-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
-                />
-              </svg>
+        {selectedOrder === "post" && (
+          <div className="flex flex-col items-center justify-center w-full gap-y-2 p-2 md:px-4 md:py-2 lg:px-6 lg:py-4 rounded-lg border border-gray-400">
+            <div className="flex items-center justify-between w-full">
+              <div className="flex items-center justify-start gap-x-1 text-zinc-800 dark:text-gray-300 text-xs md:text-sm lg:text-base">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="size-4 md:size-5 lg:size-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
+                  />
+                </svg>
 
-              <div>آدرس ها</div>
+                <div>آدرس ها</div>
+              </div>
+              <Link
+                href="/profile/addresses"
+                className="flex items-center justify-end gap-x-1 text-orange-400 text-xs md:text-sm"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="size-3.5 md:size-4 lg:size-5"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                  />
+                </svg>
+
+                <div>افزودن آدرس</div>
+              </Link>
             </div>
-            <Link
-              href="/profile/addresses"
-              className="flex items-center justify-end gap-x-1 text-orange-400 text-xs md:text-sm"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="size-3.5 md:size-4 lg:size-5"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                />
-              </svg>
-
-              <div>افزودن آدرس</div>
-            </Link>
+            {/* <!-- Line --> */}
+            <div className="w-full h-px my-1 bg-gray-300"></div>
+            <RadioAddress
+              address={[
+                { title: "کار در محل مسکونی شرکت", isDefault: true },
+                { title: "کار", isDefault: false },
+                { title: "کار در محل", isDefault: false },
+              ]}
+            />
           </div>
-          {/* <!-- Line --> */}
-          <div className="w-full h-px my-1 bg-gray-300"></div>
-          <RadioAddress
-            address={[
-              { title: "کار در محل مسکونی شرکت", isDefault: true },
-              { title: "کار", isDefault: false },
-              { title: "کار در محل", isDefault: false },
-            ]}
-          />
-        </div>
+        )}
         <textarea
           className="w-full h-30 p-2 md:px-4 md:py-2 lg:px-6 lg:py-4 text-xs md:text-sm lg:text-base bg-transparent rounded-lg border border-gray-400 focus:border-orange-400 transition-colors duration-150 outline-none resize-none"
           name=""
@@ -205,43 +250,48 @@ const CompletionInformation: React.FC<CompletionInformationProps> = ({
       {/* letf div */}
       <div className="w-full xs:w-[350px] rounded-lg border border-gray-400 p-6">
         <div className="text-xs md:text-sm lg:text-base text-zinc-700 dark:text-gray-300">
-          سبد خرید (4)
+          سبد خرید ({carts_length})
         </div>
 
         {/* <!-- Line --> */}
         <div className="w-full h-px my-5 bg-gray-300"></div>
 
-        <div className="w-full h-24 space-y-2 overflow-y-scroll pl-2">
-          <div className="flex items-center justify-between w-full h-12 p-1 bg-gray-200 dark:bg-zinc-600">
-            <div className="flex items-start justify-start w-30 h-8 md:h-10 text-xs md:text-sm text-gray-500 dark:text-gray-400 line-clamp-2">
-              پیتزا بادمجان و زیتون پیتزا بادمجان و زیتون پیتزا بادمجان و زیتون
-              پیتزا بادمجان و زیتون
-            </div>
-            <div className="flex flex-col items-end justify-center text-gray-500 dark:text-gray-400 gap-y-1">
-              <div className="text-xs md:text-sm">۱۴۰٬۰۰۰ تومان</div>
-              <div className="text-xs md:text-sm">تعداد : 1</div>
-            </div>
-          </div>
-          <div className="flex items-center justify-between w-full h-12 p-1">
-            <div className="flex items-start justify-start w-30 h-8 md:h-10 text-xs md:text-sm text-gray-500 dark:text-gray-400 line-clamp-2">
-              پیتزا بادمجان و زیتون پیتزا بادمجان و زیتون پیتزا بادمجان و زیتون
-              پیتزا بادمجان و زیتون
-            </div>
-            <div className="flex flex-col items-end justify-center text-gray-500 dark:text-gray-400 gap-y-1">
-              <div className="text-xs md:text-sm">۱۴۰٬۰۰۰ تومان</div>
-              <div className="text-xs md:text-sm">تعداد : 1</div>
-            </div>
-          </div>
-          <div className="flex items-center justify-between w-full h-12 p-1 bg-gray-200 dark:bg-zinc-600">
-            <div className="flex items-start justify-start w-30 h-8 md:h-10 text-xs md:text-sm text-gray-500 dark:text-gray-400 line-clamp-2">
-              پیتزا بادمجان و زیتون پیتزا بادمجان و زیتون پیتزا بادمجان و زیتون
-              پیتزا بادمجان و زیتون
-            </div>
-            <div className="flex flex-col items-end justify-center text-gray-500 dark:text-gray-400 gap-y-1">
-              <div className="text-xs md:text-sm">۱۴۰٬۰۰۰ تومان</div>
-              <div className="text-xs md:text-sm">تعداد : 1</div>
-            </div>
-          </div>
+        <div className="w-full h-28 space-y-2 overflow-y-scroll pl-2 py-1">
+          {carts_length ? (
+            carts.map((cart, index) => {
+              const finalPrice = checkDiscountStatus(cart.discount)
+                ? cart.price - cart.price * (cart.discount.percent / 100)
+                : cart.price;
+
+              return (
+                <div key={index}>
+                  <div className="flex items-center justify-between w-full h-12 p-1">
+                    <div className="flex items-start justify-start w-30 h-8 md:h-10 text-xs md:text-sm text-gray-500 dark:text-gray-400 line-clamp-2">
+                      {cart.product_name}
+                    </div>
+                    <div className="flex flex-col items-end justify-center text-gray-500 dark:text-gray-400 gap-y-1">
+                      <div className="text-xs md:text-sm">
+                        {(finalPrice * cart.quantity).toLocaleString()} تومان
+                      </div>
+                      <div className="text-xs md:text-sm">
+                        تعداد : {cart.quantity}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* <!-- Line --> */}
+                  {carts_length - 1 !== index && (
+                    <div className="w-full h-px my-1 bg-orange-300"></div>
+                  )}
+                </div>
+              );
+            })
+          ) : (
+            <EmptyCard
+              text="شما در حال حاضر هیچ محصولی را انتخاب نکرده‌اید!"
+              link={{ href: "/products", text: "جستجوی محصولات" }}
+            />
+          )}
         </div>
 
         {/* <!-- Line --> */}
@@ -251,8 +301,8 @@ const CompletionInformation: React.FC<CompletionInformationProps> = ({
           <div className="text-xs md:text-sm lg:text-base text-zinc-700 dark:text-gray-300">
             تخفیف محصولات
           </div>
-          <div className="text-xs md:text-sm text-gray-500 dark:text-gray-400">
-            ۶۳٬۰۰۰ تومان
+          <div className="text-xs md:text-sm text-gray-700 dark:text-gray-300">
+            {totalDiscount.toLocaleString()} تومان
           </div>
         </div>
         {/* <!-- Line --> */}
@@ -263,30 +313,8 @@ const CompletionInformation: React.FC<CompletionInformationProps> = ({
               هزینه ارسال
             </div>
             <div className="text-xs md:text-sm text-gray-500 dark:text-gray-400">
-              ۰ تومان
+              {selectedOrder === "in_store_pickup" ? "0" : "50,000"} تومان
             </div>
-          </div>
-          <div className="flex items-start justify-between w-full gap-x-1 text-xs md:text-sm text-orange-400">
-            <div className="flex flex-1">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="size-3 md:size-4 lg:size-5"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"
-                />
-              </svg>
-            </div>
-            <div className="text-justify">
-              هزینه ارسال در ادامه بر اساس آدرس، زمان و نحوه ارسال انتخابی شما
-              محاسبه و به این مبلغ اضافه خواهد شد.
-            </div>{" "}
           </div>
         </div>
         {/* <!-- Line --> */}
@@ -297,7 +325,7 @@ const CompletionInformation: React.FC<CompletionInformationProps> = ({
               مبلغ قابل پرداخت
             </div>
             <div className="text-xs md:text-sm lg:text-base text-green-600">
-              ۵۴۲٬۰۰۰ تومان
+              {totalAmount.toLocaleString()} تومان
             </div>
           </div>
           <button
