@@ -45,6 +45,8 @@ interface meProps {
     image: string;
     birthdate: string;
     nickname: string;
+    bookmarked_products: string;
+    lieked_products: string;
   } | null;
 }
 
@@ -375,6 +377,8 @@ async function me(): Promise<meProps> {
               image: user.image,
               birthdate: user.birthdate,
               nickname: user.nickname,
+              bookmarked_products: user.bookmarked_products,
+              lieked_products: user.lieked_products,
             },
           };
         }

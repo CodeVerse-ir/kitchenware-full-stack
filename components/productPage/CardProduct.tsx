@@ -74,7 +74,7 @@ const CartProduct: React.FC<CartProductProps> = ({ product }) => {
           <div className="flex flex-col gap-y-2">
             <Star />
             <Like />
-            <Bookmark />
+            <Bookmark code={product.code} />
           </div>
           <Image
             className="md:w-72 md:h-72 rounded-xl object-cover"

@@ -121,6 +121,85 @@ export async function GET(request: NextRequest) {
   }
 }
 
+export async function PATCH(request: NextRequest) {
+  const authHeader =
+    request.headers.get("authorization") ||
+    request.headers.get("Authorization");
+  const token = authHeader?.startsWith("Bearer ") ? authHeader.slice(7) : null;
+
+  if (!token) {
+    return Response.json(
+      { error: "توکن احراز هویت یافت نشد" },
+      { status: 401 }
+    );
+  }
+
+  const decodedToken = decodeJWT(token);
+  if (!decodedToken) {
+    return Response.json(
+      { error: "توکن احراز هویت نامعتبر است" },
+      { status: 403 }
+    );
+  }
+
+  const username = decodedToken.username;
+  const body = await request.json();
+  const { code } = body;
+
+  if (!code) {
+    return Response.json({ error: "کد محصول الزامی است" }, { status: 400 });
+  }
+
+  const client = new MongoClient(process.env.MONGODB_URI!);
+
+  try {
+    await client.connect();
+    const db = client.db();
+
+    const user = await db.collection("users").findOne({
+      username,
+      bookmarked_products: { $in: [code] },
+    });
+
+    if (user) {
+      await db
+        .collection("users")
+        .updateOne({ username }, { $pull: { bookmarked_products: code } });
+      return Response.json(
+        {
+          message: "محصول از ذخیره شده ها حذف شد.",
+          bookmarked: false,
+          bookmarked_products: user.bookmarked_products.filter(
+            (p: string) => p !== code
+          ),
+        },
+        { status: 200 }
+      );
+    } else {
+      await db
+        .collection("users")
+        .updateOne({ username }, { $addToSet: { bookmarked_products: code } });
+      const updatedUser = await db.collection("users").findOne({ username });
+      return Response.json(
+        {
+          message: "محصول ذخیره شد.",
+          bookmarked: true,
+          bookmarked_products: updatedUser?.bookmarked_products || [code],
+        },
+        { status: 200 }
+      );
+    }
+  } catch (error) {
+    console.error("Error in toggling bookmark:", error);
+    return Response.json(
+      { error: "خطای سرور در پردازش درخواست" },
+      { status: 500 }
+    );
+  } finally {
+    await client.close();
+  }
+}
+
 export async function DELETE(request: NextRequest) {
   const authHeader = request.headers.get("Authorization");
   const token = authHeader?.split(" ")[1];

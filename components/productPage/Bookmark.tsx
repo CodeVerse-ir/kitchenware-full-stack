@@ -1,14 +1,34 @@
 "use client";
 
+import { toggle_bookmark } from "@/actions/profile/bookmark";
+import { useSession } from "@/utils/useSession";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
-const Bookmark = () => {
-  const [bootmark, setBootmark] = useState(false);
+interface BookmarkProps {
+  code: string;
+}
 
-  const handleBootmark = () => setBootmark(!bootmark);
+const Bookmark: React.FC<BookmarkProps> = ({ code }) => {
+  const { user } = useSession();
+  const [bootmark, setBootmark] = useState(
+    user?.bookmarked_products?.includes(code) || false
+  );
+
+  const handleBootmark = async () => {
+    if (user) {
+      setBootmark(!bootmark);
+      const toggleBookmark = await toggle_bookmark(code);
+      toast(toggleBookmark.message, { type: "success" });
+    } else {
+      toast("برای ذخیره محصول ، وارد حساب کاربری شوید.", {
+        type: "error",
+      });
+    }
+  };
 
   return (
-    <div
+    <button
       className={`group flex items-center justify-center size-8 md:size-10 lg:size-12 rounded-xl ${
         bootmark ? "text-red-500" : "text-orange-300"
       } border border-gray-300`}
@@ -26,7 +46,7 @@ const Bookmark = () => {
           clipRule="evenodd"
         />
       </svg>
-    </div>
+    </button>
   );
 };
 

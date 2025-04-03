@@ -12,6 +12,8 @@ interface User {
   image?: string;
   birthdate?: string;
   nickname?: string;
+  bookmarked_products?: string;
+  lieked_products?: string;
 }
 
 interface SessionContextType {
