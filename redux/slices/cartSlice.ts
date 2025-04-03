@@ -42,7 +42,6 @@ export const cartSlice = createSlice({
       const { product, quantity } = action.payload;
 
       state.cart = [...state.cart, { ...product, quantity: quantity }];
-      console.log(state.cart);
     },
     removeFromCart: (state, action) => {
       state.cart = state.cart.filter((p) => p.code !== action.payload);

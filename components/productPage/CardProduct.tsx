@@ -20,7 +20,7 @@ interface CartProductProps {
     image: string[];
     brand: string;
     category: string;
-    productName: string;
+    product_name: string;
     code: string;
     attributes: string[];
     colors: [];
@@ -121,7 +121,7 @@ const CartProduct: React.FC<CartProductProps> = ({ product }) => {
             </div>
 
             <h4 className="font-MorabbaMedium text-lg md:text-xl lg:text-2xl text-black dark:text-white line-clamp-2">
-              {product.productName}
+              {product.product_name}
             </h4>
           </div>
 

@@ -1,10 +1,11 @@
 "use client";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "@/redux/slices/cartSlice";
 import { toast } from "react-toastify";
 import { useState } from "react";
 import { useSession } from "@/utils/useSession";
+import { RootState } from "@/redux/store";
 
 interface ShoppingCartProps {
   product: {
@@ -16,7 +17,7 @@ interface ShoppingCartProps {
     image: string[];
     brand: string;
     category: string;
-    productName: string;
+    product_name: string;
     code: string;
     attributes: string[];
     colors: [];
@@ -31,8 +32,15 @@ interface ShoppingCartProps {
 const ShoppingCart: React.FC<ShoppingCartProps> = ({ product }) => {
   const dispatch = useDispatch();
   const { user } = useSession();
+  const state = useSelector((state: RootState) => state.shoppingCart);
 
-  const [quantity, setQuantity] = useState(1);
+  const foundItem = state.cart.find((item) => item.code === product.code);
+
+  const [quantity, setQuantity] = useState(
+    foundItem && foundItem.quantity < product.quantity_in_stock
+      ? foundItem.quantity
+      : 1
+  );
 
   const handleAddToCart = () => {
     if (user) {
@@ -113,9 +121,11 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ product }) => {
         </button>
       </div>
 
-      <div className="font-Dana text-sm text-gray-500 dark:text-gray-400">
-        قبلا به سبد خرید اضافه شده است.
-      </div>
+      {foundItem && (
+        <div className="font-Dana text-xs md:text-sm text-gray-500 dark:text-gray-400">
+          قبلا به سبد خرید اضافه شده است.
+        </div>
+      )}
     </div>
   );
 };
