@@ -72,7 +72,7 @@ const CartProduct: React.FC<CartProductProps> = ({ product }) => {
         {/* <!--  Star & like & bookmark --> */}
         <div className="flex items-start justify-center gap-x-2">
           <div className="flex flex-col gap-y-2">
-            <Star />
+            <Star code={product.code} />
             <Like code={product.code} />
             <Bookmark code={product.code} />
           </div>

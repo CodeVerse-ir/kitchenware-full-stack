@@ -1,41 +1,36 @@
 "use client";
 
 import { useState } from "react";
+import { useSession } from "@/utils/useSession";
+import { toast } from "react-toastify";
 
 // components
 import AlertComment from "./AlertComment";
 import NoScroll from "../common/NoScroll";
-import AlertSave from "./AlertSave";
 
-const Star = () => {
-  const [saveComment, setSaveComment] = useState(false);
+interface StarProps {
+  code: string;
+}
+
+const Star: React.FC<StarProps> = ({ code }) => {
+  const { user } = useSession();
+
   const [showComment, setShowComment] = useState(false);
-  const [showAlert, setShowAlert] = useState(false);
 
   const handleShowComment = () => {
-    if (!saveComment) {
+    if (user) {
       setShowComment(!showComment);
-    }
-  };
-
-  const handleSaveComment = () => {
-    handleShowComment();
-    setSaveComment(true);
-    setShowAlert(true);
-  };
-
-  const closeAlert = () => {
-    if (showComment) {
-      setShowComment(false);
+    } else {
+      toast("برای نظر دادن ، وارد حساب کاربری شوید.", {
+        type: "error",
+      });
     }
   };
 
   return (
     <>
       <div
-        className={`group flex items-center justify-center size-8 md:size-10 lg:size-12 rounded-xl ${
-          saveComment ? "text-red-500" : "text-orange-300"
-        } border border-gray-300`}
+        className="group flex items-center justify-center size-8 md:size-10 lg:size-12 rounded-xl text-orange-300 border border-gray-300"
         onClick={handleShowComment}
       >
         <svg
@@ -53,24 +48,19 @@ const Star = () => {
       </div>
 
       <AlertComment
+        code={code}
         showComment={showComment}
         handleShowComment={handleShowComment}
-        handleSaveComment={handleSaveComment}
+        setShowComment={setShowComment}
       />
 
       <NoScroll noScroll={showComment} />
-
-      <AlertSave
-        textAlert="نظر شما ثبت شد !"
-        showAlert={showAlert}
-        setShowAlert={setShowAlert}
-      />
 
       <div
         className={`${
           showComment ? "visible opacity-100" : "invisible opacity-0"
         } overlay-alert`}
-        onClick={closeAlert}
+        onClick={() => setShowComment(false)}
       ></div>
     </>
   );
