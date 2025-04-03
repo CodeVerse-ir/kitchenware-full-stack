@@ -3,17 +3,17 @@
 import { axiosFetch } from "@/utils/axios_fetch";
 import { cookies } from "next/headers";
 
-interface BookmarkApiResponse {
+interface LikeApiResponse {
   message: string;
   bookmarked: boolean;
 }
 
-interface toggle_bookmarkProps {
+interface toggle_likeProps {
   status: string | null;
   message: string | null;
 }
 
-async function toggle_bookmark(code: string): Promise<toggle_bookmarkProps> {
+async function toggle_like(code: string): Promise<toggle_likeProps> {
   // cookies
   const cookieStore = await cookies();
   const token = cookieStore.get("token");
@@ -21,25 +21,25 @@ async function toggle_bookmark(code: string): Promise<toggle_bookmarkProps> {
   if (token) {
     const tokenValue = token.value;
 
-    const addBookmark = await axiosFetch<BookmarkApiResponse>({
+    const toggleLike = await axiosFetch<LikeApiResponse>({
       fetchType: "patch",
-      url: "profile/bookmark",
+      url: "profile/likes",
       data: {
         code,
       },
       token: tokenValue,
-    });
+    });    
 
-    if (!addBookmark.error && addBookmark.data) {
+    if (!toggleLike.error && toggleLike.data) {
       return {
         status: "success",
-        message: addBookmark.data.message,
+        message: toggleLike.data.message,
       };
     }
-    if (addBookmark.error && addBookmark.error.statusCode === 400) {
+    if (toggleLike.error && toggleLike.error.statusCode === 400) {
       return {
         status: "error",
-        message: addBookmark.error.message,
+        message: toggleLike.error.message,
       };
     }
     return {
@@ -53,4 +53,4 @@ async function toggle_bookmark(code: string): Promise<toggle_bookmarkProps> {
   };
 }
 
-export { toggle_bookmark };
+export { toggle_like };

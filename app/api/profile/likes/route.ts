@@ -22,16 +22,9 @@ async function getProduct(
 
     const user = await db
       .collection("users")
-      .findOne(
-        { username: username },
-        { projection: { lieked_products: 1 } }
-      );
+      .findOne({ username: username }, { projection: { lieked_products: 1 } });
 
-    if (
-      !user ||
-      !user.lieked_products ||
-      user.lieked_products.length === 0
-    ) {
+    if (!user || !user.lieked_products || user.lieked_products.length === 0) {
       return [];
     }
 
@@ -65,10 +58,7 @@ async function getProduct(
 async function getLikeProductsCount(db: Db, username: string) {
   const user = await db
     .collection("users")
-    .findOne(
-      { username: username },
-      { projection: { lieked_products: 1 } }
-    );
+    .findOne({ username: username }, { projection: { lieked_products: 1 } });
 
   return user?.lieked_products.length;
 }
@@ -107,13 +97,92 @@ export async function GET(request: NextRequest) {
       const product = await getProduct(db, username, Number(page), 6);
       return Response.json(product);
     } else {
-      const likes = await getLikeProductsCount(db, username);      
+      const likes = await getLikeProductsCount(db, username);
       return Response.json({ totalProducts: likes });
     }
   } catch (error) {
     console.error("Error connecting to MongoDB:", error);
     return Response.json(
       { error: "Failed to connect to MongoDB" },
+      { status: 500 }
+    );
+  } finally {
+    await client.close();
+  }
+}
+
+export async function PATCH(request: NextRequest) {
+  const authHeader =
+    request.headers.get("authorization") ||
+    request.headers.get("Authorization");
+  const token = authHeader?.startsWith("Bearer ") ? authHeader.slice(7) : null;
+
+  if (!token) {
+    return Response.json(
+      { error: "توکن احراز هویت یافت نشد" },
+      { status: 401 }
+    );
+  }
+
+  const decodedToken = decodeJWT(token);
+  if (!decodedToken) {
+    return Response.json(
+      { error: "توکن احراز هویت نامعتبر است" },
+      { status: 403 }
+    );
+  }
+
+  const username = decodedToken.username;
+  const body = await request.json();
+  const { code } = body;
+
+  if (!code) {
+    return Response.json({ error: "کد محصول الزامی است" }, { status: 400 });
+  }
+
+  const client = new MongoClient(process.env.MONGODB_URI!);
+
+  try {
+    await client.connect();
+    const db = client.db();
+
+    const user = await db.collection("users").findOne({
+      username,
+      lieked_products: { $in: [code] },
+    });
+
+    if (user) {
+      await db
+        .collection("users")
+        .updateOne({ username }, { $pull: { lieked_products: code } });
+      return Response.json(
+        {
+          message: "محصول از علاقه مندی ها حذف شد.",
+          lieked: false,
+          lieked_products: user.lieked_products.filter(
+            (p: string) => p !== code
+          ),
+        },
+        { status: 200 }
+      );
+    } else {
+      await db
+        .collection("users")
+        .updateOne({ username }, { $addToSet: { lieked_products: code } });
+      const updatedUser = await db.collection("users").findOne({ username });
+      return Response.json(
+        {
+          message: "محصول به علاقه مندی ها اضافه شد.",
+          lieked: true,
+          lieked_products: updatedUser?.lieked_products || [code],
+        },
+        { status: 200 }
+      );
+    }
+  } catch (error) {
+    console.error("Error in toggling bookmark:", error);
+    return Response.json(
+      { error: "خطای سرور در پردازش درخواست" },
       { status: 500 }
     );
   } finally {
@@ -157,10 +226,7 @@ export async function DELETE(request: NextRequest) {
 
     const result = await db
       .collection("users")
-      .updateOne(
-        { username },
-        { $pull: { lieked_products: product_code } }
-      );
+      .updateOne({ username }, { $pull: { lieked_products: product_code } });
 
     if (result.modifiedCount === 0) {
       return Response.json(

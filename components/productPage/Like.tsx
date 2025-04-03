@@ -1,18 +1,38 @@
 "use client";
 
+import { toggle_like } from "@/actions/profile/like";
+import { useSession } from "@/utils/useSession";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
-const Like = () => {
-  const [like, setLike] = useState(false);
+interface LikeProps {
+  code: string;
+}
 
-  const handleStar = () => setLike(!like);
+const Like: React.FC<LikeProps> = ({ code }) => {
+  const { user } = useSession();
+  const [like, setLike] = useState(
+    user?.bookmarked_products?.includes(code) || false
+  );
+
+  const handleLike = async () => {
+    if (user) {
+      setLike(!like);
+      const toggleLike = await toggle_like(code);
+      toast(toggleLike.message, { type: "success" });
+    } else {
+      toast("برای پسندیدن محصول ، وارد حساب کاربری شوید.", {
+        type: "error",
+      });
+    }
+  };
 
   return (
     <div
       className={`group flex items-center justify-center size-8 md:size-10 lg:size-12 rounded-xl ${
         like ? "text-red-500" : "text-orange-300"
       } border border-gray-300`}
-      onClick={handleStar}
+      onClick={handleLike}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
