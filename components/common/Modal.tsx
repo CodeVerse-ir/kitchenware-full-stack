@@ -89,7 +89,10 @@ const Modal: React.FC<ModalProps> = ({
             </div>
           </div>
         ) : (
-          btn_text + " " + btn_svg && btn_svg
+          <div className="flex items-center justify-center gap-x-1">
+            <div>{btn_text}</div>
+            <div>{btn_svg}</div>
+          </div>
         )}
       </button>
 
@@ -103,7 +106,7 @@ const Modal: React.FC<ModalProps> = ({
             <div className="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
               {/* <!-- Modal header --> */}
               <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
-                <h3 className="text-xl font-DanaBold text-gray-900 dark:text-white">
+                <h3 className="text-sm md:text-base lg:text-xl font-DanaMedium md:font-DanaBold text-gray-900 dark:text-white">
                   {title}
                 </h3>
                 <button
@@ -113,7 +116,7 @@ const Modal: React.FC<ModalProps> = ({
                   data-modal-hide-action="cancel"
                 >
                   <svg
-                    className="w-3 h-3"
+                    className="size-3"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -130,14 +133,14 @@ const Modal: React.FC<ModalProps> = ({
                 </button>
               </div>
               {/* <!-- Modal body --> */}
-              <div className="p-4 md:p-5 space-y-4">{text}</div>
+              <div className="p-4 md:p-5 space-y-4 text-xs md:text-sm lg:text-base font-Dana">{text}</div>
               {/* <!-- Modal footer --> */}
               <div className="flex items-center justify-end p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
                 <button
                   data-modal-hide={modalId}
                   data-modal-hide-action="cancel"
                   type="button"
-                  className="py-2.5 px-5 me-3 text-sm font-DanaMedium focus:outline-none bg-transparent rounded-lg border border-red-500 hover:bg-red-500 text-red-500 hover:text-white focus:z-10 transition-colors duration-150"
+                  className="py-2.5 px-5 me-3 text-xs md:text-sm lg:text-base font-DanaMedium focus:outline-none bg-transparent rounded-lg border border-red-500 hover:bg-red-500 text-red-500 hover:text-white focus:z-10 transition-colors duration-150"
                 >
                   لغو
                 </button>
@@ -145,7 +148,7 @@ const Modal: React.FC<ModalProps> = ({
                   data-modal-hide={modalId}
                   data-modal-hide-action="confirm"
                   type={btn_type}
-                  className="text-white bg-orange-500 hover:bg-orange-600 focus:ring-2 focus:outline-none focus:ring-red-500 font-DanaMedium rounded-lg text-sm px-5 py-2.5 text-center transition-colors duration-150"
+                  className="text-white bg-orange-500 hover:bg-orange-600 focus:ring-2 focus:outline-none focus:ring-red-500 font-DanaMedium rounded-lg text-xs md:text-sm lg:text-base px-5 py-2.5 text-center transition-colors duration-150"
                 >
                   تایید
                 </button>
