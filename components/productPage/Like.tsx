@@ -12,8 +12,8 @@ interface LikeProps {
 const Like: React.FC<LikeProps> = ({ code }) => {
   const { user } = useSession();
   const [like, setLike] = useState(
-    user?.bookmarked_products?.includes(code) || false
-  );
+    user?.lieked_products?.includes(code) || false
+  );  
 
   const handleLike = async () => {
     if (user) {

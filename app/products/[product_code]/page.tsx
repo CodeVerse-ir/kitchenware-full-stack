@@ -30,7 +30,7 @@ interface Product {
   image: string[];
   brand: string;
   category: string;
-  productName: string;
+  product_name: string;
   code: string;
   attributes: string[];
   colors: [];

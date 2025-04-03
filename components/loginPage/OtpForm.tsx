@@ -34,6 +34,8 @@ const INITIAL_STATE_OTP_FORM = {
     image: "",
     birthdate: "",
     nickname: "",
+    bookmarked_products: [""],
+    lieked_products: [""],
   },
 };
 

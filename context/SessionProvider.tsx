@@ -12,8 +12,8 @@ interface User {
   image?: string;
   birthdate?: string;
   nickname?: string;
-  bookmarked_products?: string;
-  lieked_products?: string;
+  bookmarked_products?: string[];
+  lieked_products?: string[];
 }
 
 interface SessionContextType {
@@ -41,7 +41,7 @@ export const SessionProvider = ({
   const router = useRouter();
   const pathname = usePathname();
 
-  useEffect(() => {
+  useEffect(() => {    
     const checkUserLoggedIn = async () => {
       const data = await me();
       setUser(data.user);
