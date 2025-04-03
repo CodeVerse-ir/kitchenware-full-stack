@@ -6,6 +6,7 @@ interface ModalProps {
   btn_type: "button" | "submit";
   btn_style: string;
   btn_text: string;
+  btn_svg?: React.ReactNode;
   title: string;
   text: string;
   isPending: boolean;
@@ -17,6 +18,7 @@ const Modal: React.FC<ModalProps> = ({
   btn_type,
   btn_style,
   btn_text,
+  btn_svg,
   title,
   text,
   isPending,
@@ -87,7 +89,7 @@ const Modal: React.FC<ModalProps> = ({
             </div>
           </div>
         ) : (
-          btn_text
+          btn_text + " " + btn_svg && btn_svg
         )}
       </button>
 

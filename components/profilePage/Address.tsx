@@ -318,7 +318,7 @@ const EditAddress: React.FC<EditAddressProps> = ({ data }) => {
             btn_style="flex flex-col items-start justify-center py-2 px-4 text-white bg-green-500 hover:bg-green-600 rounded-lg transition-colors duration-300"
             btn_text="ویرایش آدرس"
             title="ویرایش آدرس"
-            text="آیا از ویرایش آدرس مطمعن هستید؟"
+            text="آیا از ویرایش آدرس مطمئن هستید؟"
             isPending={isPending}
           />
 
@@ -328,7 +328,7 @@ const EditAddress: React.FC<EditAddressProps> = ({ data }) => {
             btn_style="flex flex-col items-start justify-center py-2 px-4 text-white bg-red-500 hover:bg-red-600 rounded-lg transition-colors duration-300"
             btn_text="حذف آدرس"
             title="حذف آدرس"
-            text="آیا از حذف آدرس مطمعن هستید؟"
+            text="آیا از حذف آدرس مطمئن هستید؟"
             isPending={loading}
             onConfirm={handleDelete}
           />

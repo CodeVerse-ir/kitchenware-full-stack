@@ -1,10 +1,11 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import RadioAddress from "./RadioAddress";
 import Link from "next/link";
-import { checkDiscountStatus } from "@/utils/helper";
+import { get_address } from "@/actions/profile/addresses";
+import { toast } from "react-toastify";
 
 // components
-import EmptyCard from "./EmptyCard";
+import ShoppingCartTable from "./ShoppingCartTable";
 
 interface CartItem {
   discount: {
@@ -27,28 +28,98 @@ interface CartItem {
 }
 
 interface CompletionInformationProps {
+  step: number;
   setStep: Dispatch<SetStateAction<number>>;
   carts: Array<CartItem & { quantity: number }>;
   totalAmount: number;
   totalDiscount: number;
+  postage_fee: number;
+  setOrder: Dispatch<SetStateAction<string>>;
+  setAddress: Dispatch<SetStateAction<string>>;
+  setDescription: Dispatch<SetStateAction<string>>;
+  setPostage_fee: Dispatch<SetStateAction<number>>;
+}
+
+interface AddressType {
+  id: string;
+  title: string;
+  mobile_number: string;
+  postal_code: string;
+  state: string;
+  city: string;
+  address_details: string;
+  isDefault: boolean;
 }
 
 const CompletionInformation: React.FC<CompletionInformationProps> = ({
+  step,
   setStep,
   carts,
   totalAmount,
   totalDiscount,
+  postage_fee,
+  setOrder,
+  setAddress,
+  setDescription,
+  setPostage_fee,
 }) => {
-  const carts_length = carts.length;
+  const [getAddresses, setGetAddresses] = useState<AddressType[] | null>(null);
+  const [selectedOrder, setSelectedOrder] = useState("post");
+  const [selectedAddress, setSelectedAddress] = useState("");
+  const [textarea, setTextarea] = useState("");
 
-  const [selectedOrder, setselectedOrder] = useState("post");
+  useEffect(() => {
+    const getData = async () => {
+      const { addresses } = await get_address();
+      if (addresses) {
+        setGetAddresses(addresses);
+
+        if (addresses.length > 0) {
+          setSelectedAddress(
+            addresses.find((item) => item.isDefault)?.id || addresses[0].id
+          );
+        }
+      }
+    };
+
+    getData();
+  }, []);
+
+  useEffect(() => {
+    setPostage_fee(selectedOrder === "post" ? 50000 : 0);
+  }, [selectedOrder, setPostage_fee]);
 
   const handleOrderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setselectedOrder(e.target.value);
+    setSelectedOrder(e.target.value);
+  };
+
+  const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedAddress(e.target.value);
+  };
+
+  const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const textareaValue = e.target.value;
+    const pattern = /^[\u0600-\u06FF\s]*$/;
+    if (pattern.test(textareaValue) && textareaValue.length <= 255) {
+      setTextarea(textareaValue);
+    }
+  };
+
+  const handleChangeStep = () => {
+    if (selectedOrder === "post" && selectedAddress === "") {
+      toast("لطفاً یکی از آدرس‌های خود را به عنوان مقصد ارسال انتخاب کنید", {
+        type: "error",
+      });
+    } else {
+      setOrder(selectedOrder);
+      setAddress(selectedAddress);
+      setDescription(textarea);
+      setStep(3);
+    }
   };
 
   return (
-    <div className="flex flex-col xl:flex-row items-center xl:items-start justify-center gap-x-10 gap-y-5 mt-10">
+    <div className="flex flex-col xl:flex-row items-center xl:items-start justify-center gap-x-10 gap-y-5 md:mt-10">
       <div className="flex flex-col items-center justify-center gap-y-4 w-full xs:w-[350px] md:w-[500px]">
         {/* Order delivery method */}
         <div className="flex flex-col items-center justify-center w-full gap-y-2 p-2 md:px-4 md:py-2 lg:px-6 lg:py-4 rounded-lg border border-gray-400">
@@ -231,134 +302,71 @@ const CompletionInformation: React.FC<CompletionInformationProps> = ({
             </div>
             {/* <!-- Line --> */}
             <div className="w-full h-px my-1 bg-gray-300"></div>
-            <RadioAddress
-              address={[
-                { title: "کار در محل مسکونی شرکت", isDefault: true },
-                { title: "کار", isDefault: false },
-                { title: "کار در محل", isDefault: false },
-              ]}
-            />
+            {getAddresses ? (
+              getAddresses.length > 0 ? (
+                <RadioAddress
+                  address={getAddresses}
+                  selectedAddress={selectedAddress}
+                  handleAddressChange={handleAddressChange}
+                />
+              ) : (
+                <div className="font-Dana text-gray-600 dark:text-gray-300 text-xs md:text-sm lg:text-base">
+                  شما در حال حاضر هیچ آدرسی ثبت نکرده اید !
+                </div>
+              )
+            ) : (
+              <div className="flex items-center justify-center gap-x-1">
+                <div className="text-xs md:text-sm lg:text-base text-orange-500">
+                  منتظر بمانید
+                </div>
+                <div className="flex items-center justify-center w-6 h-1 gap-x-1 child:size-1 child:rounded-full child:bg-orange-500">
+                  <div className="dot"></div>
+                  <div className="dot"></div>
+                  <div className="dot"></div>
+                </div>
+              </div>
+            )}
           </div>
         )}
         <textarea
-          className="w-full h-30 p-2 md:px-4 md:py-2 lg:px-6 lg:py-4 text-xs md:text-sm lg:text-base bg-transparent rounded-lg border border-gray-400 focus:border-orange-400 transition-colors duration-150 outline-none resize-none"
+          className="w-full h-36 p-2 md:px-4 md:py-2 lg:px-6 lg:py-4 text-xs md:text-sm lg:text-base bg-transparent rounded-lg border border-gray-400 focus:border-orange-400 transition-colors duration-150 outline-none resize-none"
           name=""
           id=""
           placeholder="توضیحات سفارش (اختیاری)"
+          value={textarea}
+          onChange={handleTextareaChange}
         ></textarea>
       </div>
       {/* letf div */}
-      <div className="w-full xs:w-[350px] rounded-lg border border-gray-400 p-6">
-        <div className="text-xs md:text-sm lg:text-base text-zinc-700 dark:text-gray-300">
-          سبد خرید ({carts_length})
-        </div>
-
-        {/* <!-- Line --> */}
-        <div className="w-full h-px my-5 bg-gray-300"></div>
-
-        <div className="w-full h-28 space-y-2 overflow-y-scroll pl-2 py-1">
-          {carts_length ? (
-            carts.map((cart, index) => {
-              const finalPrice = checkDiscountStatus(cart.discount)
-                ? cart.price - cart.price * (cart.discount.percent / 100)
-                : cart.price;
-
-              return (
-                <div key={index}>
-                  <div className="flex items-center justify-between w-full h-12 p-1">
-                    <div className="flex items-start justify-start w-30 h-8 md:h-10 text-xs md:text-sm text-gray-500 dark:text-gray-400 line-clamp-2">
-                      {cart.product_name}
-                    </div>
-                    <div className="flex flex-col items-end justify-center text-gray-500 dark:text-gray-400 gap-y-1">
-                      <div className="text-xs md:text-sm">
-                        {(finalPrice * cart.quantity).toLocaleString()} تومان
-                      </div>
-                      <div className="text-xs md:text-sm">
-                        تعداد : {cart.quantity}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* <!-- Line --> */}
-                  {carts_length - 1 !== index && (
-                    <div className="w-full h-px my-1 bg-orange-300"></div>
-                  )}
-                </div>
-              );
-            })
-          ) : (
-            <EmptyCard
-              text="شما در حال حاضر هیچ محصولی را انتخاب نکرده‌اید!"
-              link={{ href: "/products", text: "جستجوی محصولات" }}
+      <ShoppingCartTable
+        btn_text="ثبت سفارش"
+        btn_svg={
+          <svg
+            width="25"
+            height="24"
+            viewBox="0 0 25 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="size-4 md:size-5 mb-1"
+          >
+            <path
+              d="M12.5 22.75C6.57 22.75 1.75 17.93 1.75 12C1.75 6.07 6.57 1.25 12.5 1.25C18.43 1.25 23.25 6.07 23.25 12C23.25 17.93 18.43 22.75 12.5 22.75ZM12.5 2.75C7.4 2.75 3.25 6.9 3.25 12C3.25 17.1 7.4 21.25 12.5 21.25C17.6 21.25 21.75 17.1 21.75 12C21.75 6.9 17.6 2.75 12.5 2.75Z"
+              fill="white"
             />
-          )}
-        </div>
-
-        {/* <!-- Line --> */}
-        <div className="w-full h-px my-5 bg-gray-300"></div>
-
-        <div className="flex items-center justify-between w-full">
-          <div className="text-xs md:text-sm lg:text-base text-zinc-700 dark:text-gray-300">
-            تخفیف محصولات
-          </div>
-          <div className="text-xs md:text-sm text-gray-700 dark:text-gray-300">
-            {totalDiscount.toLocaleString()} تومان
-          </div>
-        </div>
-        {/* <!-- Line --> */}
-        <div className="w-full h-px my-5 bg-gray-300"></div>
-        <div className="flex flex-col items-center justify-center gap-y-3">
-          <div className="flex items-center justify-between w-full">
-            <div className="text-xs md:text-sm lg:text-base text-zinc-700 dark:text-gray-300">
-              هزینه ارسال
-            </div>
-            <div className="text-xs md:text-sm text-gray-500 dark:text-gray-400">
-              {selectedOrder === "in_store_pickup" ? "0" : "50,000"} تومان
-            </div>
-          </div>
-        </div>
-        {/* <!-- Line --> */}
-        <div className="w-full h-px my-5 bg-gray-300"></div>
-        <div className="flex flex-col items-center justify-center gap-y-2">
-          <div className="flex items-center justify-between w-full">
-            <div className="text-xs md:text-sm lg:text-base text-zinc-800 dark:text-gray-300">
-              مبلغ قابل پرداخت
-            </div>
-            <div className="text-xs md:text-sm lg:text-base text-green-600">
-              {totalAmount.toLocaleString()} تومان
-            </div>
-          </div>
-          <button
-            onClick={() => setStep(3)}
-            className="flex items-center justify-center w-full h-8 md:h-10 gap-x-1 text-center text-xs md:text-sm lg:text-base rounded-lg text-white bg-orange-400 hover:bg-orange-500 transition-colors duration-150"
-          >
-            <svg
-              width="25"
-              height="24"
-              viewBox="0 0 25 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              className="size-4 md:size-5 mb-1"
-            >
-              <path
-                d="M12.5 22.75C6.57 22.75 1.75 17.93 1.75 12C1.75 6.07 6.57 1.25 12.5 1.25C18.43 1.25 23.25 6.07 23.25 12C23.25 17.93 18.43 22.75 12.5 22.75ZM12.5 2.75C7.4 2.75 3.25 6.9 3.25 12C3.25 17.1 7.4 21.25 12.5 21.25C17.6 21.25 21.75 17.1 21.75 12C21.75 6.9 17.6 2.75 12.5 2.75Z"
-                fill="white"
-              />
-              <path
-                d="M11.08 15.5801C10.88 15.5801 10.69 15.5001 10.55 15.3601L7.72 12.5301C7.43 12.2401 7.43 11.7601 7.72 11.4701C8.01 11.1801 8.49 11.1801 8.78 11.4701L11.08 13.7701L16.22 8.6301C16.51 8.3401 16.99 8.3401 17.28 8.6301C17.57 8.9201 17.57 9.4001 17.28 9.6901L11.61 15.3601C11.47 15.5001 11.28 15.5801 11.08 15.5801Z"
-                fill="white"
-              />
-            </svg>
-            <div>ثبت سفارش</div>
-          </button>
-          <button
-            onClick={() => setStep(1)}
-            className="text-xs md:text-sm lg:text-base text-gray-500 dark:text-gray-400"
-          >
-            برگشت
-          </button>
-        </div>
-      </div>
+            <path
+              d="M11.08 15.5801C10.88 15.5801 10.69 15.5001 10.55 15.3601L7.72 12.5301C7.43 12.2401 7.43 11.7601 7.72 11.4701C8.01 11.1801 8.49 11.1801 8.78 11.4701L11.08 13.7701L16.22 8.6301C16.51 8.3401 16.99 8.3401 17.28 8.6301C17.57 8.9201 17.57 9.4001 17.28 9.6901L11.61 15.3601C11.47 15.5001 11.28 15.5801 11.08 15.5801Z"
+              fill="white"
+            />
+          </svg>
+        }
+        step={step}
+        setStep={setStep}
+        carts={carts}
+        totalAmount={totalAmount}
+        totalDiscount={totalDiscount}
+        postage_fee={postage_fee}
+        handleChangeStep={handleChangeStep}
+      />
     </div>
   );
 };

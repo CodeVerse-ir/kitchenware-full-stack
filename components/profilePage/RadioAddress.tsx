@@ -1,13 +1,20 @@
 interface Address {
+  id: string;
   title: string;
   isDefault: boolean;
 }
 
 interface RadioAddressProps {
   address: Address[];
+  selectedAddress: string;
+  handleAddressChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const RadioAddress: React.FC<RadioAddressProps> = ({ address }) => {
+const RadioAddress: React.FC<RadioAddressProps> = ({
+  address,
+  selectedAddress,
+  handleAddressChange,
+}) => {
   return (
     <div className="flex flex-wrap items-center justify-between w-full gap-4 text-xs md:text-sm lg:text-base">
       {address.map((item, index) => (
@@ -18,8 +25,10 @@ const RadioAddress: React.FC<RadioAddressProps> = ({ address }) => {
           <input
             type="radio"
             name="address"
+            value={item.id}
             className="size-3.5 cursor-pointer"
-            defaultChecked={item.isDefault}
+            checked={selectedAddress === item.id}
+            onChange={handleAddressChange}
           />
           <span>{item.title}</span>
         </label>

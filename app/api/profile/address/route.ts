@@ -61,7 +61,7 @@ export async function GET(request: NextRequest) {
 
     if (!user) {
       return Response.json({ error: "کاربر یافت نشد" }, { status: 404 });
-    }    
+    }
 
     return Response.json(
       {
@@ -128,14 +128,29 @@ export async function POST(request: NextRequest) {
     await client.connect();
     const db = client.db();
 
+    const existingAddressTitle = await db.collection("users").findOne({
+      username,
+      "addresses.title": title,
+    });
+
+    if (existingAddressTitle) {
+      return Response.json(
+        { error: "آدرس با این عنوان قبلاً ثبت شده است", field: ["title"] },
+        { status: 400 }
+      );
+    }
+
     const existingAddress = await db.collection("users").findOne({
       username,
       "addresses.postal_code": postal_code,
-    });    
+    });
 
     if (existingAddress) {
       return Response.json(
-        { error: "آدرس با این کد پستی قبلاً ثبت شده است" },
+        {
+          error: "آدرس با این کد پستی قبلاً ثبت شده است",
+          field: ["postal_code"],
+        },
         { status: 400 }
       );
     }
@@ -155,11 +170,11 @@ export async function POST(request: NextRequest) {
     const user = await db.collection("users").findOne({ username });
 
     if (user?.addresses?.length > 4) {
-        return Response.json(
-          { error: "حداکثر تعداد آدرس ثبت شده است." },
-          { status: 400 }
-        );
-      }
+      return Response.json(
+        { error: "حداکثر تعداد آدرس ثبت شده است." },
+        { status: 400 }
+      );
+    }
 
     const hasExistingAddresses = user?.addresses?.length > 0;
 

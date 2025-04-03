@@ -18,6 +18,26 @@ interface create_addressProps {
   };
 }
 
+interface AddressType {
+  id: string;
+  title: string;
+  mobile_number: string;
+  postal_code: string;
+  state: string;
+  city: string;
+  address_details: string;
+  isDefault: boolean;
+}
+
+interface AddressApiResponse {
+  message: string;
+  addresses: AddressType[];
+}
+
+interface get_addressProps {
+  addresses: AddressType[] | null;
+}
+
 interface edit_addressProps {
   status: string | null;
   message: string | undefined | null;
@@ -178,7 +198,7 @@ async function create_address(
       return {
         status: "error",
         message: createAddress.error.message,
-        field: ["postal_code"],
+        field: (createAddress.error.details?.field as string[]) || [],
       };
     }
     return {
@@ -189,6 +209,31 @@ async function create_address(
   return {
     status: "error",
     message: "توکن احراز هویت وجود ندارد.",
+  };
+}
+
+async function get_address(): Promise<get_addressProps> {
+  // cookies
+  const cookieStore = await cookies();
+  const token = cookieStore.get("token");
+
+  if (token) {
+    const tokenValue = token.value;
+
+    const createAddress = await axiosFetch<AddressApiResponse>({
+      fetchType: "get",
+      url: "profile/address",
+      token: tokenValue,
+    });
+
+    if (!createAddress.error && createAddress.data) {
+      return {
+        addresses: createAddress.data.addresses,
+      };
+    }
+  }
+  return {
+    addresses: null,
   };
 }
 
@@ -381,4 +426,4 @@ async function delete_address(id: string): Promise<deleteProps> {
   };
 }
 
-export { create_address, edit_address, delete_address };
+export { create_address, get_address, edit_address, delete_address };
