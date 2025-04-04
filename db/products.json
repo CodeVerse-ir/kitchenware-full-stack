@@ -63,40 +63,7 @@
         ]
       }
     ],
-    "comments": [
-      {
-        "name": "بهناز فرج پور",
-        "date": {
-          "day": "26",
-          "mounth": "بهمن",
-          "year": "1402"
-        },
-        "title": "قیمت محصول",
-        "text": "هم خوشرنگه هم باکیفیت هم از بیرون ارزون تره.. بسته بندی ام خیلی عالی بود.. فقط پشیمونم که تعداد بیشتری نگرفتم.",
-        "star": 4,
-        "like": 3,
-        "dislike": 5,
-        "isLiked": false,
-        "isDisliked": false,
-        "image": "/image/comment/avatar.png"
-      },
-      {
-        "name": "احسان پارسا",
-        "date": {
-          "day": "16",
-          "mounth": "شهریور",
-          "year": "1402"
-        },
-        "title": "رنگ محصول",
-        "text": "رنگ سبزش خیلی قشنگه جنس هم عالی",
-        "star": 3,
-        "like": 26,
-        "dislike": 19,
-        "isLiked": false,
-        "isDisliked": false,
-        "image": "/image/comment/avatar.png"
-      }
-    ]
+    "comments": []
   },
   {
     "product_name": "سرویس چینی زرین نئوکلاسیک هوراند طلایی 6 نفره 29 پارچه",
@@ -147,72 +114,7 @@
         ]
       }
     ],
-    "comments": [
-      {
-        "name": "منصوره بادله",
-        "date": {
-          "day": "6",
-          "mounth": "تیر",
-          "year": "1403"
-        },
-        "title": "ارسال محصول",
-        "text": "خیلی زیبا وبا کیفیت ولی خیلی دیر به دستم رسید",
-        "star": 1,
-        "like": 12,
-        "dislike": 2,
-        "isLiked": false,
-        "isDisliked": false,
-        "image": "/image/comment/avatar.png"
-      },
-      {
-        "name": "مژده اکبری",
-        "date": {
-          "day": "13",
-          "mounth": "خرداد",
-          "year": "1403"
-        },
-        "title": "قدردانی و تشکر",
-        "text": "این ظرف شیشه ای خیلی کاربردیه. برای مربا ، ترشی ، ماست و حتی برای دسر های تک‌نفره مناسبه و دردار بودنش مزیت خوبی هستش. جنس خیلی خوبی داره. با قیمت مناسب. از فروشگاه لفتیکا بابت بسته بندی عالی و ارسال سریع تشکر می‌کنم.",
-        "star": 5,
-        "like": 16,
-        "dislike": 0,
-        "isLiked": false,
-        "isDisliked": false,
-        "image": "/image/comment/avatar.png"
-      },
-      {
-        "name": "بهناز فرج پور",
-        "date": {
-          "day": "26",
-          "mounth": "بهمن",
-          "year": "1402"
-        },
-        "title": "قیمت محصول",
-        "text": "هم خوشرنگه هم باکیفیت هم از بیرون ارزون تره.. بسته بندی ام خیلی عالی بود.. فقط پشیمونم که تعداد بیشتری نگرفتم.",
-        "star": 4,
-        "like": 3,
-        "dislike": 5,
-        "isLiked": false,
-        "isDisliked": false,
-        "image": "/image/comment/avatar.png"
-      },
-      {
-        "name": "احسان پارسا",
-        "date": {
-          "day": "16",
-          "mounth": "شهریور",
-          "year": "1402"
-        },
-        "title": "رنگ محصول",
-        "text": "رنگ سبزش خیلی قشنگه جنس هم عالی",
-        "star": 3,
-        "like": 26,
-        "dislike": 19,
-        "isLiked": false,
-        "isDisliked": false,
-        "image": "/image/comment/avatar.png"
-      }
-    ]
+    "comments": []
   },
   {
     "product_name": "ماگ دسته دار چینی زرین Zi فرم اس پاستل لیمویی 250 سی سی",
@@ -277,72 +179,7 @@
         ]
       }
     ],
-    "comments": [
-      {
-        "name": "منصوره بادله",
-        "date": {
-          "day": "6",
-          "mounth": "تیر",
-          "year": "1403"
-        },
-        "title": "ارسال محصول",
-        "text": "خیلی زیبا وبا کیفیت ولی خیلی دیر به دستم رسید",
-        "star": 1,
-        "like": 12,
-        "dislike": 2,
-        "isLiked": false,
-        "isDisliked": false,
-        "image": "/image/comment/avatar.png"
-      },
-      {
-        "name": "مژده اکبری",
-        "date": {
-          "day": "13",
-          "mounth": "خرداد",
-          "year": "1403"
-        },
-        "title": "قدردانی و تشکر",
-        "text": "این ظرف شیشه ای خیلی کاربردیه. برای مربا ، ترشی ، ماست و حتی برای دسر های تک‌نفره مناسبه و دردار بودنش مزیت خوبی هستش. جنس خیلی خوبی داره. با قیمت مناسب. از فروشگاه لفتیکا بابت بسته بندی عالی و ارسال سریع تشکر می‌کنم.",
-        "star": 5,
-        "like": 16,
-        "dislike": 0,
-        "isLiked": false,
-        "isDisliked": false,
-        "image": "/image/comment/avatar.png"
-      },
-      {
-        "name": "بهناز فرج پور",
-        "date": {
-          "day": "26",
-          "mounth": "بهمن",
-          "year": "1402"
-        },
-        "title": "قیمت محصول",
-        "text": "هم خوشرنگه هم باکیفیت هم از بیرون ارزون تره.. بسته بندی ام خیلی عالی بود.. فقط پشیمونم که تعداد بیشتری نگرفتم.",
-        "star": 4,
-        "like": 3,
-        "dislike": 5,
-        "isLiked": false,
-        "isDisliked": false,
-        "image": "/image/comment/avatar.png"
-      },
-      {
-        "name": "احسان پارسا",
-        "date": {
-          "day": "16",
-          "mounth": "شهریور",
-          "year": "1402"
-        },
-        "title": "رنگ محصول",
-        "text": "رنگ سبزش خیلی قشنگه جنس هم عالی",
-        "star": 3,
-        "like": 26,
-        "dislike": 19,
-        "isLiked": false,
-        "isDisliked": false,
-        "image": "/image/comment/avatar.png"
-      }
-    ]
+    "comments": []
   },
   {
     "product_name": "تخته سرو گرد دسته دار بزرگ لیمون 2229",
@@ -388,72 +225,7 @@
         ]
       }
     ],
-    "comments": [
-      {
-        "name": "منصوره بادله",
-        "date": {
-          "day": "6",
-          "mounth": "تیر",
-          "year": "1403"
-        },
-        "title": "ارسال محصول",
-        "text": "خیلی زیبا وبا کیفیت ولی خیلی دیر به دستم رسید",
-        "star": 1,
-        "like": 12,
-        "dislike": 2,
-        "isLiked": false,
-        "isDisliked": false,
-        "image": "/image/comment/avatar.png"
-      },
-      {
-        "name": "مژده اکبری",
-        "date": {
-          "day": "13",
-          "mounth": "خرداد",
-          "year": "1403"
-        },
-        "title": "قدردانی و تشکر",
-        "text": "این ظرف شیشه ای خیلی کاربردیه. برای مربا ، ترشی ، ماست و حتی برای دسر های تک‌نفره مناسبه و دردار بودنش مزیت خوبی هستش. جنس خیلی خوبی داره. با قیمت مناسب. از فروشگاه لفتیکا بابت بسته بندی عالی و ارسال سریع تشکر می‌کنم.",
-        "star": 5,
-        "like": 16,
-        "dislike": 0,
-        "isLiked": false,
-        "isDisliked": false,
-        "image": "/image/comment/avatar.png"
-      },
-      {
-        "name": "بهناز فرج پور",
-        "date": {
-          "day": "26",
-          "mounth": "بهمن",
-          "year": "1402"
-        },
-        "title": "قیمت محصول",
-        "text": "هم خوشرنگه هم باکیفیت هم از بیرون ارزون تره.. بسته بندی ام خیلی عالی بود.. فقط پشیمونم که تعداد بیشتری نگرفتم.",
-        "star": 4,
-        "like": 3,
-        "dislike": 5,
-        "isLiked": false,
-        "isDisliked": false,
-        "image": "/image/comment/avatar.png"
-      },
-      {
-        "name": "احسان پارسا",
-        "date": {
-          "day": "16",
-          "mounth": "شهریور",
-          "year": "1402"
-        },
-        "title": "رنگ محصول",
-        "text": "رنگ سبزش خیلی قشنگه جنس هم عالی",
-        "star": 3,
-        "like": 26,
-        "dislike": 19,
-        "isLiked": false,
-        "isDisliked": false,
-        "image": "/image/comment/avatar.png"
-      }
-    ]
+    "comments": []
   },
   {
     "product_name": "رنده استیل لیمون مخروطی 2118",
@@ -493,72 +265,7 @@
         ]
       }
     ],
-    "comments": [
-      {
-        "name": "منصوره بادله",
-        "date": {
-          "day": "6",
-          "mounth": "تیر",
-          "year": "1403"
-        },
-        "title": "ارسال محصول",
-        "text": "خیلی زیبا وبا کیفیت ولی خیلی دیر به دستم رسید",
-        "star": 1,
-        "like": 12,
-        "dislike": 2,
-        "isLiked": false,
-        "isDisliked": false,
-        "image": "/image/comment/avatar.png"
-      },
-      {
-        "name": "مژده اکبری",
-        "date": {
-          "day": "13",
-          "mounth": "خرداد",
-          "year": "1403"
-        },
-        "title": "قدردانی و تشکر",
-        "text": "این ظرف شیشه ای خیلی کاربردیه. برای مربا ، ترشی ، ماست و حتی برای دسر های تک‌نفره مناسبه و دردار بودنش مزیت خوبی هستش. جنس خیلی خوبی داره. با قیمت مناسب. از فروشگاه لفتیکا بابت بسته بندی عالی و ارسال سریع تشکر می‌کنم.",
-        "star": 5,
-        "like": 16,
-        "dislike": 0,
-        "isLiked": false,
-        "isDisliked": false,
-        "image": "/image/comment/avatar.png"
-      },
-      {
-        "name": "بهناز فرج پور",
-        "date": {
-          "day": "26",
-          "mounth": "بهمن",
-          "year": "1402"
-        },
-        "title": "قیمت محصول",
-        "text": "هم خوشرنگه هم باکیفیت هم از بیرون ارزون تره.. بسته بندی ام خیلی عالی بود.. فقط پشیمونم که تعداد بیشتری نگرفتم.",
-        "star": 4,
-        "like": 3,
-        "dislike": 5,
-        "isLiked": false,
-        "isDisliked": false,
-        "image": "/image/comment/avatar.png"
-      },
-      {
-        "name": "احسان پارسا",
-        "date": {
-          "day": "16",
-          "mounth": "شهریور",
-          "year": "1402"
-        },
-        "title": "رنگ محصول",
-        "text": "رنگ سبزش خیلی قشنگه جنس هم عالی",
-        "star": 3,
-        "like": 26,
-        "dislike": 19,
-        "isLiked": false,
-        "isDisliked": false,
-        "image": "/image/comment/avatar.png"
-      }
-    ]
+    "comments": []
   },
   {
     "product_name": "بند رخت تمام استیل فورته",
@@ -601,72 +308,7 @@
         ]
       }
     ],
-    "comments": [
-      {
-        "name": "منصوره بادله",
-        "date": {
-          "day": "6",
-          "mounth": "تیر",
-          "year": "1403"
-        },
-        "title": "ارسال محصول",
-        "text": "خیلی زیبا وبا کیفیت ولی خیلی دیر به دستم رسید",
-        "star": 1,
-        "like": 12,
-        "dislike": 2,
-        "isLiked": false,
-        "isDisliked": false,
-        "image": "/image/comment/avatar.png"
-      },
-      {
-        "name": "مژده اکبری",
-        "date": {
-          "day": "13",
-          "mounth": "خرداد",
-          "year": "1403"
-        },
-        "title": "قدردانی و تشکر",
-        "text": "این ظرف شیشه ای خیلی کاربردیه. برای مربا ، ترشی ، ماست و حتی برای دسر های تک‌نفره مناسبه و دردار بودنش مزیت خوبی هستش. جنس خیلی خوبی داره. با قیمت مناسب. از فروشگاه لفتیکا بابت بسته بندی عالی و ارسال سریع تشکر می‌کنم.",
-        "star": 5,
-        "like": 16,
-        "dislike": 0,
-        "isLiked": false,
-        "isDisliked": false,
-        "image": "/image/comment/avatar.png"
-      },
-      {
-        "name": "بهناز فرج پور",
-        "date": {
-          "day": "26",
-          "mounth": "بهمن",
-          "year": "1402"
-        },
-        "title": "قیمت محصول",
-        "text": "هم خوشرنگه هم باکیفیت هم از بیرون ارزون تره.. بسته بندی ام خیلی عالی بود.. فقط پشیمونم که تعداد بیشتری نگرفتم.",
-        "star": 4,
-        "like": 3,
-        "dislike": 5,
-        "isLiked": false,
-        "isDisliked": false,
-        "image": "/image/comment/avatar.png"
-      },
-      {
-        "name": "احسان پارسا",
-        "date": {
-          "day": "16",
-          "mounth": "شهریور",
-          "year": "1402"
-        },
-        "title": "رنگ محصول",
-        "text": "رنگ سبزش خیلی قشنگه جنس هم عالی",
-        "star": 3,
-        "like": 26,
-        "dislike": 19,
-        "isLiked": false,
-        "isDisliked": false,
-        "image": "/image/comment/avatar.png"
-      }
-    ]
+    "comments": []
   },
   {
     "product_name": "کیک پز لاوان الکتریک مدل شعله",
@@ -717,72 +359,7 @@
         ]
       }
     ],
-    "comments": [
-      {
-        "name": "منصوره بادله",
-        "date": {
-          "day": "6",
-          "mounth": "تیر",
-          "year": "1403"
-        },
-        "title": "ارسال محصول",
-        "text": "خیلی زیبا وبا کیفیت ولی خیلی دیر به دستم رسید",
-        "star": 1,
-        "like": 12,
-        "dislike": 2,
-        "isLiked": false,
-        "isDisliked": false,
-        "image": "/image/comment/avatar.png"
-      },
-      {
-        "name": "مژده اکبری",
-        "date": {
-          "day": "13",
-          "mounth": "خرداد",
-          "year": "1403"
-        },
-        "title": "قدردانی و تشکر",
-        "text": "این ظرف شیشه ای خیلی کاربردیه. برای مربا ، ترشی ، ماست و حتی برای دسر های تک‌نفره مناسبه و دردار بودنش مزیت خوبی هستش. جنس خیلی خوبی داره. با قیمت مناسب. از فروشگاه لفتیکا بابت بسته بندی عالی و ارسال سریع تشکر می‌کنم.",
-        "star": 5,
-        "like": 16,
-        "dislike": 0,
-        "isLiked": false,
-        "isDisliked": false,
-        "image": "/image/comment/avatar.png"
-      },
-      {
-        "name": "بهناز فرج پور",
-        "date": {
-          "day": "26",
-          "mounth": "بهمن",
-          "year": "1402"
-        },
-        "title": "قیمت محصول",
-        "text": "هم خوشرنگه هم باکیفیت هم از بیرون ارزون تره.. بسته بندی ام خیلی عالی بود.. فقط پشیمونم که تعداد بیشتری نگرفتم.",
-        "star": 4,
-        "like": 3,
-        "dislike": 5,
-        "isLiked": false,
-        "isDisliked": false,
-        "image": "/image/comment/avatar.png"
-      },
-      {
-        "name": "احسان پارسا",
-        "date": {
-          "day": "16",
-          "mounth": "شهریور",
-          "year": "1402"
-        },
-        "title": "رنگ محصول",
-        "text": "رنگ سبزش خیلی قشنگه جنس هم عالی",
-        "star": 3,
-        "like": 26,
-        "dislike": 19,
-        "isLiked": false,
-        "isDisliked": false,
-        "image": "/image/comment/avatar.png"
-      }
-    ]
+    "comments": []
   },
   {
     "product_name": "جارو شارژی بلک اند دکر مدل SVA420B",
@@ -838,72 +415,7 @@
         ]
       }
     ],
-    "comments": [
-      {
-        "name": "منصوره بادله",
-        "date": {
-          "day": "6",
-          "mounth": "تیر",
-          "year": "1403"
-        },
-        "title": "ارسال محصول",
-        "text": "خیلی زیبا وبا کیفیت ولی خیلی دیر به دستم رسید",
-        "star": 1,
-        "like": 12,
-        "dislike": 2,
-        "isLiked": false,
-        "isDisliked": false,
-        "image": "/image/comment/avatar.png"
-      },
-      {
-        "name": "مژده اکبری",
-        "date": {
-          "day": "13",
-          "mounth": "خرداد",
-          "year": "1403"
-        },
-        "title": "قدردانی و تشکر",
-        "text": "این ظرف شیشه ای خیلی کاربردیه. برای مربا ، ترشی ، ماست و حتی برای دسر های تک‌نفره مناسبه و دردار بودنش مزیت خوبی هستش. جنس خیلی خوبی داره. با قیمت مناسب. از فروشگاه لفتیکا بابت بسته بندی عالی و ارسال سریع تشکر می‌کنم.",
-        "star": 5,
-        "like": 16,
-        "dislike": 0,
-        "isLiked": false,
-        "isDisliked": false,
-        "image": "/image/comment/avatar.png"
-      },
-      {
-        "name": "بهناز فرج پور",
-        "date": {
-          "day": "26",
-          "mounth": "بهمن",
-          "year": "1402"
-        },
-        "title": "قیمت محصول",
-        "text": "هم خوشرنگه هم باکیفیت هم از بیرون ارزون تره.. بسته بندی ام خیلی عالی بود.. فقط پشیمونم که تعداد بیشتری نگرفتم.",
-        "star": 4,
-        "like": 3,
-        "dislike": 5,
-        "isLiked": false,
-        "isDisliked": false,
-        "image": "/image/comment/avatar.png"
-      },
-      {
-        "name": "احسان پارسا",
-        "date": {
-          "day": "16",
-          "mounth": "شهریور",
-          "year": "1402"
-        },
-        "title": "رنگ محصول",
-        "text": "رنگ سبزش خیلی قشنگه جنس هم عالی",
-        "star": 3,
-        "like": 26,
-        "dislike": 19,
-        "isLiked": false,
-        "isDisliked": false,
-        "image": "/image/comment/avatar.png"
-      }
-    ]
+    "comments": []
   },
   {
     "product_name": "سرویس چینی زرین شهرزاد طرح کوئین طلایی 6 نفره 35 پارچه",
@@ -969,71 +481,6 @@
         ]
       }
     ],
-    "comments": [
-      {
-        "name": "منصوره بادله",
-        "date": {
-          "day": "6",
-          "mounth": "تیر",
-          "year": "1403"
-        },
-        "title": "ارسال محصول",
-        "text": "خیلی زیبا وبا کیفیت ولی خیلی دیر به دستم رسید",
-        "star": 1,
-        "like": 12,
-        "dislike": 2,
-        "isLiked": false,
-        "isDisliked": false,
-        "image": "/image/comment/avatar.png"
-      },
-      {
-        "name": "مژده اکبری",
-        "date": {
-          "day": "13",
-          "mounth": "خرداد",
-          "year": "1403"
-        },
-        "title": "قدردانی و تشکر",
-        "text": "این ظرف شیشه ای خیلی کاربردیه. برای مربا ، ترشی ، ماست و حتی برای دسر های تک‌نفره مناسبه و دردار بودنش مزیت خوبی هستش. جنس خیلی خوبی داره. با قیمت مناسب. از فروشگاه لفتیکا بابت بسته بندی عالی و ارسال سریع تشکر می‌کنم.",
-        "star": 5,
-        "like": 16,
-        "dislike": 0,
-        "isLiked": false,
-        "isDisliked": false,
-        "image": "/image/comment/avatar.png"
-      },
-      {
-        "name": "بهناز فرج پور",
-        "date": {
-          "day": "26",
-          "mounth": "بهمن",
-          "year": "1402"
-        },
-        "title": "قیمت محصول",
-        "text": "هم خوشرنگه هم باکیفیت هم از بیرون ارزون تره.. بسته بندی ام خیلی عالی بود.. فقط پشیمونم که تعداد بیشتری نگرفتم.",
-        "star": 4,
-        "like": 3,
-        "dislike": 5,
-        "isLiked": false,
-        "isDisliked": false,
-        "image": "/image/comment/avatar.png"
-      },
-      {
-        "name": "احسان پارسا",
-        "date": {
-          "day": "16",
-          "mounth": "شهریور",
-          "year": "1402"
-        },
-        "title": "رنگ محصول",
-        "text": "رنگ سبزش خیلی قشنگه جنس هم عالی",
-        "star": 3,
-        "like": 26,
-        "dislike": 19,
-        "isLiked": false,
-        "isDisliked": false,
-        "image": "/image/comment/avatar.png"
-      }
-    ]
+    "comments": []
   }
 ]
