@@ -51,7 +51,7 @@ const AlertComment: React.FC<AlertCommentProps> = ({
       type: `${getToastType(stateComment.status)}`,
     });
 
-    console.log("sign up stateComment : ", stateComment);
+    console.log("AlertComment stateComment : ", stateComment);
 
     if (stateComment?.status === "success") {
       setShowComment(false);
@@ -70,7 +70,7 @@ const AlertComment: React.FC<AlertCommentProps> = ({
   const handleText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const textValue = e.target.value;
     const pattern = /^[\u0600-\u06FF\s]*$/;
-    if (pattern.test(textValue) && textValue.length <= 30) {
+    if (pattern.test(textValue) && textValue.length <= 255) {
       setComment((prev) => ({ ...prev, text: textValue }));
     }
   };

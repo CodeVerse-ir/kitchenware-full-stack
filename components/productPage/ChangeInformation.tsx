@@ -15,21 +15,14 @@ interface SubDescription {
   text: SubText[];
 }
 
-interface Comment {
-  name: string;
-  title: string;
-  text: string;
-  date: string;
-}
-
 interface ChangeInformationProps {
+  code: string;
   description: SubDescription[];
-  comments: Comment[];
 }
 
 const ChangeInformation: React.FC<ChangeInformationProps> = ({
+  code,
   description,
-  comments,
 }) => {
   const [toggle, setToggle] = useState(false);
 
@@ -93,7 +86,7 @@ const ChangeInformation: React.FC<ChangeInformationProps> = ({
       </div>
 
       {toggle ? (
-        <Comments comments={comments} />
+        <Comments code={code} />
       ) : (
         <Description description={description} />
       )}

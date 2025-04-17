@@ -52,12 +52,6 @@
       url(../public/fonts/Morabba/Morabba-Bold.woff2) format(woff2);
     font-display: swap;
   }
-
-  .Toastify__toast-body {
-    font-family: "Dana", Courier, monospace;
-    direction: rtl;
-    color: #fdba74;
-  }
 }
 
 @layer components {
@@ -607,4 +601,10 @@
   .animate-scaleIn {
     animation: scaleIn 0.2s ease-out;
   }
+}
+
+.Toastify__toast-body {
+  font-family: "Dana", Courier, monospace;
+  direction: rtl;
+  color: #fdba74;
 }

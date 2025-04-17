@@ -19,7 +19,7 @@ interface CartItem {
   price: number;
   star: number;
   like: number;
-  bootmark: number;
+  bookmark: number;
   quantity_in_stock: number;
 }
 

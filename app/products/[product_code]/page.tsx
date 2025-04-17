@@ -37,7 +37,7 @@ interface Product {
   price: number;
   star: number;
   like: number;
-  bootmark: number;
+  bookmark: number;
   description: SubDescription[];
   comments: Comment[];
   quantity_in_stock: number;
@@ -69,8 +69,8 @@ const Product = async ({
                 <CartProduct product={data} />
 
                 <ChangeInformation
+                  code={data.code}
                   description={data.description}
-                  comments={data.comments}
                 />
               </>
             ) : (

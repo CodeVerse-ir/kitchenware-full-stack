@@ -27,7 +27,7 @@ interface CartProductProps {
     price: number;
     star: number;
     like: number;
-    bootmark: number;
+    bookmark: number;
     quantity_in_stock: number;
   };
 }
@@ -284,11 +284,11 @@ const CartProduct: React.FC<CartProductProps> = ({ product }) => {
                     className="flex pt-1 gap-x-1.5 text-gray-700 dark:text-white"
                     style={{ direction: "ltr" }}
                   >
-                    {product.bootmark > 1000
-                      ? `${(product.bootmark / 1000)
+                    {product.bookmark > 1000
+                      ? `${(product.bookmark / 1000)
                           .toFixed(1)
                           .replace(/\.0$/, "")} k`
-                      : product.bootmark}
+                      : product.bookmark}
                   </div>
                 </div>
               </div>

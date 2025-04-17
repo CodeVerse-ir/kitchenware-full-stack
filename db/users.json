@@ -1,0 +1,167 @@
+[
+  {
+    "_id": {
+      "$oid": "67c474a33c02ae3294fc8bb5"
+    },
+    "first_name": "محمد",
+    "last_name": "کبیری قهدریجانی",
+    "mobile_number": "09346546466",
+    "username": "kabiri",
+    "password": "ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f",
+    "image": "/image/profile/1743158361117-hsdjfsjdfksjfdsdklksdjfskdjfskdfjsdkfjsdkfsdjflksjsdkfjsdkfjsdfksdjfsdkjsdlkf.png",
+    "created_at": {
+      "$date": "2025-03-04T10:03:51.937Z"
+    },
+    "active": true,
+    "otp_code": 0,
+    "otp_validity_time": {
+      "$date": "2025-04-17T09:59:05.066Z"
+    },
+    "birthdate": "2025-03-26",
+    "nickname": "کد ورس",
+    "bookmarked_products": ["SVA420B", "LKPC-14820", "LKP-5198"],
+    "lieked_products": ["73719", "LKP-5198"],
+    "addresses": [
+      {
+        "id": "67ee65aaaece5c49e89ae11c",
+        "title": "محل کار",
+        "mobile_number": "09111111111",
+        "postal_code": "1111111111",
+        "state": "تهران",
+        "city": "تهران",
+        "address_details": "تهران",
+        "createdAt": {
+          "$date": "2025-04-03T10:40:42.173Z"
+        },
+        "isDefault": true
+      },
+      {
+        "id": "67ee6c16aece5c49e89ae11d",
+        "title": "محل کار جدید",
+        "mobile_number": "09555555555",
+        "postal_code": "2222222222",
+        "state": "تهران",
+        "city": "تهران",
+        "address_details": "تهران",
+        "createdAt": {
+          "$date": "2025-04-03T11:08:06.840Z"
+        },
+        "isDefault": false
+      }
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "67c474a33c02ae3294fc8bb6"
+    },
+    "first_name": "فاطمه",
+    "last_name": "احمدی",
+    "mobile_number": "09123456789",
+    "username": "f_ahmadi",
+    "password": "ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f",
+    "image": "/image/profile/avatar.png",
+    "created_at": {
+      "$date": "2025-03-05T11:15:30.000Z"
+    },
+    "active": true,
+    "otp_code": 0,
+    "otp_validity_time": {
+      "$date": "2025-04-18T10:00:00.000Z"
+    },
+    "birthdate": "1995-05-15",
+    "nickname": "فاطی",
+    "bookmarked_products": ["LKP-5198", "SVB-2000", "PXL-450"],
+    "lieked_products": ["73719", "PXL-450"],
+    "addresses": [
+      {
+        "id": "67ee65aaaece5c49e89ae11d",
+        "title": "منزل",
+        "mobile_number": "09123456789",
+        "postal_code": "1234567890",
+        "state": "اصفهان",
+        "city": "اصفهان",
+        "address_details": "خیابان اصلی، پلاک ۱۲",
+        "createdAt": {
+          "$date": "2025-04-01T09:30:00.000Z"
+        },
+        "isDefault": true
+      }
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "67c474a33c02ae3294fc8bb7"
+    },
+    "first_name": "علی",
+    "last_name": "رضایی",
+    "mobile_number": "09987654321",
+    "username": "a_rezaei",
+    "password": "ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f",
+    "image": "/image/profile/avatar.png",
+    "created_at": {
+      "$date": "2025-02-20T08:45:22.000Z"
+    },
+    "active": true,
+    "otp_code": 1234,
+    "otp_validity_time": {
+      "$date": "2025-04-17T12:00:00.000Z"
+    },
+    "birthdate": "1990-11-22",
+    "nickname": "علی‌جان",
+    "bookmarked_products": ["SVA420B", "TECH-789"],
+    "lieked_products": ["LKPC-14820", "TECH-789"],
+    "addresses": [
+      {
+        "id": "67ee65aaaece5c49e89ae11e",
+        "title": "دفتر کار",
+        "mobile_number": "09987654321",
+        "postal_code": "9876543210",
+        "state": "مازندران",
+        "city": "ساری",
+        "address_details": "بلوار انقلاب، ساختمان پاسارگاد",
+        "createdAt": {
+          "$date": "2025-03-15T14:20:00.000Z"
+        },
+        "isDefault": true
+      },
+      {
+        "id": "67ee6c16aece5c49e89ae11f",
+        "title": "ویلای شمال",
+        "mobile_number": "09111112222",
+        "postal_code": "4567891230",
+        "state": "مازندران",
+        "city": "نور",
+        "address_details": "کمربندی نور، کیلومتر ۵",
+        "createdAt": {
+          "$date": "2025-04-10T16:45:00.000Z"
+        },
+        "isDefault": false
+      }
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "67c474a33c02ae3294fc8bb8"
+    },
+    "first_name": "زهرا",
+    "last_name": "محمدی",
+    "mobile_number": "09351234567",
+    "username": "z_mohammadi",
+    "password": "ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f",
+    "image": "/image/profile/avatar.png",
+    "created_at": {
+      "$date": "2025-01-10T13:20:15.000Z"
+    },
+    "active": false,
+    "otp_code": 5678,
+    "otp_validity_time": {
+      "$date": "2025-04-16T18:30:00.000Z"
+    },
+    "birthdate": "1988-07-30",
+    "nickname": "زهرا",
+    "bookmarked_products": [],
+    "lieked_products": ["73719"],
+    "addresses": []
+  }
+]
+  
