@@ -294,6 +294,7 @@ async function action_delete(
 
     if (!deleteProduct.error) {
       revalidatePath("/profile/bookmark");
+      revalidatePath("/profile/likes");
 
       return {
         status: "success",

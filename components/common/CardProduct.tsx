@@ -27,7 +27,7 @@ const CardProduct: React.FC<CardProductProps> = ({
   price,
   discount,
   star,
-}) => {
+}) => {  
   return (
     <>
       {/* icons */}
@@ -127,16 +127,19 @@ const CardProduct: React.FC<CardProductProps> = ({
         <div className="flex flex-col sm:flex-row items-center justify-between gap-x-1 gap-y-1 mt-1.5 md:mt-2.5">
           {/* Star */}
           <div className="flex text-gray-300 dark:text-gray-400">
-            {Array.from({ length: 5 }, (_, index) => (
-              <svg
-                key={index}
-                className={`mb-1 w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 ${
-                  index < star ? "text-yellow-400" : ""
-                }`}
-              >
-                <use href="#star"></use>
-              </svg>
-            ))}
+            {Array.from({ length: 5 }, (_, index) => {
+              const roundedStar = Math.round(star);
+              return (
+                <svg
+                  key={index}
+                  className={`mb-1 w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 ${
+                    index < roundedStar ? "text-yellow-400" : "text-gray-300"
+                  }`}
+                >
+                  <use href="#star"></use>
+                </svg>
+              );
+            })}
           </div>
 
           {/* Timer */}

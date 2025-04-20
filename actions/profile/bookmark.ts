@@ -1,6 +1,7 @@
 "use server";
 
 import { axiosFetch } from "@/utils/axios_fetch";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
 interface BookmarkApiResponse {
@@ -31,6 +32,8 @@ async function toggle_bookmark(code: string): Promise<toggle_bookmarkProps> {
     });
 
     if (!addBookmark.error && addBookmark.data) {
+      revalidatePath("/products");
+
       return {
         status: "success",
         message: addBookmark.data.message,

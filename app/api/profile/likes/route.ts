@@ -155,6 +155,11 @@ export async function PATCH(request: NextRequest) {
       await db
         .collection("users")
         .updateOne({ username }, { $pull: { lieked_products: code } });
+
+      await db
+        .collection("products")
+        .updateOne({ code }, { $inc: { like: -1 } });
+
       return Response.json(
         {
           message: "محصول از علاقه مندی ها حذف شد.",
@@ -169,6 +174,11 @@ export async function PATCH(request: NextRequest) {
       await db
         .collection("users")
         .updateOne({ username }, { $addToSet: { lieked_products: code } });
+
+      await db
+        .collection("products")
+        .updateOne({ code }, { $inc: { like: 1 } });
+
       const updatedUser = await db.collection("users").findOne({ username });
       return Response.json(
         {
@@ -234,6 +244,10 @@ export async function DELETE(request: NextRequest) {
         { status: 404 }
       );
     }
+
+    await db
+      .collection("products")
+      .updateOne({ code: product_code }, { $inc: { like: -1 } });
 
     return Response.json(
       { message: "محصول با موفقیت از لیست علاقه مندی ها حذف شد" },

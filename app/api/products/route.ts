@@ -28,7 +28,32 @@ if (!url) {
 }
 
 async function getProduct(db: Db, code: string) {
-  return await db.collection("products").findOne({ code: code });
+  const product = await db
+    .collection("products")
+    .aggregate([
+      { $match: { code } },
+      {
+        $addFields: {
+          star: {
+            $avg: {
+              $map: {
+                input: {
+                  $filter: {
+                    input: "$comments",
+                    as: "comment",
+                    cond: "$$comment.is_approved",
+                  },
+                },
+                in: "$$this.score",
+              },
+            },
+          },
+        },
+      },
+    ])
+    .next();
+
+  return product || null;
 }
 
 async function getProducts(
@@ -62,7 +87,6 @@ async function getProducts(
   if (filter) {
     switch (filter) {
       case "discount":
-      case "discount":
         const now = new Date();
         query["discount.percent"] = { $ne: 0 };
         query["discount.start_time"] = { $lte: now.toISOString() };
@@ -86,24 +110,43 @@ async function getProducts(
     }
   }
 
-  return await db
-    .collection("products")
-    .find(query, {
-      projection: {
+  const pipeline = [
+    { $match: query },
+    {
+      $addFields: {
+        star: {
+          $avg: {
+            $map: {
+              input: {
+                $filter: {
+                  input: "$comments",
+                  as: "comment",
+                  cond: "$$comment.is_approved",
+                },
+              },
+              in: "$$this.score",
+            },
+          },
+        },
+      },
+    },
+    { $sort: sortOptions },
+    { $skip: skip },
+    { $limit: limit },
+    {
+      $project: {
         code: 1,
         image: 1,
         product_name: 1,
         price: 1,
         discount: 1,
         star: 1,
-        // sales_count: 1,
         created_at: 1,
       },
-    })
-    .sort(sortOptions)
-    .skip(skip)
-    .limit(limit)
-    .toArray();
+    },
+  ];
+
+  return await db.collection("products").aggregate(pipeline).toArray();
 }
 
 async function getProductsCount(
@@ -113,7 +156,7 @@ async function getProductsCount(
   brand_name?: string,
   filter?: string
 ) {
-  const query: ProductFilter = {};  
+  const query: ProductFilter = {};
 
   if (filter) {
     if (filter === "discount") {

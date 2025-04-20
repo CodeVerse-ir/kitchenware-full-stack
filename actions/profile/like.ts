@@ -1,6 +1,7 @@
 "use server";
 
 import { axiosFetch } from "@/utils/axios_fetch";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
 interface LikeApiResponse {
@@ -28,9 +29,11 @@ async function toggle_like(code: string): Promise<toggle_likeProps> {
         code,
       },
       token: tokenValue,
-    });    
+    });
 
     if (!toggleLike.error && toggleLike.data) {
+      revalidatePath("/products");
+
       return {
         status: "success",
         message: toggleLike.data.message,

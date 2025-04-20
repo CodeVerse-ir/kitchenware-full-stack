@@ -230,7 +230,7 @@ const CartProduct: React.FC<CartProductProps> = ({ product }) => {
                   </svg>
 
                   <span className="pt-1 text-gray-700 dark:text-white">
-                    {product.star}
+                    {product.star || 0}
                   </span>
                 </div>
 
