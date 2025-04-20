@@ -83,6 +83,3 @@ npm run dev
 # Build for production
 npm run build
 ```
-
-### Contribution Guidelines
-We welcome contributions! Please read our [CONTRIBUTING.md](CONTRIBUTING.md) before submitting pull requests.
