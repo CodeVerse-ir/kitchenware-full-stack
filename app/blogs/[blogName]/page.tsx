@@ -7,12 +7,9 @@ import { DateObject } from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 
-interface Blog {
-  image: string;
-  title: string;
-  text: string;
-  date: string;
-  sections?: Section[];
+interface Content {
+  type: "paragraph" | "image" | "video" | "list";
+  data: string | string[];
 }
 
 interface Section {
@@ -21,9 +18,12 @@ interface Section {
   content: Content[];
 }
 
-interface Content {
-  type: "paragraph" | "image" | "video" | "list";
-  data: string | string[];
+interface Blog {
+  image: string;
+  title: string;
+  text: string;
+  date: string;
+  sections?: Section[];
 }
 
 const Blog = async ({ params }: { params: Promise<{ blogName: string }> }) => {
@@ -35,15 +35,12 @@ const Blog = async ({ params }: { params: Promise<{ blogName: string }> }) => {
     url: `blogs?title=${decodedBlogName}`,
   });
 
-  if (!blog) {
+  if (blog.error) {
     redirect("/not-found");
   }
 
   // convert data persian
-  const data_replace = blog
-    ? blog.date.replace("T", " ")
-    : "2025-02-24T15:39:48.223Z";
-
+  const data_replace = blog.data?.date.replace("T", " ") || "";
   const data_persian = new DateObject(data_replace).convert(
     persian,
     persian_fa
@@ -62,11 +59,11 @@ const Blog = async ({ params }: { params: Promise<{ blogName: string }> }) => {
             <h2 className="section-title">بلاگ</h2>
           </div>
 
-          {blog && (
+          {blog.data && (
             <div className="flex flex-col w-full p-5 md:p-10 shadow-normal rounded-2xl text-black dark:text-white bg-white dark:bg-zinc-700">
               {/* <!-- Title --> */}
               <h4 className="flex items-center justify-center font-MorabbaBold text-lg md:text-xl lg:text-2xl">
-                {blog.title}
+                {blog.data.title}
               </h4>
               {/* <!-- Date --> */}
               <div className="flex items-center justify-center gap-x-2 text-xs md:text-sm lg:text-base my-4">
@@ -80,7 +77,7 @@ const Blog = async ({ params }: { params: Promise<{ blogName: string }> }) => {
               {/* <!-- Image --> */}
               <Image
                 className="w-[60%] mx-auto rounded-md mb-10 object-cover"
-                src={blog.image}
+                src={blog.data.image}
                 alt="blog"
                 width={100}
                 height={100}
@@ -89,7 +86,7 @@ const Blog = async ({ params }: { params: Promise<{ blogName: string }> }) => {
               />
               {/* <!-- Text --> */}
               <div className="">
-                {blog.sections?.map((section, index) => (
+                {blog.data.sections?.map((section, index) => (
                   <div key={section.id || index}>
                     {/* عنوان بخش */}
                     <h4 className="font-DanaMedium text-lg md:text-xl lg:text-2xl mb-4">
@@ -122,13 +119,6 @@ const Blog = async ({ params }: { params: Promise<{ blogName: string }> }) => {
                               loading="lazy"
                             />
                           );
-
-                        // اگر نوع‌های دیگری از محتوا دارید، می‌توانید آنها را اینجا اضافه کنید.
-                        // مثال: case "video": return (...);
-                        // مثال: case "list": return (...);
-
-                        // default:
-                        //   return null;
                       }
                     })}
                   </div>
