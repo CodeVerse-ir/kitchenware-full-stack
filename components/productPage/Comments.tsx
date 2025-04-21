@@ -83,7 +83,7 @@ const Comments: React.FC<CommentsProps> = ({ code }) => {
   };
 
   return (
-    <div className="flex flex-col w-full divide-y-[1px] divide-gray-300 mt-2.5 p-5 md:p-10 gap-y-4 lg:gap-y-6 text-sm md:text-base lg:text-lg text-black dark:text-white bg-white dark:bg-zinc-700 shadow-normal rounded-2xl">
+    <div className="flex flex-col w-full max-h-[700px] divide-y-[1px] divide-gray-300 mt-2.5 p-5 md:p-10 gap-y-4 lg:gap-y-6 text-sm md:text-base lg:text-lg text-black dark:text-white bg-white dark:bg-zinc-700 shadow-normal rounded-2xl overflow-y-scroll">
       {/* <!-- User --> */}
       {getComments ? (
         getComments.length > 0 ? (
