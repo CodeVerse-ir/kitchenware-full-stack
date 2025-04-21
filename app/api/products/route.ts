@@ -7,6 +7,11 @@ interface DiscountFilter {
   end_time?: Date | string | { $gte?: Date | string };
 }
 
+interface ProductQuery {
+  category?: string;
+  code?: string | { $ne: string };
+}
+
 interface ProductFilter {
   product_name?: RegExp;
   category?: string;
@@ -54,6 +59,68 @@ async function getProduct(db: Db, code: string) {
     .next();
 
   return product || null;
+}
+
+async function getProductsOffer(db: Db, code: string, limit: number = 4) {
+  const product = await db.collection("products").findOne({ code });
+
+  if (!product) {
+    throw new Error("Product not found");
+  }
+
+  const category = product.category;
+  const query: ProductQuery = {
+    category: category,
+    code: { $ne: code },
+  };
+
+  const pipeline = [
+    { $match: query },
+    {
+      $addFields: {
+        star: {
+          $avg: {
+            $map: {
+              input: {
+                $filter: {
+                  input: { $ifNull: ["$comments", []] },
+                  as: "comment",
+                  cond: { $eq: ["$$comment.is_approved", true] },
+                },
+              },
+              in: "$$this.score",
+            },
+          },
+        },
+        like: { $size: { $ifNull: ["$likes", []] } },
+        bookmark: { $size: { $ifNull: ["$bookmarks", []] } },
+      },
+    },
+    {
+      $sort: {
+        like: -1,
+        bookmark: -1,
+        star: -1,
+      },
+    },
+    { $limit: limit },
+    {
+      $project: {
+        code: 1,
+        image: 1,
+        product_name: 1,
+        price: 1,
+        discount: 1,
+        star: 1,
+        like: 1,
+        bookmark: 1,
+        created_at: 1,
+        _id: 0,
+      },
+    },
+  ];
+
+  return await db.collection("products").aggregate(pipeline).toArray();
 }
 
 async function getProducts(
@@ -184,7 +251,7 @@ async function getProductsCount(
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
 
-  // params number=8&filter=discount || page=1 || code="123ab" || search || category || brand
+  // params number=8&filter=discount || page=1 || code="123ab" || search || category || brand || offer
 
   const code = searchParams.get("code");
   const number = searchParams.get("number");
@@ -193,6 +260,7 @@ export async function GET(request: NextRequest) {
   const search = searchParams.get("search");
   const category_name = searchParams.get("category");
   const brand_name = searchParams.get("brand");
+  const offer = searchParams.get("offer");
 
   const client = new MongoClient(`${url}`);
 
@@ -201,8 +269,13 @@ export async function GET(request: NextRequest) {
     const db = client.db();
 
     if (code) {
-      const product = await getProduct(db, code);
-      return Response.json(product);
+      if (offer) {
+        const product = await getProductsOffer(db, code);
+        return Response.json(product);
+      } else {
+        const product = await getProduct(db, code);
+        return Response.json(product);
+      }
     } else if (number || page) {
       const products = await getProducts(
         db,

@@ -4,6 +4,7 @@ import { axiosFetch } from "@/utils/axios_fetch";
 import CartProduct from "@/components/productPage/CardProduct";
 import ChangeInformation from "@/components/productPage/ChangeInformation";
 import NotFoundSearch from "@/components/common/NotFoundSearch";
+import SubProducts from "@/components/productPage/SubProducts";
 
 interface SubText {
   paragraph: string;
@@ -76,6 +77,8 @@ const Product = async ({
             ) : (
               <NotFoundSearch text="محصول مورد نظر یافت نشد!" />
             )}
+            
+            <SubProducts product_code={product_code} />
           </div>
         </section>
       </main>
