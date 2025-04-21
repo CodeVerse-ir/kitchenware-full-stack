@@ -11,6 +11,7 @@ import { get_comment, like_dislike_comment } from "@/actions/profile/comment";
 import { DateObject } from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
+import Link from "next/link";
 
 interface Comment {
   id: string;
@@ -44,16 +45,24 @@ interface CommentsProps {
 
 const Comments: React.FC<CommentsProps> = ({ code }) => {
   const [getComments, setGetComments] = useState<Comment_User[] | null>(null);
+  const [checkLogin, setCheckLogin] = useState(true);
 
   useEffect(() => {
     const fetchComments = async () => {
       try {
         const information_comments = await get_comment(code);
 
+        console.log("Comments : ", information_comments);
+
         if (information_comments.status === "success") {
           if (information_comments?.data) {
             setGetComments(information_comments.data);
           }
+        } else if (
+          information_comments.status === "error" &&
+          information_comments.message === "توکن یافت نشد. لطفاً وارد شوید."
+        ) {
+          setCheckLogin(false);
         }
       } catch (error) {
         console.error("Error fetching comments:", error);
@@ -256,14 +265,22 @@ const Comments: React.FC<CommentsProps> = ({ code }) => {
           </div>
         )
       ) : (
-        <div className="flex items-center justify-center gap-x-2">
-          <div>منتظر بمانید</div>
-          <div className="flex items-center justify-center w-9 h-2 gap-x-1 child:size-2 child:rounded-full child:bg-white">
-            <div className="dot"></div>
-            <div className="dot"></div>
-            <div className="dot"></div>
-          </div>
-        </div>
+        <>
+          {checkLogin ? (
+            <div className="flex items-center justify-center gap-x-2">
+              <div>منتظر بمانید</div>
+              <div className="flex items-center justify-center w-9 h-2 gap-x-1 child:size-2 child:rounded-full child:bg-white">
+                <div className="dot"></div>
+                <div className="dot"></div>
+                <div className="dot"></div>
+              </div>
+            </div>
+          ) : (
+            <div className="flex items-center justify-center gap-x-2 font-MorabbaLight text-sm md:text-base lg:text-xl">
+              برای دیدن نظرات ابتدا وارد <Link href="/auth/login" className="font-MorabbaMedium hover:text-orange-400 transition-colors duration-300">حساب کاربری</Link> شوید.
+            </div>
+          )}
+        </>
       )}
     </div>
   );
