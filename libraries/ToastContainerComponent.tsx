@@ -21,6 +21,7 @@ const ToastContainerComponent = () => {
       pauseOnHover
       theme={darkMode ? "light" : "dark"}
       transition={Bounce}
+      style={{ fontFamily: "'Dana', sans-serif" }} // استفاده از استایل inline
     />
   );
 };

@@ -603,8 +603,6 @@
   }
 }
 
-.Toastify__toast-body {
-  font-family: "Dana", Courier, monospace;
-  direction: rtl;
-  color: #fdba74;
+.Toastify__toast {
+  font-family: "Morabba Medium", sans-serif;
 }

@@ -166,11 +166,14 @@ async function getProducts(
       case "price_desc":
         sortOptions = { price: -1 };
         break;
-      // case "best_selling":
-      //   sortOptions = { sales_count: -1 };
-      //   break;
       case "newest":
         sortOptions = { created_at: -1 };
+        break;
+      case "top_rated":
+        sortOptions = { star: -1 };
+        break;
+      case "featured":
+        sortOptions = { star: -1, price: 1 };
         break;
       default:
         break;

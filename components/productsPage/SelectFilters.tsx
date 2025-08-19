@@ -7,7 +7,6 @@ const filterOptions: FilterOption[] = [
   { label: "تخفیف‌دارها", value: "discount" },
   { label: "کمترین قیمت", value: "price_asc" },
   { label: "بیشترین قیمت", value: "price_desc" },
-  { label: "پرفروش‌ترین‌ها", value: "best_selling" },
   { label: "محصولات جدید", value: "newest" },
   { label: "محصولات پرامتیاز", value: "top_rated" },
   { label: "محصولات پیشنهادی", value: "featured" },

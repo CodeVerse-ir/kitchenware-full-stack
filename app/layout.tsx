@@ -12,9 +12,6 @@ import Providers from "@/redux/Provider";
 export const metadata: Metadata = {
   title: "Kitchenware",
   description: "Kitchenware",
-  icons: {
-    icon: "/image/logo/kitchenware_logo.svg",
-  },
 };
 
 export default function RootLayout({
@@ -30,8 +27,8 @@ export default function RootLayout({
             <NextNprogress>
               <Header />
               {children}
-              <Footer />
               <ToastContainerComponent />
+              <Footer />
             </NextNprogress>
           </Providers>
         </SessionProvider>
