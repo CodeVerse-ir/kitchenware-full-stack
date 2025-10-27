@@ -31,64 +31,36 @@ A modern and secure online shopping experience for kitchenware with advanced tec
 ## 🎥 Live Demos
 
 ### 🏠 **1. Homepage - Light Mode**
-<video width="800" controls style="border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-  <source src="https://github.com/CodeVerse-ir/kitchenware-full-stack/releases/download/demos-v1.0.0/homepage-light.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+[![Homepage Light Mode](https://via.placeholder.com/800x450/3B82F6/FFFFFF?text=🏠+Homepage+Light+Mode)](https://raw.githubusercontent.com/CodeVerse-ir/kitchenware-full-stack/main/public/video/demos/homepage-light.mp4)
 
 ### 🌙 **2. Homepage - Dark Mode**
-<video width="800" controls style="border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-  <source src="https://github.com/CodeVerse-ir/kitchenware-full-stack/releases/download/demos-v1.0.0/homepage-dark.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+[![Homepage Dark Mode](https://via.placeholder.com/800x450/1F2937/FFFFFF?text=🌙+Homepage+Dark+Mode)](https://raw.githubusercontent.com/CodeVerse-ir/kitchenware-full-stack/main/public/video/demos/homepage-dark.mp4)
 
 ### 📂 **3. Product Categories**
-<video width="800" controls style="border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-  <source src="https://github.com/CodeVerse-ir/kitchenware-full-stack/releases/download/demos-v1.0.0/categories.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+[![Product Categories](https://via.placeholder.com/800x450/10B981/FFFFFF?text=📂+Product+Categories)](https://raw.githubusercontent.com/CodeVerse-ir/kitchenware-full-stack/main/public/video/demos/categories.mp4)
 
 ### 🏷️ **4. Brands Section**
-<video width="800" controls style="border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-  <source src="https://github.com/CodeVerse-ir/kitchenware-full-stack/releases/download/demos-v1.0.0/brands.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+[![Brands Section](https://via.placeholder.com/800x450/F59E0B/FFFFFF?text=🏷️+Brands+Section)](https://raw.githubusercontent.com/CodeVerse-ir/kitchenware-full-stack/main/public/video/demos/brands.mp4)
 
 ### 📝 **5. Blog & Articles**
-<video width="800" controls style="border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-  <source src="https://github.com/CodeVerse-ir/kitchenware-full-stack/releases/download/demos-v1.0.0/blog.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+[![Blog Section](https://via.placeholder.com/800x450/8B5CF6/FFFFFF?text=📝+Blog+Articles)](https://raw.githubusercontent.com/CodeVerse-ir/kitchenware-full-stack/main/public/video/demos/blog.mp4)
 
 ### 📞 **6. Contact Us**
-<video width="800" controls style="border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-  <source src="https://github.com/CodeVerse-ir/kitchenware-full-stack/releases/download/demos-v1.0.0/contact.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+[![Contact Page](https://via.placeholder.com/800x450/EC4899/FFFFFF?text=📞+Contact+Us)](https://raw.githubusercontent.com/CodeVerse-ir/kitchenware-full-stack/main/public/video/demos/contact.mp4)
 
 ### 🔍 **7. Smart Search**
-<video width="800" controls style="border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-  <source src="https://github.com/CodeVerse-ir/kitchenware-full-stack/releases/download/demos-v1.0.0/search.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+[![Search Functionality](https://via.placeholder.com/800x450/06B6D4/FFFFFF?text=🔍+Smart+Search)](https://raw.githubusercontent.com/CodeVerse-ir/kitchenware-full-stack/main/public/video/demos/search.mp4)
 
 ### 👤 **8. User Dashboard**
-<video width="800" controls style="border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-  <source src="https://github.com/CodeVerse-ir/kitchenware-full-stack/releases/download/demos-v1.0.0/profile.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+[![User Panel](https://via.placeholder.com/800x450/84CC16/FFFFFF?text=👤+User+Dashboard)](https://raw.githubusercontent.com/CodeVerse-ir/kitchenware-full-stack/main/public/video/demos/profile.mp4)
 
 ### 🔐 **9. Login & Signup**
-<video width="800" controls style="border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-  <source src="https://github.com/CodeVerse-ir/kitchenware-full-stack/releases/download/demos-v1.0.0/auth.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+[![Authentication](https://via.placeholder.com/800x450/EF4444/FFFFFF?text=🔐+Login+Signup)](https://raw.githubusercontent.com/CodeVerse-ir/kitchenware-full-stack/main/public/video/demos/auth.mp4)
 
 ### 🛍️ **10. Product Display**
-<video width="800" controls style="border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-  <source src="https://github.com/CodeVerse-ir/kitchenware-full-stack/releases/download/demos-v1.0.0/product.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+[![Product Page](https://via.placeholder.com/800x450/6366F1/FFFFFF?text=🛍️+Product+Display)](https://raw.githubusercontent.com/CodeVerse-ir/kitchenware-full-stack/main/public/video/demos/product.mp4)
+
+> 💡 **Note:** Click on any image above to watch the demo video
 
 ## 🛠 Technologies Used
 
